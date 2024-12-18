@@ -45,7 +45,6 @@ export default function Video() {
   if (isLoading)
     return (
       <div className="flex flex-col gap-4">
-        <Skeleton width="50%" height={35} />
         <Skeleton height={450} />
         <div className="flex gap-4">
           <div className="w-full lg:w-3/5 flex flex-col gap-4">
@@ -95,11 +94,11 @@ export default function Video() {
             <div>
               <Link
                 href={`/creator/${video.creator.id}`}
-                className="flex gap-2 mb-1"
+                className="flex items-center gap-2 mb-1"
               >
                 <div className="p-1 border-white/50 border-solid border rounded-full">
                   <Avatar
-                    size="xs"
+                    size="sm"
                     src={`${process.env.NEXT_PUBLIC_APP_URL}/${video.creator.avatar.url}`}
                   />
                 </div>
