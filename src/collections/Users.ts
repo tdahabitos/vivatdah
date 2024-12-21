@@ -19,5 +19,13 @@ export const Users: CollectionConfig = {
       name: "name",
       type: "text",
     },
+    {
+      name: "role",
+      type: "text",
+    },
+    {
+      name: "bio",
+      type: "textarea",
+    },
   ],
 };

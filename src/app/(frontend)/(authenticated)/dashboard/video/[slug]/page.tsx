@@ -30,7 +30,9 @@ import { CommentCard } from "./_components/CommentCard";
 import { apiFetcher } from "@/services/api";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { cn } from "@/utils";
+import { cn, getVideoId } from "@/utils";
+import VideoCard from "../../_components/VideoCard";
+import { dayjs } from "@/lib/dayjs";
 
 export default function Video() {
   const [comment, setComment] = useState("");
@@ -41,6 +43,11 @@ export default function Video() {
     error,
     isLoading,
   } = useSWR(`/videos/${slug}`, apiFetcher);
+
+  const { data: moreVideos } = useSWR(
+    `/videos?where[categories.id][equals]=${video?.categories[0].id}&limit=16&page=1`,
+    apiFetcher,
+  );
 
   if (isLoading)
     return (
@@ -69,7 +76,7 @@ export default function Video() {
         width="100%"
         height="450"
         className="w-full rounded-lg bg-white/10"
-        src={video.url}
+        src={`https://www.youtube.com/embed/${getVideoId(video.url)}`}
         title="YouTube video player"
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -93,7 +100,7 @@ export default function Video() {
           <div className="flex justify-between gap-4">
             <div>
               <Link
-                href={`/creator/${video.creator.id}`}
+                href={`/dashboard/creator/${video.creator.id}`}
                 className="flex items-center gap-2 mb-1"
               >
                 <div className="p-1 border-white/50 border-solid border rounded-full">
@@ -106,7 +113,7 @@ export default function Video() {
               </Link>
               <Link href="/video/1">
                 <Text size="sm" c="dimmed">
-                  {stats}
+                  {`${video?.views || 0} visualizações • ${dayjs(video.createdAt).fromNow()}`}
                 </Text>
               </Link>
             </div>
@@ -230,7 +237,16 @@ export default function Video() {
         <Divider orientation="vertical" />
         <div className="w-full lg:w-2/5 space-y-8">
           <h3 className="font-semibold">Mais vídeos</h3>
-          {/* <VideoCard id={data?.video.documentId} /> */}
+          {moreVideos
+            ?.filter((item) => item.id !== video.id)
+            .map((video) => (
+              <VideoCard
+                key={video.id}
+                id={video.id}
+                title={video.title}
+                url={video.url}
+              />
+            ))}
         </div>
       </div>
     </div>

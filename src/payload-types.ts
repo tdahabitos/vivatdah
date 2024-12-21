@@ -121,6 +121,8 @@ export interface User {
   id: string;
   avatar?: (string | null) | Media;
   name?: string | null;
+  role?: string | null;
+  bio?: string | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -261,6 +263,8 @@ export interface VideosSelect<T extends boolean = true> {
 export interface UsersSelect<T extends boolean = true> {
   avatar?: T;
   name?: T;
+  role?: T;
+  bio?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;

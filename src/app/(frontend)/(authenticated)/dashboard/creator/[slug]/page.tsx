@@ -1,22 +1,21 @@
 "use client";
 
 import { apiFetcher } from "@/services/api";
-import { Skeleton } from "@mantine/core";
+import { Divider, Skeleton } from "@mantine/core";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import VideoCard from "../../_components/VideoCard";
+import { CreatorCard } from "../../_components/CreatorCard";
 
 export default function Page() {
   const { slug } = useParams();
-
-  const { data: category } = useSWR(`/categories/${slug}`, apiFetcher);
 
   const {
     data: videos,
     error,
     isLoading,
   } = useSWR(
-    `/videos?where[categories.id][equals]=${slug}&limit=16&page=1`,
+    `/videos?where[creator.id][equals]=${slug}&limit=16&page=1`,
     apiFetcher,
   );
 
@@ -40,11 +39,19 @@ export default function Page() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      <h2 className="text-2xl font-semibold">{category?.title}</h2>
+    <div className="flex flex-col gap-8">
+      <CreatorCard creatorId={slug} />
+
+      <Divider />
+
       <div className="grid grid-cols-4 gap-4">
         {videos?.map((video) => (
-          <VideoCard key={video.id} id={video.id} />
+          <VideoCard
+            key={video.id}
+            id={video.id}
+            title={video.title}
+            url={video.url}
+          />
         ))}
       </div>
     </div>

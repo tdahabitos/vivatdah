@@ -1,4 +1,5 @@
-import { ActionIcon, Badge, Menu, Text } from "@mantine/core";
+import { getVideoThumbnail } from "@/utils";
+import { ActionIcon, Avatar, Badge, Menu, Text } from "@mantine/core";
 import {
   IconBookmark,
   IconBroadcast,
@@ -8,47 +9,29 @@ import {
   IconShare3,
 } from "@tabler/icons-react";
 import Link from "next/link";
-
-function getThumbnail({ platform, url }: { platform: string; url: string }) {
-  let thumbnail = null;
-
-  if (platform === "youtube") {
-    const id = url?.split("https://www.youtube.com/embed/")[1];
-    thumbnail = `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
-  }
-
-  if (platform === "vimeo") {
-    const id = url?.split("https://player.vimeo.com/video/")[1];
-    thumbnail = `https://i.vimeocdn.com/video/${id}_640.jpg`;
-  }
-
-  return thumbnail;
-}
+import { dayjs } from "@/lib/dayjs";
+import useSWR from "swr";
+import { apiFetcher } from "@/services/api";
 
 export default function VideoCard({
   id,
-  title,
-  url,
-  soon,
-  live,
 }: {
   id: string;
-  title: string;
-  url: string;
-  soon?: boolean;
-  live?: boolean;
 }) {
-  let stats = "40K visualizações • há 10 dias";
+  const soon = false;
+  const live = false;
 
-  if (soon) {
-    stats = "Programado para 18/11/2024, 23:00";
+  const { data: video, error, isLoading } = useSWR(`/videos/${id}`, apiFetcher);
+
+  const thumbnailURL = getVideoThumbnail({ url: video?.url });
+
+  if (error) {
+    return "error...";
   }
 
-  if (live) {
-    stats = "10 mil assistindo";
+  if (isLoading) {
+    return "loading...";
   }
-
-  const thumbnailURL = getThumbnail({ platform: "youtube", url });
 
   return (
     <div className="flex flex-col gap-2">
@@ -57,7 +40,7 @@ export default function VideoCard({
           <img
             className="w-full rounded aspect-video object-cover"
             src={thumbnailURL}
-            alt=""
+            alt={video?.title}
           />
         </Link>
         {soon && (
@@ -82,7 +65,7 @@ export default function VideoCard({
       <div className="flex flex-col gap-2">
         <div className="flex justify-between gap-2">
           <Link href={`/video/${id}`}>
-            <Text fw="bolder">{title}</Text>
+            <Text fw="bolder">{video?.title}</Text>
           </Link>
 
           <Menu shadow="md" width={200} position="bottom-end">
@@ -107,21 +90,21 @@ export default function VideoCard({
           </Menu>
         </div>
         <div>
-          {/* <Link
-            to={`/author/${data?.video.author.documentId}`}
-            className="flex gap-2 mb-1"
+          <Link
+            href={`/dashboard/creator/${video?.creator.id}`}
+            className="flex items-center gap-2 mb-1"
           >
             <div className="p-1 border-white/50 border-solid border rounded-full">
               <Avatar
-                size="xs"
-                src={`${import.meta.env.VITE_APP_ADMIN_URL}/${data?.video.author.avatar.url}`}
+                size="sm"
+                src={`${process.env.NEXT_PUBLIC_APP_URL}/${video?.creator.avatar.url}`}
               />
             </div>
-            <Text c="dimmed">{data?.video.author.name}</Text>
-          </Link> */}
+            <Text c="dimmed">{video?.creator.name}</Text>
+          </Link>
           <Link href="/video/1">
             <Text size="sm" c="dimmed">
-              {stats}
+              {`${video?.views || 0} visualizações • ${dayjs(video.createdAt).fromNow()}`}
             </Text>
           </Link>
         </div>
