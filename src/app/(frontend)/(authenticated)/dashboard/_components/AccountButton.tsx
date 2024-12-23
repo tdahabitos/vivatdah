@@ -1,12 +1,11 @@
 import { Menu, rem, UnstyledButton, Avatar } from "@mantine/core";
 import { IconSettings, IconChevronDown, IconLogout } from "@tabler/icons-react";
 import Link from "next/link";
-import { createClient } from "@/services/supabase/client";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/userStore";
+import { supabase } from "@/services/supabase/client";
 
 export default function AccountButton() {
-  const supabase = createClient();
   const { user, setUser } = useUserStore();
   const { push } = useRouter();
 

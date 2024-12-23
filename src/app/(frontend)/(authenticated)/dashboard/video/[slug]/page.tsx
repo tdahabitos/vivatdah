@@ -21,22 +21,24 @@ import {
   IconMicrophoneFilled,
   IconNotebook,
   IconPhoto,
-  IconThumbDown,
-  IconThumbUp,
 } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { CommentCard } from "./_components/CommentCard";
 import { apiFetcher } from "@/services/api";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { cn, getVideoId } from "@/utils";
+import { cn } from "@/utils";
 import VideoCard from "../../_components/VideoCard";
 import { dayjs } from "@/lib/dayjs";
+import ReactPlayer from "react-player";
+import { supabase } from "@/services/supabase/client";
+import Feedback from "./_components/Feedback";
 
 export default function Video() {
   const [comment, setComment] = useState("");
   const { slug } = useParams();
+  const [videoMetadata, setVideoMetadata] = useState(null);
 
   const {
     data: video,
@@ -48,6 +50,42 @@ export default function Video() {
     `/videos?where[categories.id][equals]=${video?.categories[0].id}&limit=16&page=1`,
     apiFetcher,
   );
+
+  async function addView(currentViews: number) {
+    await supabase
+      .schema("metadata")
+      .from("videos")
+      .update({ views: currentViews })
+      .eq("reference_id", slug);
+  }
+
+  async function getMetadata() {
+    const { data, error } = await supabase
+      .schema("metadata")
+      .from("videos")
+      .select("views")
+      .eq("reference_id", slug)
+      .single();
+
+    if (error) {
+      /* await supabase
+        .schema("metadata")
+        .from("videos")
+        .insert({ reference_id: slug }); TODO: FIX */
+    }
+
+    const currentViews = (data?.views || 0) + 1;
+
+    addView(currentViews);
+
+    setVideoMetadata({
+      views: currentViews,
+    });
+  }
+
+  useEffect(() => {
+    getMetadata();
+  }, []);
 
   if (isLoading)
     return (
@@ -68,21 +106,10 @@ export default function Video() {
       </div>
     );
 
-  const stats = "40K visualizações • há 10 dias";
-
   return (
     <div className="space-y-4">
-      <iframe
-        width="100%"
-        height="450"
-        className="w-full rounded-lg bg-white/10"
-        src={`https://www.youtube.com/embed/${getVideoId(video.url)}`}
-        title="YouTube video player"
-        frameBorder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerPolicy="strict-origin-when-cross-origin"
-        allowFullScreen
-      />
+      <ReactPlayer width="100%" height="450px" url={`${video.url}`} />
+
       <div className="flex gap-6">
         <div className="w-full lg:w-3/5 space-y-8">
           <div className="flex justify-between items-center gap-2">
@@ -113,21 +140,12 @@ export default function Video() {
               </Link>
               <Link href="/video/1">
                 <Text size="sm" c="dimmed">
-                  {`${video?.views || 0} visualizações • ${dayjs(video.createdAt).fromNow()}`}
+                  {`${videoMetadata?.views || 0} visualizações • ${dayjs(video.createdAt).fromNow()}`}
                 </Text>
               </Link>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <ActionIcon>
-                  <IconThumbUp size={16} />
-                </ActionIcon>
-                <span className="text-xs">301</span>
-              </div>
-              <ActionIcon variant="light">
-                <IconThumbDown size={16} />
-              </ActionIcon>
-            </div>
+
+            <Feedback />
           </div>
 
           <Card withBorder>

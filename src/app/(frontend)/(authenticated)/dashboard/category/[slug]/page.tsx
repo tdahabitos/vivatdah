@@ -5,6 +5,7 @@ import { Skeleton } from "@mantine/core";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import VideoCard from "../../_components/VideoCard";
+import Empty from "../../_components/Empty";
 
 export default function Page() {
   const { slug } = useParams();
@@ -42,11 +43,15 @@ export default function Page() {
   return (
     <div className="flex flex-col gap-6">
       <h2 className="text-2xl font-semibold">{category?.title}</h2>
-      <div className="grid grid-cols-4 gap-4">
-        {videos?.map((video) => (
-          <VideoCard key={video.id} id={video.id} />
-        ))}
-      </div>
+      {videos?.length === 0 ? (
+        <Empty />
+      ) : (
+        <div className="grid grid-cols-4 gap-4">
+          {videos?.map((video) => (
+            <VideoCard key={video.id} id={video.id} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
