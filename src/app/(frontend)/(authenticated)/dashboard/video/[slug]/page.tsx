@@ -46,8 +46,10 @@ export default function Video() {
     isLoading,
   } = useSWR(`/videos/${slug}`, apiFetcher);
 
+  const categoryId = video?.categories[0].id;
+
   const { data: moreVideos } = useSWR(
-    `/videos?where[categories.id][equals]=${video?.categories[0].id}&limit=16&page=1`,
+    `/videos?where[categories.id][equals]=${categoryId}&limit=16&page=1`,
     apiFetcher,
   );
 
@@ -68,10 +70,10 @@ export default function Video() {
       .single();
 
     if (error) {
-      /* await supabase
+      await supabase
         .schema("metadata")
         .from("videos")
-        .insert({ reference_id: slug }); TODO: FIX */
+        .insert({ reference_id: slug });
     }
 
     const currentViews = (data?.views || 0) + 1;
