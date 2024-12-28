@@ -8,11 +8,9 @@ import {
   Paper,
   PasswordInput,
   Stack,
-  Text,
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { login } from "./actions";
 import Logo from "@/components/Logo";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -21,6 +19,7 @@ import { z } from "zod";
 import { zodResolver } from "mantine-form-zod-resolver";
 import GoogleAuthButton from "../_components/GoogleAuthButton";
 import { useUserStore } from "@/store/userStore";
+import { supabase } from "@/services/supabase/client";
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
@@ -38,18 +37,22 @@ export default function Login() {
     validate: zodResolver(validationSchema),
   });
 
-  async function handleSubmit(data) {
+  async function handleSubmit({ email, password }) {
     setIsLoading(true);
 
-    await login(data)
-      .then((user) => {
-        setUser(user);
-        push("/dashboard");
-      })
-      .catch(() => {
-        form.setFieldError("password", "E-mail e/ou senha incorretos");
-      })
-      .finally(() => setIsLoading(false));
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      form.setFieldError("password", "E-mail e/ou senha incorretos");
+      setIsLoading(false);
+      return;
+    }
+
+    setUser(data.user);
+    push("/dashboard");
   }
 
   return (
@@ -76,12 +79,23 @@ export default function Login() {
               {...form.getInputProps("email")}
             />
 
-            <PasswordInput
-              label="Senha"
-              placeholder="Sua senha"
-              disabled={isLoading}
-              {...form.getInputProps("password")}
-            />
+            <div>
+              <PasswordInput
+                label="Senha"
+                placeholder="Sua senha"
+                disabled={isLoading}
+                {...form.getInputProps("password")}
+              />
+              <Anchor
+                component={Link}
+                href="/auth/forgot-password"
+                type="button"
+                c="dimmed"
+                size="xs"
+              >
+                Esqueceu sua senha?
+              </Anchor>
+            </div>
           </Stack>
 
           <Group justify="space-between" mt="xl">

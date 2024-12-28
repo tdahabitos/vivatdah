@@ -9,11 +9,9 @@ import {
   Paper,
   PasswordInput,
   Stack,
-  Text,
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { register } from "./actions";
 import Logo from "@/components/Logo";
 import { useState } from "react";
 import Link from "next/link";
@@ -21,6 +19,7 @@ import { IconMailCheck } from "@tabler/icons-react";
 import { z } from "zod";
 import { zodResolver } from "mantine-form-zod-resolver";
 import GoogleAuthButton from "../_components/GoogleAuthButton";
+import { supabase } from "@/services/supabase/client";
 
 export default function Register() {
   const [emailSent, setEmailSent] = useState(false);
@@ -39,15 +38,22 @@ export default function Register() {
     validate: zodResolver(validationSchema),
   });
 
-  async function handleSubmit(data) {
+  async function handleSubmit({ name, email, password, terms }) {
     setIsLoading(true);
 
-    await register(data)
-      .then(() => {
-        setEmailSent(true);
-      })
-      .catch(() => {})
-      .finally(() => setIsLoading(false));
+    await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: name,
+          terms,
+        },
+      },
+    });
+
+    setEmailSent(true);
+    setIsLoading(false);
   }
 
   if (emailSent) {

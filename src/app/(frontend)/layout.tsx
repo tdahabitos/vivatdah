@@ -9,8 +9,8 @@ import {
 } from "@mantine/core";
 
 export const metadata = {
-  title: "My Mantine app",
-  description: "I have followed setup instructions carefully",
+  title: "EduTDAH",
+  description: "A melhor plataforma TDAH do Brasil",
 };
 
 const theme = createTheme({
