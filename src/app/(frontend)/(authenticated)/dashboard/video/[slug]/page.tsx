@@ -110,7 +110,17 @@ export default function Video() {
 
   return (
     <div className="space-y-4">
-      <ReactPlayer width="100%" height="450px" url={`${video.url}`} />
+      <div className="rounded-lg overflow-hidden">
+        <ReactPlayer
+          controls
+          width="100%"
+          height="450px"
+          url={`${video.url}`}
+          onReady={(player) => {
+            player.setState({ playing: true });
+          }}
+        />
+      </div>
 
       <div className="flex gap-6">
         <div className="w-full lg:w-3/5 space-y-8">

@@ -12,6 +12,8 @@ import Link from "next/link";
 import { dayjs } from "@/lib/dayjs";
 import useSWR from "swr";
 import { apiFetcher } from "@/services/api";
+import { useEffect, useState } from "react";
+import { supabase } from "@/services/supabase/client";
 
 export default function VideoCard({
   id,
@@ -20,10 +22,28 @@ export default function VideoCard({
 }) {
   const soon = false;
   const live = false;
+  const [videoMetadata, setVideoMetadata] = useState(null);
 
   const { data: video, error, isLoading } = useSWR(`/videos/${id}`, apiFetcher);
 
   const thumbnailURL = getVideoThumbnail({ url: video?.url });
+
+  async function getMetadata() {
+    const { data, error } = await supabase
+      .schema("metadata")
+      .from("videos")
+      .select("views")
+      .eq("reference_id", id)
+      .single();
+
+    setVideoMetadata({
+      views: data?.views,
+    });
+  }
+
+  useEffect(() => {
+    getMetadata();
+  }, []);
 
   if (error) {
     return "error...";
@@ -104,7 +124,7 @@ export default function VideoCard({
           </Link>
           <Link href="/video/1">
             <Text size="sm" c="dimmed">
-              {`${video?.views || 0} visualizações • ${dayjs(video.createdAt).fromNow()}`}
+              {`${videoMetadata?.views || 0} visualizações • ${dayjs(video.createdAt).fromNow()}`}
             </Text>
           </Link>
         </div>
