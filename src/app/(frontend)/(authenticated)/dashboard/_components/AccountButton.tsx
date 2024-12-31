@@ -13,7 +13,7 @@ export default function AccountButton() {
     <Menu width={200} position="bottom-end">
       <Menu.Target>
         <UnstyledButton className="flex items-center gap-2">
-          <Avatar />
+          <Avatar src={user?.user_metadata?.avatar} />
           <span className="text-sm">
             {user?.user_metadata?.full_name || user?.email}
           </span>

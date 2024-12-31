@@ -54,7 +54,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
         </ScrollArea>
       </AppShell.Navbar>
 
-      <AppShell.Main>{children}</AppShell.Main>
+      <AppShell.Main pb="xl">{children}</AppShell.Main>
     </AppShell>
   );
 }

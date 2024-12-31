@@ -14,6 +14,10 @@ export function getVideoThumbnail({ url }: { url: string }) {
   return `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
 }
 
+export function uuid() {
+  return crypto.randomUUID();
+}
+
 /* export function getVideoThumbnail({
   platform,
   url,
