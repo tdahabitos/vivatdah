@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 
 export default function Feedback() {
   const [likesCount, setLikesCount] = useState(0);
-
   const [isLikedByCurrentUser, setIsLikedByCurrentUser] = useState<boolean>();
   const [isDislikedByCurrentUser, setIsDislikedByCurrentUser] =
     useState<boolean>();
@@ -18,8 +17,9 @@ export default function Feedback() {
   async function getLikesCount() {
     const { data: likesCount } = await supabase
       .schema("metadata")
-      .from("likes")
+      .from("events")
       .select("*")
+      .eq("event", "like")
       .eq("reference_id", slug);
 
     setLikesCount(likesCount?.length);
@@ -30,8 +30,9 @@ export default function Feedback() {
 
     const { data: isLiked } = await supabase
       .schema("metadata")
-      .from("likes")
+      .from("events")
       .select("*")
+      .eq("event", "like")
       .eq("reference_id", slug)
       .eq("user_id", user?.id)
       .single();
@@ -40,8 +41,9 @@ export default function Feedback() {
 
     const { data: isDisliked } = await supabase
       .schema("metadata")
-      .from("dislikes")
+      .from("events")
       .select("*")
+      .eq("event", "dislike")
       .eq("reference_id", slug)
       .eq("user_id", user?.id)
       .single();
@@ -54,8 +56,9 @@ export default function Feedback() {
 
     await supabase
       .schema("metadata")
-      .from("dislikes")
+      .from("events")
       .delete()
+      .eq("event", "dislike")
       .eq("reference_id", slug)
       .eq("user_id", user?.id);
 
@@ -64,8 +67,9 @@ export default function Feedback() {
 
       await supabase
         .schema("metadata")
-        .from("likes")
+        .from("events")
         .delete()
+        .eq("event", "like")
         .eq("reference_id", slug)
         .eq("user_id", user?.id);
 
@@ -76,8 +80,8 @@ export default function Feedback() {
 
     await supabase
       .schema("metadata")
-      .from("likes")
-      .insert({ reference_id: slug, user_id: user?.id });
+      .from("events")
+      .insert({ event: "like", reference_id: slug, user_id: user?.id });
   }
 
   async function handleDislikeClick() {
@@ -85,8 +89,9 @@ export default function Feedback() {
 
     await supabase
       .schema("metadata")
-      .from("likes")
+      .from("events")
       .delete()
+      .eq("event", "like")
       .eq("reference_id", slug)
       .eq("user_id", user?.id);
 
@@ -95,8 +100,9 @@ export default function Feedback() {
 
       await supabase
         .schema("metadata")
-        .from("dislikes")
+        .from("events")
         .delete()
+        .eq("event", "dislike")
         .eq("reference_id", slug)
         .eq("user_id", user?.id);
 
@@ -107,8 +113,8 @@ export default function Feedback() {
 
     await supabase
       .schema("metadata")
-      .from("dislikes")
-      .insert({ reference_id: slug, user_id: user?.id });
+      .from("events")
+      .insert({ event: "dislike", reference_id: slug, user_id: user?.id });
   }
 
   useEffect(() => {

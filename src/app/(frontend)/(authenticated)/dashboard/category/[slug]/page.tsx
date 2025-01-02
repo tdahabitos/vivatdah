@@ -22,22 +22,7 @@ export default function Page() {
   );
 
   if (isLoading) {
-    return (
-      <div className="grid grid-cols-4 gap-4">
-        {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-          <div key={item} className="flex flex-col gap-4">
-            <Skeleton height={176} radius="md" />
-            <div className="flex">
-              <Skeleton height={20} width="100%" radius="sm" />
-            </div>
-            <div className="flex items-center gap-4">
-              <Skeleton height={40} circle />
-              <Skeleton height={16} width="50%" />
-            </div>
-          </div>
-        ))}
-      </div>
-    );
+    return <Skeleton w={350} h={35} />;
   }
 
   return (

@@ -132,7 +132,7 @@ export default function Settings() {
   }
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6">
       <h2 className="text-2xl font-semibold">Minha conta</h2>
       <Group wrap="nowrap">
         <div className="relative">
@@ -178,19 +178,21 @@ export default function Settings() {
         className="flex flex-col gap-6"
         onSubmit={form.onSubmit(handleSubmit)}
       >
-        <TextInput
-          placeholder="Name"
-          label="Name"
-          disabled={isSubmitting}
-          {...form.getInputProps("name")}
-        />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <TextInput
+            placeholder="Name"
+            label="Name"
+            disabled={isSubmitting}
+            {...form.getInputProps("name")}
+          />
 
-        <TextInput
-          placeholder="E-mail"
-          label="E-mail"
-          disabled={isSubmitting}
-          {...form.getInputProps("email")}
-        />
+          <TextInput
+            placeholder="E-mail"
+            label="E-mail"
+            disabled={isSubmitting}
+            {...form.getInputProps("email")}
+          />
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Select
@@ -212,11 +214,13 @@ export default function Settings() {
           />
         </div>
 
-        <Divider className="my-4" />
+        <Divider />
 
-        <Button type="submit" loading={isSubmitting}>
-          Enviar
-        </Button>
+        <div className="flex justify-end">
+          <Button type="submit" loading={isSubmitting}>
+            Enviar
+          </Button>
+        </div>
       </form>
     </div>
   );

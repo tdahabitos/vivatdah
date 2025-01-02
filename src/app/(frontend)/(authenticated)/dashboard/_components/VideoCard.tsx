@@ -1,5 +1,5 @@
 import { getVideoThumbnail } from "@/utils";
-import { ActionIcon, Avatar, Badge, Menu, Text } from "@mantine/core";
+import { ActionIcon, Avatar, Badge, Menu, Skeleton, Text } from "@mantine/core";
 import {
   IconBookmark,
   IconBroadcast,
@@ -45,12 +45,19 @@ export default function VideoCard({
     getMetadata();
   }, []);
 
-  if (error) {
-    return "error...";
-  }
-
   if (isLoading) {
-    return "loading...";
+    return (
+      <div className="flex flex-col gap-4">
+        <Skeleton height={176} radius="md" />
+        <div className="flex">
+          <Skeleton height={20} width="100%" radius="sm" />
+        </div>
+        <div className="flex items-center gap-4">
+          <Skeleton height={40} circle />
+          <Skeleton height={16} width="50%" />
+        </div>
+      </div>
+    );
   }
 
   return (

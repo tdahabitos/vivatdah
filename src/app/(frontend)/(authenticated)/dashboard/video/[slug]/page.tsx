@@ -34,6 +34,8 @@ import { dayjs } from "@/lib/dayjs";
 import ReactPlayer from "react-player";
 import { supabase } from "@/services/supabase/client";
 import Feedback from "./_components/Feedback";
+import FavoriteButton from "./_components/FavoriteButton";
+import SaveButton from "./_components/SaveButton";
 
 export default function Video() {
   const [comment, setComment] = useState("");
@@ -127,12 +129,8 @@ export default function Video() {
           <div className="flex justify-between items-center gap-2">
             <h2 className="text-xl font-semibold">{video.title}</h2>
             <div className="flex items-center gap-2">
-              <ActionIcon variant="default">
-                <IconHeart size={16} />
-              </ActionIcon>
-              <ActionIcon variant="default">
-                <IconBookmark size={16} />
-              </ActionIcon>
+              <FavoriteButton />
+              <SaveButton />
             </div>
           </div>
 
