@@ -11,42 +11,43 @@ import { ActionIcon, Divider } from "@mantine/core";
 import Link from "next/link";
 import { apiFetcher } from "@/services/api";
 import useSWR from "swr";
+import { usePathname } from "next/navigation";
 
 const mainMenu = [
   {
     key: "news",
     label: "Novidades",
-    url: "news",
+    url: "/dashboard",
     icon: IconHome,
   },
   {
     key: "trending",
     label: "Mais populares",
-    url: "trending",
+    url: "/dashboard/trending",
     icon: IconFlame,
   },
   {
     key: "live",
     label: "Ao vivo",
-    url: "live",
+    url: "/dashboard/live",
     icon: IconBroadcast,
   },
   {
     key: "favorites",
     label: "Favoritos",
-    url: "favorites",
+    url: "/dashboard/favorites",
     icon: IconHeart,
   },
   {
     key: "saved",
     label: "Salvos",
-    url: "saved",
+    url: "/dashboard/saved",
     icon: IconBookmark,
   },
 ];
 
 export default function Sidebar() {
-  const pathname = "/";
+  const pathname = usePathname();
 
   const {
     data: categories,
@@ -61,11 +62,11 @@ export default function Sidebar() {
         {mainMenu.map((item) => (
           <Link
             key={item.key}
-            href={`/dashboard/category/${item.url}`}
+            href={item.url}
             className="flex items-center gap-4"
           >
             <ActionIcon
-              color={`./category/${item.url}` === pathname ? "orange" : "gray"}
+              color={item.url === pathname ? "orange" : "gray"}
               size={32}
             >
               <item.icon color="white" size={18} />
