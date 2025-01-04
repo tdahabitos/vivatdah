@@ -20,8 +20,6 @@ export default function VideoCard({
 }: {
   id: string;
 }) {
-  const soon = false;
-  const live = false;
   const [videoMetadata, setVideoMetadata] = useState(null);
 
   const { data: video, error, isLoading } = useSWR(`/videos/${id}`, apiFetcher);
@@ -70,7 +68,7 @@ export default function VideoCard({
             alt={video?.title}
           />
         </Link>
-        {soon && (
+        {video.status === "soon" && (
           <Badge
             className="absolute bottom-4 right-4"
             leftSection={<IconClock size={14} />}
@@ -79,7 +77,7 @@ export default function VideoCard({
             Em breve
           </Badge>
         )}
-        {live && (
+        {video.status === "live" && (
           <Badge
             className="absolute bottom-4 right-4"
             leftSection={<IconBroadcast size={14} />}

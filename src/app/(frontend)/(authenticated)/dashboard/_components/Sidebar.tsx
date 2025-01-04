@@ -7,7 +7,7 @@ import {
   IconHeart,
   IconHome,
 } from "@tabler/icons-react";
-import { ActionIcon, Divider } from "@mantine/core";
+import { ActionIcon, Divider, Skeleton } from "@mantine/core";
 import Link from "next/link";
 import { apiFetcher } from "@/services/api";
 import useSWR from "swr";
@@ -80,18 +80,26 @@ export default function Sidebar() {
         Categorias
       </span>
       <div className="flex flex-col gap-4">
-        {categories?.map((item) => (
-          <Link
-            key={item.id}
-            href={`/dashboard/category/${item.id}`}
-            className="flex items-center gap-2 rounded-lg px-2 py-2 transition-all duration-100 hover:bg-slate-100/10"
-          >
-            {item.title === pathname && (
-              <span className="w-2 h-2 block rounded-full bg-orange-500" />
-            )}
-            {item.title}
-          </Link>
-        ))}
+        {isLoading ? (
+          <>
+            <Skeleton w="100%" h={35} />
+            <Skeleton w="100%" h={35} />
+            <Skeleton w="100%" h={35} />
+          </>
+        ) : (
+          categories?.map((item) => (
+            <Link
+              key={item.id}
+              href={`/dashboard/category/${item.id}`}
+              className="flex items-center gap-2 rounded-lg px-2 py-2 transition-all duration-100 hover:bg-slate-100/10"
+            >
+              {item.title === pathname && (
+                <span className="w-2 h-2 block rounded-full bg-orange-500" />
+              )}
+              {item.title}
+            </Link>
+          ))
+        )}
       </div>
     </div>
   );

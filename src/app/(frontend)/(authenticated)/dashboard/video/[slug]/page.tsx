@@ -268,12 +268,7 @@ export default function Video() {
           {moreVideos
             ?.filter((item) => item.id !== video.id)
             .map((video) => (
-              <VideoCard
-                key={video.id}
-                id={video.id}
-                title={video.title}
-                url={video.url}
-              />
+              <VideoCard key={video.id} id={video.id} />
             ))}
         </div>
       </div>

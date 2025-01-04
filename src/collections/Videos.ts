@@ -10,12 +10,25 @@ export const Videos: CollectionConfig = {
   },
   fields: [
     {
-      name: "title",
-      type: "text",
-    },
-    {
-      name: "description",
-      type: "richText",
+      name: "status",
+      type: "select",
+      options: [
+        {
+          label: "Publicado",
+          value: "published",
+        },
+        {
+          label: "Live",
+          value: "live",
+        },
+        {
+          label: "Em breve",
+          value: "soon",
+        },
+      ],
+      admin: {
+        position: "sidebar",
+      },
     },
     {
       name: "platform",
@@ -30,10 +43,30 @@ export const Videos: CollectionConfig = {
           value: "vimeo",
         },
       ],
+      admin: {
+        position: "sidebar",
+      },
+    },
+    {
+      name: "creator",
+      type: "relationship",
+      relationTo: "users",
+      required: true,
+      admin: {
+        position: "sidebar",
+      },
     },
     {
       name: "url",
       type: "text",
+    },
+    {
+      name: "title",
+      type: "text",
+    },
+    {
+      name: "description",
+      type: "richText",
     },
     {
       name: "categories",
@@ -41,12 +74,6 @@ export const Videos: CollectionConfig = {
       relationTo: "categories",
       required: true,
       hasMany: true,
-    },
-    {
-      name: "creator",
-      type: "relationship",
-      relationTo: "users",
-      required: true,
     },
     {
       name: "files",

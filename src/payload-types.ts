@@ -89,6 +89,10 @@ export interface Post {
  */
 export interface Video {
   id: string;
+  status?: ('published' | 'live' | 'soon') | null;
+  platform?: ('youtube' | 'vimeo') | null;
+  creator: string | User;
+  url?: string | null;
   title?: string | null;
   description?: {
     root: {
@@ -105,10 +109,7 @@ export interface Video {
     };
     [k: string]: unknown;
   } | null;
-  platform?: ('youtube' | 'vimeo') | null;
-  url?: string | null;
   categories: (string | Category)[];
-  creator: string | User;
   files?: (string | Media)[] | null;
   updatedAt: string;
   createdAt: string;
@@ -246,12 +247,13 @@ export interface PostsSelect<T extends boolean = true> {
  * via the `definition` "videos_select".
  */
 export interface VideosSelect<T extends boolean = true> {
+  status?: T;
+  platform?: T;
+  creator?: T;
+  url?: T;
   title?: T;
   description?: T;
-  platform?: T;
-  url?: T;
   categories?: T;
-  creator?: T;
   files?: T;
   updatedAt?: T;
   createdAt?: T;

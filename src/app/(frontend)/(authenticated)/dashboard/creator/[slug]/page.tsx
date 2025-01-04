@@ -46,12 +46,7 @@ export default function Page() {
 
       <div className="grid grid-cols-4 gap-4">
         {videos?.map((video) => (
-          <VideoCard
-            key={video.id}
-            id={video.id}
-            title={video.title}
-            url={video.url}
-          />
+          <VideoCard key={video.id} id={video.id} />
         ))}
       </div>
     </div>
