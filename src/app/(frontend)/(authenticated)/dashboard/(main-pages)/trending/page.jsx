@@ -1,20 +1,18 @@
 "use client";
 
-import { apiFetcher } from "@/services/api";
 import { Skeleton } from "@mantine/core";
-import useSWR from "swr";
 import VideoCard from "../../_components/VideoCard";
 import Empty from "../../_components/Empty";
 import { useEffect, useState } from "react";
 import { supabase } from "@/services/supabase/client";
 import { IconFlame } from "@tabler/icons-react";
+import useSWR from "swr";
+import { apiFetcher } from "@/services/api";
 
 export default function Page() {
   const [isLoading, setIsLoading] = useState(true);
-  const [metadata, setMetadata] = useState(null);
-  const [videos, setVideos] = useState([]);
-
-  const { data: unsortedVideos } = useSWR("/videos", apiFetcher);
+  const [metadata, setMetadata] = useState([]);
+  const { data: videos } = useSWR("/videos", apiFetcher);
 
   async function getMetadata() {
     const { data, error } = await supabase
@@ -33,16 +31,10 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    if (unsortedVideos && metadata) {
-      setVideos(
-        metadata.map((video) =>
-          unsortedVideos.find((v) => v.id === video.reference_id),
-        ),
-      );
-
+    if (videos?.length > 0 && metadata?.length > 0) {
       setIsLoading(false);
     }
-  }, [unsortedVideos, metadata]);
+  }, [videos, metadata]);
 
   if (isLoading) {
     return <Skeleton w={350} h={35} />;
@@ -57,9 +49,11 @@ export default function Page() {
 
       {videos?.length > 0 ? (
         <div className="grid grid-cols-4 gap-4">
-          {videos?.map((video) => (
-            <VideoCard key={video.id} id={video.id} />
-          ))}
+          {metadata?.map((item) => {
+            if (!videos.find((v) => v.id === item.reference_id)) return null;
+
+            return <VideoCard key={item.id} id={item.reference_id} />;
+          })}
         </div>
       ) : (
         <Empty />

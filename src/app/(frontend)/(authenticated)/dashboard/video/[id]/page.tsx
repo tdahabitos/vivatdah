@@ -16,6 +16,7 @@ import {
   IconArrowBigDownLines,
   IconBookmark,
   IconBookmarkFilled,
+  IconFileStack,
   IconFileText,
   IconHeart,
   IconHeartFilled,
@@ -170,64 +171,68 @@ export default function Video() {
             <Feedback />
           </div>
 
-          <Card withBorder>
-            <div className="flex items-center gap-2 mb-4">
-              <IconArrowBigDownLines size={18} />
-              <h3 className="text-xl font-semibold">
-                Arquivos relacionados para download
-              </h3>
-            </div>
+          {video?.files?.length > 0 && (
+            <Card withBorder>
+              <div className="flex items-center gap-2 mb-4">
+                <IconArrowBigDownLines size={18} />
+                <h3 className="text-xl font-semibold">
+                  Arquivos disponíveis para download
+                </h3>
+              </div>
 
-            <div className="flex flex-wrap gap-4">
-              {video.files?.map((file) => {
-                let icon: React.ReactNode;
-                let color: string;
+              <div className="flex flex-wrap gap-4">
+                {video.files?.map((file) => {
+                  let icon: React.ReactNode;
+                  let color: string;
 
-                switch (file?.mimeType) {
-                  case "application/pdf":
-                    icon = <IconFileText />;
-                    color = "red";
-                    break;
-                  case "image/jpeg":
-                    icon = <IconPhoto />;
-                    color = "violet";
-                    break;
-                  case "application/epub+zip":
-                    icon = <IconNotebook />;
-                    color = "teal";
-                    break;
-                  case "audio/mpeg":
-                    icon = <IconMicrophoneFilled />;
-                    color = "blue";
-                    break;
-                  default:
-                    icon = <IconFileText />;
-                    color = "red";
-                    break;
-                }
+                  switch (file?.mimeType) {
+                    case "image/jpeg":
+                    case "image/png":
+                    case "image/gif":
+                    case "image/webp":
+                    case "image/svg+xml":
+                      icon = <IconPhoto />;
+                      color = "violet";
+                      break;
 
-                return (
-                  <Button
-                    key={file?.id}
-                    component={Link}
-                    href={`${process.env.NEXT_PUBLIC_APP_URL}${file.url}`}
-                    target="_blank"
-                    variant="light"
-                    color={color}
-                    leftSection={icon}
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs">{file?.filename}</span>
+                    case "audio/mpeg":
+                    case "audio/ogg":
+                    case "audio/wav":
+                    case "audio/aac":
+                      icon = <IconMicrophoneFilled />;
+                      color = "blue";
+                      break;
 
-                      <Badge size="xs" color={color}>
-                        {file?.mimeType.split("/")[1]}
-                      </Badge>
-                    </div>
-                  </Button>
-                );
-              })}
-            </div>
-          </Card>
+                    default:
+                      icon = <IconFileStack />;
+                      color = "teal";
+                      break;
+                  }
+
+                  return (
+                    <Button
+                      key={file?.id}
+                      component={Link}
+                      download={true}
+                      href={`${process.env.NEXT_PUBLIC_APP_URL}${file.url}`}
+                      target="_blank"
+                      variant="light"
+                      color={color}
+                      leftSection={icon}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs">{file?.filename}</span>
+
+                        <Badge size="xs" color={color}>
+                          {file?.mimeType.split("/")[1]}
+                        </Badge>
+                      </div>
+                    </Button>
+                  );
+                })}
+              </div>
+            </Card>
+          )}
 
           <h3 className="text-2xl font-semibold">Comentários</h3>
 
