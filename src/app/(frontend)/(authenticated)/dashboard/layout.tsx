@@ -7,7 +7,6 @@ import Link from "next/link";
 import GeneralSearch from "./_components/GeneralSearch";
 import CtaButton from "./_components/CtaButton";
 import ThemeSwitcher from "./_components/ThemeSwitcher";
-import Notifications from "./_components/Notifications";
 import AccountButton from "./_components/AccountButton";
 import Sidebar from "./_components/Sidebar";
 
@@ -42,7 +41,6 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
             <GeneralSearch />
             <CtaButton />
             <ThemeSwitcher />
-            <Notifications />
             <AccountButton />
           </div>
         </div>

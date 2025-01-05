@@ -6,6 +6,7 @@ import Empty from "../../_components/Empty";
 import { useEffect, useState } from "react";
 import { supabase } from "@/services/supabase/client";
 import { useUserStore } from "@/store/userStore";
+import { IconHeart } from "@tabler/icons-react";
 
 export default function Page() {
   const [videos, setVideos] = useState([]);
@@ -39,7 +40,10 @@ export default function Page() {
 
   return (
     <div className="flex flex-col gap-6">
-      <h2 className="text-2xl font-semibold">Favoritos</h2>
+      <div className="flex items-center gap-2">
+        <IconHeart size={24} />
+        <h2 className="text-2xl font-semibold">Favoritos</h2>
+      </div>
 
       {videos?.length > 0 ? (
         <div className="grid grid-cols-4 gap-4">

@@ -11,7 +11,7 @@ export default function Feedback() {
   const [isDislikedByCurrentUser, setIsDislikedByCurrentUser] =
     useState<boolean>();
 
-  const { slug } = useParams();
+  const { id } = useParams();
   const { user } = useUserStore();
 
   async function getLikesCount() {
@@ -20,7 +20,7 @@ export default function Feedback() {
       .from("events")
       .select("*")
       .eq("event", "like")
-      .eq("reference_id", slug);
+      .eq("reference_id", id);
 
     setLikesCount(likesCount?.length);
   }
@@ -33,7 +33,7 @@ export default function Feedback() {
       .from("events")
       .select("*")
       .eq("event", "like")
-      .eq("reference_id", slug)
+      .eq("reference_id", id)
       .eq("user_id", user?.id)
       .single();
 
@@ -44,7 +44,7 @@ export default function Feedback() {
       .from("events")
       .select("*")
       .eq("event", "dislike")
-      .eq("reference_id", slug)
+      .eq("reference_id", id)
       .eq("user_id", user?.id)
       .single();
 
@@ -59,7 +59,7 @@ export default function Feedback() {
       .from("events")
       .delete()
       .eq("event", "dislike")
-      .eq("reference_id", slug)
+      .eq("reference_id", id)
       .eq("user_id", user?.id);
 
     if (isLikedByCurrentUser) {
@@ -70,7 +70,7 @@ export default function Feedback() {
         .from("events")
         .delete()
         .eq("event", "like")
-        .eq("reference_id", slug)
+        .eq("reference_id", id)
         .eq("user_id", user?.id);
 
       return;
@@ -81,7 +81,7 @@ export default function Feedback() {
     await supabase
       .schema("metadata")
       .from("events")
-      .insert({ event: "like", reference_id: slug, user_id: user?.id });
+      .insert({ event: "like", reference_id: id, user_id: user?.id });
   }
 
   async function handleDislikeClick() {
@@ -92,7 +92,7 @@ export default function Feedback() {
       .from("events")
       .delete()
       .eq("event", "like")
-      .eq("reference_id", slug)
+      .eq("reference_id", id)
       .eq("user_id", user?.id);
 
     if (isDislikedByCurrentUser) {
@@ -103,7 +103,7 @@ export default function Feedback() {
         .from("events")
         .delete()
         .eq("event", "dislike")
-        .eq("reference_id", slug)
+        .eq("reference_id", id)
         .eq("user_id", user?.id);
 
       return;
@@ -114,7 +114,7 @@ export default function Feedback() {
     await supabase
       .schema("metadata")
       .from("events")
-      .insert({ event: "dislike", reference_id: slug, user_id: user?.id });
+      .insert({ event: "dislike", reference_id: id, user_id: user?.id });
   }
 
   useEffect(() => {

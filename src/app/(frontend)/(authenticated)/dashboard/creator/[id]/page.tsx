@@ -8,14 +8,14 @@ import VideoCard from "../../_components/VideoCard";
 import { CreatorCard } from "../../_components/CreatorCard";
 
 export default function Page() {
-  const { slug } = useParams();
+  const { id } = useParams();
 
   const {
     data: videos,
     error,
     isLoading,
   } = useSWR(
-    `/videos?where[creator.id][equals]=${slug}&limit=16&page=1`,
+    `/videos?where[creator.id][equals]=${id}&limit=16&page=1`,
     apiFetcher,
   );
 
@@ -40,7 +40,7 @@ export default function Page() {
 
   return (
     <div className="flex flex-col gap-8">
-      <CreatorCard creatorId={slug} />
+      <CreatorCard creatorId={id} />
 
       <Divider />
 

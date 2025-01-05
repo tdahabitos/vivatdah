@@ -6,18 +6,19 @@ import { useParams } from "next/navigation";
 import useSWR from "swr";
 import VideoCard from "../../_components/VideoCard";
 import Empty from "../../_components/Empty";
+import { IconArrowLeftFromArc } from "@tabler/icons-react";
 
 export default function Page() {
-  const { slug } = useParams();
+  const { id } = useParams();
 
-  const { data: category } = useSWR(`/categories/${slug}`, apiFetcher);
+  const { data: category } = useSWR(`/categories/${id}`, apiFetcher);
 
   const {
     data: videos,
     error,
     isLoading,
   } = useSWR(
-    `/videos?where[categories.id][equals]=${slug}&limit=16&page=1`,
+    `/videos?where[categories.id][equals]=${id}&limit=16&page=1`,
     apiFetcher,
   );
 
@@ -27,7 +28,11 @@ export default function Page() {
 
   return (
     <div className="flex flex-col gap-6">
-      <h2 className="text-2xl font-semibold">{category?.title}</h2>
+      <div className="flex items-center gap-2">
+        <IconArrowLeftFromArc size={24} />
+        <h2 className="text-2xl font-semibold">{category?.title}</h2>
+      </div>
+
       {videos?.length === 0 ? (
         <Empty />
       ) : (

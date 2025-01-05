@@ -1,11 +1,27 @@
 import { getVideoThumbnail } from "@/utils";
-import { ActionIcon, Avatar, Badge, Menu, Skeleton, Text } from "@mantine/core";
+import {
+  ActionIcon,
+  Avatar,
+  Badge,
+  Button,
+  CopyButton,
+  Image,
+  Menu,
+  Modal,
+  Skeleton,
+  Text,
+  TextInput,
+} from "@mantine/core";
 import {
   IconBookmark,
+  IconBookmarkFilled,
   IconBroadcast,
+  IconCheck,
   IconClock,
-  IconGripVertical,
-  IconPlaylistAdd,
+  IconCopy,
+  IconDotsVertical,
+  IconHeart,
+  IconHeartFilled,
   IconShare3,
 } from "@tabler/icons-react";
 import Link from "next/link";
@@ -14,13 +30,19 @@ import useSWR from "swr";
 import { apiFetcher } from "@/services/api";
 import { useEffect, useState } from "react";
 import { supabase } from "@/services/supabase/client";
+import { useDisclosure } from "@mantine/hooks";
+import useFavorite from "@/hooks/useFavorite";
+import useSave from "@/hooks/useSave";
 
 export default function VideoCard({
   id,
 }: {
   id: string;
 }) {
+  const [opened, { open, close }] = useDisclosure(false);
   const [videoMetadata, setVideoMetadata] = useState(null);
+  const { isFavorited, toggle: favoriteToggle } = useFavorite(id);
+  const { isSaved, toggle: saveToggle } = useSave(id);
 
   const { data: video, error, isLoading } = useSWR(`/videos/${id}`, apiFetcher);
 
@@ -59,81 +81,130 @@ export default function VideoCard({
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="relative">
-        <Link href={`/dashboard/video/${id}`}>
-          <img
-            className="w-full rounded aspect-video object-cover"
-            src={thumbnailURL}
-            alt={video?.title}
-          />
-        </Link>
-        {video.status === "soon" && (
-          <Badge
-            className="absolute bottom-4 right-4"
-            leftSection={<IconClock size={14} />}
-            color="gray"
-          >
-            Em breve
-          </Badge>
-        )}
-        {video.status === "live" && (
-          <Badge
-            className="absolute bottom-4 right-4"
-            leftSection={<IconBroadcast size={14} />}
-            color="red"
-          >
-            Ao vivo
-          </Badge>
-        )}
-      </div>
+    <>
       <div className="flex flex-col gap-2">
-        <div className="flex justify-between gap-2">
-          <Link href={`/video/${id}`}>
-            <Text fw="bolder">{video?.title}</Text>
+        <div className="relative">
+          <Link href={`/dashboard/video/${id}`}>
+            <Image
+              className="w-full rounded aspect-video object-cover"
+              src={thumbnailURL}
+              alt={video?.title}
+            />
           </Link>
-
-          <Menu shadow="md" width={200} position="bottom-end">
-            <Menu.Target>
-              <ActionIcon variant="subtle">
-                <IconGripVertical size={18} />
-              </ActionIcon>
-            </Menu.Target>
-
-            <Menu.Dropdown>
-              <Menu.Label>Application</Menu.Label>
-              <Menu.Item leftSection={<IconPlaylistAdd size={18} />}>
-                Adicionar a minha playlist
-              </Menu.Item>
-              <Menu.Item leftSection={<IconBookmark size={18} />}>
-                Salvar
-              </Menu.Item>
-              <Menu.Item leftSection={<IconShare3 size={18} />}>
-                Compartilhar
-              </Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
+          {video?.status === "soon" && (
+            <Badge
+              className="absolute bottom-4 right-4"
+              leftSection={<IconClock size={14} />}
+              color="gray"
+            >
+              Em breve
+            </Badge>
+          )}
+          {video?.status === "live" && (
+            <Badge
+              className="absolute bottom-4 right-4"
+              leftSection={<IconBroadcast size={14} />}
+              color="red"
+            >
+              Ao vivo
+            </Badge>
+          )}
         </div>
-        <div>
-          <Link
-            href={`/dashboard/creator/${video?.creator.id}`}
-            className="flex items-center gap-2 mb-1"
-          >
-            <div className="p-1 border-white/50 border-solid border rounded-full">
-              <Avatar
-                size="sm"
-                src={`${process.env.NEXT_PUBLIC_APP_URL}/${video?.creator.avatar.url}`}
-              />
-            </div>
-            <Text c="dimmed">{video?.creator.name}</Text>
-          </Link>
-          <Link href="/video/1">
-            <Text size="sm" c="dimmed">
-              {`${videoMetadata?.views || 0} visualizações • ${dayjs(video.createdAt).fromNow()}`}
-            </Text>
-          </Link>
+        <div className="flex flex-col gap-2">
+          <div className="flex justify-between gap-2">
+            <Link href={`/video/${id}`}>
+              <Text fw="bolder">{video?.title}</Text>
+            </Link>
+
+            <Menu shadow="md" width={200} position="bottom-end">
+              <Menu.Target>
+                <ActionIcon variant="subtle">
+                  <IconDotsVertical size={18} />
+                </ActionIcon>
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                <Menu.Label>Opções</Menu.Label>
+                <Menu.Item
+                  leftSection={
+                    isFavorited ? (
+                      <IconHeartFilled size={18} color="red" />
+                    ) : (
+                      <IconHeart size={18} />
+                    )
+                  }
+                  onClick={favoriteToggle}
+                >
+                  {isFavorited
+                    ? "Remover dos favoritos"
+                    : "Adicionar aos favoritos"}
+                </Menu.Item>
+                <Menu.Item
+                  leftSection={
+                    isSaved ? (
+                      <IconBookmarkFilled size={18} color="violet" />
+                    ) : (
+                      <IconBookmark size={18} />
+                    )
+                  }
+                  onClick={saveToggle}
+                >
+                  {isSaved ? "Remover dos salvos" : "Adicionar aos salvos"}
+                </Menu.Item>
+                <Menu.Item
+                  leftSection={<IconShare3 size={18} />}
+                  onClick={open}
+                >
+                  Compartilhar
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          </div>
+          <div>
+            <Link
+              href={`/dashboard/creator/${video?.creator.id}`}
+              className="flex items-center gap-2 mb-1"
+            >
+              <div className="p-1 border-white/50 border-solid border rounded-full">
+                <Avatar
+                  size="sm"
+                  src={`${process.env.NEXT_PUBLIC_APP_URL}/${video?.creator.avatar.url}`}
+                />
+              </div>
+              <Text c="dimmed">{video?.creator.name}</Text>
+            </Link>
+            <Link href="/video/1">
+              <Text size="sm" c="dimmed">
+                {`${videoMetadata?.views || 0} visualizações • ${dayjs(video.createdAt).fromNow()}`}
+              </Text>
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+
+      <Modal
+        centered
+        opened={opened}
+        onClose={close}
+        title={
+          <div className="flex items-center gap-2">
+            <IconShare3 size={18} />
+            <span>Compartilhar</span>
+          </div>
+        }
+        size="lg"
+      >
+        <div className="w-full flex gap-2 px-[10%]">
+          <TextInput className="flex-1" value={`/video/${id}`} disabled />
+          <CopyButton value={`/video/${id}`}>
+            {({ copied, copy }) => (
+              <Button color={copied ? "teal" : "blue"} onClick={copy}>
+                {copied ? <IconCheck /> : <IconCopy />}
+              </Button>
+            )}
+          </CopyButton>
+        </div>
+      </Modal>
+    </>
   );
 }

@@ -15,8 +15,10 @@ import {
 import {
   IconArrowBigDownLines,
   IconBookmark,
+  IconBookmarkFilled,
   IconFileText,
   IconHeart,
+  IconHeartFilled,
   IconInfoCircle,
   IconMicrophoneFilled,
   IconNotebook,
@@ -34,19 +36,17 @@ import { dayjs } from "@/lib/dayjs";
 import ReactPlayer from "react-player";
 import { supabase } from "@/services/supabase/client";
 import Feedback from "./_components/Feedback";
-import FavoriteButton from "./_components/FavoriteButton";
-import SaveButton from "./_components/SaveButton";
+import useFavorite from "@/hooks/useFavorite";
+import useSave from "@/hooks/useSave";
 
 export default function Video() {
   const [comment, setComment] = useState("");
-  const { slug } = useParams();
+  const { id } = useParams();
   const [videoMetadata, setVideoMetadata] = useState(null);
+  const { isFavorited, toggle: favoriteToggle } = useFavorite(id);
+  const { isSaved, toggle: saveToggle } = useSave(id);
 
-  const {
-    data: video,
-    error,
-    isLoading,
-  } = useSWR(`/videos/${slug}`, apiFetcher);
+  const { data: video, error, isLoading } = useSWR(`/videos/${id}`, apiFetcher);
 
   const categoryId = video?.categories[0].id;
 
@@ -60,7 +60,7 @@ export default function Video() {
       .schema("metadata")
       .from("videos")
       .update({ views: currentViews })
-      .eq("reference_id", slug);
+      .eq("reference_id", id);
   }
 
   async function getMetadata() {
@@ -68,14 +68,14 @@ export default function Video() {
       .schema("metadata")
       .from("videos")
       .select("views")
-      .eq("reference_id", slug)
+      .eq("reference_id", id)
       .single();
 
     if (error) {
       await supabase
         .schema("metadata")
         .from("videos")
-        .insert({ reference_id: slug });
+        .insert({ reference_id: id });
     }
 
     const currentViews = (data?.views || 0) + 1;
@@ -129,8 +129,20 @@ export default function Video() {
           <div className="flex justify-between items-center gap-2">
             <h2 className="text-xl font-semibold">{video.title}</h2>
             <div className="flex items-center gap-2">
-              <FavoriteButton />
-              <SaveButton />
+              <ActionIcon variant="default" onClick={favoriteToggle}>
+                {isFavorited ? (
+                  <IconHeartFilled size={16} color="red" />
+                ) : (
+                  <IconHeart size={16} />
+                )}
+              </ActionIcon>
+              <ActionIcon variant="default" onClick={saveToggle}>
+                {isSaved ? (
+                  <IconBookmarkFilled size={16} color="violet" />
+                ) : (
+                  <IconBookmark size={16} />
+                )}
+              </ActionIcon>
             </div>
           </div>
 
