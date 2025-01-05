@@ -39,7 +39,11 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
           </div>
           <div className="flex w-full items-center gap-4 ml-4">
             <GeneralSearch />
-            <CtaButton />
+
+            <div className="hidden lg:block">
+              <CtaButton />
+            </div>
+
             <ThemeSwitcher />
             <AccountButton />
           </div>

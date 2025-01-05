@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect } from "react";
 import { useUserStore } from "@/store/userStore";
 
 export default function AuthProvider({
@@ -9,7 +9,9 @@ export default function AuthProvider({
 }: { user: any; children: React.ReactNode }) {
   const { setUser } = useUserStore();
 
-  useMemo(() => setUser(user), [setUser, user]);
+  useEffect(() => {
+    setUser(user);
+  }, [user]);
 
   return children;
 }

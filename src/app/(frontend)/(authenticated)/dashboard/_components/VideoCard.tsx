@@ -85,11 +85,13 @@ export default function VideoCard({
       <div className="flex flex-col gap-2">
         <div className="relative">
           <Link href={`/dashboard/video/${id}`}>
-            <Image
-              className="w-full rounded aspect-video object-cover"
-              src={thumbnailURL}
-              alt={video?.title}
-            />
+            <div className="overflow-hidden rounded">
+              <Image
+                className="w-full rounded aspect-video object-cover hover:scale-105 transition-all duration-300 ease-in-out"
+                src={thumbnailURL}
+                alt={video?.title}
+              />
+            </div>
           </Link>
           {video?.status === "soon" && (
             <Badge
@@ -113,7 +115,7 @@ export default function VideoCard({
         <div className="flex flex-col gap-2">
           <div className="flex justify-between gap-2">
             <Link href={`/video/${id}`}>
-              <Text fw="bolder">{video?.title}</Text>
+              <h3 className="font-bold">{video?.title}</h3>
             </Link>
 
             <Menu shadow="md" width={200} position="bottom-end">
@@ -126,6 +128,7 @@ export default function VideoCard({
               <Menu.Dropdown>
                 <Menu.Label>Opções</Menu.Label>
                 <Menu.Item
+                  closeMenuOnClick={false}
                   leftSection={
                     isFavorited ? (
                       <IconHeartFilled size={18} color="red" />
@@ -140,6 +143,7 @@ export default function VideoCard({
                     : "Adicionar aos favoritos"}
                 </Menu.Item>
                 <Menu.Item
+                  closeMenuOnClick={false}
                   leftSection={
                     isSaved ? (
                       <IconBookmarkFilled size={18} color="violet" />
@@ -173,11 +177,9 @@ export default function VideoCard({
               </div>
               <Text c="dimmed">{video?.creator.name}</Text>
             </Link>
-            <Link href="/video/1">
-              <Text size="sm" c="dimmed">
-                {`${videoMetadata?.views || 0} visualizações • ${dayjs(video.createdAt).fromNow()}`}
-              </Text>
-            </Link>
+            <Text size="sm" c="dimmed">
+              {`${videoMetadata?.views || 0} visualizações • ${dayjs(video.createdAt).fromNow()}`}
+            </Text>
           </div>
         </div>
       </div>

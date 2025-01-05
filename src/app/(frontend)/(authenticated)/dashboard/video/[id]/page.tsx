@@ -127,7 +127,7 @@ export default function Video() {
       <div className="flex gap-6">
         <div className="w-full lg:w-3/5 space-y-8">
           <div className="flex justify-between items-center gap-2">
-            <h2 className="text-xl font-semibold">{video.title}</h2>
+            <h2 className="text-xl font-bold">{video.title}</h2>
             <div className="flex items-center gap-2">
               <ActionIcon variant="default" onClick={favoriteToggle}>
                 {isFavorited ? (
