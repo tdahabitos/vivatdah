@@ -9,39 +9,32 @@ import {
   Divider,
   Skeleton,
   Text,
-  Textarea,
-  Tooltip,
 } from "@mantine/core";
 import {
   IconArrowBigDownLines,
   IconBookmark,
   IconBookmarkFilled,
   IconFileStack,
-  IconFileText,
   IconHeart,
   IconHeartFilled,
-  IconInfoCircle,
   IconMicrophoneFilled,
-  IconNotebook,
   IconPhoto,
 } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import { CommentCard } from "./_components/CommentCard";
 import { apiFetcher } from "@/services/api";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { cn } from "@/utils";
 import VideoCard from "../../_components/VideoCard";
 import { dayjs } from "@/lib/dayjs";
 import ReactPlayer from "react-player";
 import { supabase } from "@/services/supabase/client";
-import Feedback from "./_components/Feedback";
 import useFavorite from "@/hooks/useFavorite";
 import useSave from "@/hooks/useSave";
+import Comments from "./_components/Comments";
+import VideoFeedback from "./_components/VideoFeedback";
 
 export default function Video() {
-  const [comment, setComment] = useState("");
   const { id } = useParams();
   const [videoMetadata, setVideoMetadata] = useState(null);
   const { isFavorited, toggle: favoriteToggle } = useFavorite(id);
@@ -168,7 +161,7 @@ export default function Video() {
               </Link>
             </div>
 
-            <Feedback />
+            <VideoFeedback />
           </div>
 
           {video?.files?.length > 0 && (
@@ -234,50 +227,7 @@ export default function Video() {
             </Card>
           )}
 
-          <h3 className="text-2xl font-semibold">Comentários</h3>
-
-          <div className="space-y-2">
-            <Textarea
-              leftSection={
-                <div className="p-1 border-white/50 border-solid border rounded-full">
-                  <Avatar size="sm" src="https://i.pravatar.cc/300" />
-                </div>
-              }
-              onChange={(e) => setComment(e.target.value)}
-              autosize
-              minRows={2}
-              leftSectionWidth={55}
-              placeholder="Adicione um comentário"
-            />
-            <div
-              className={cn(
-                "hidden justify-between gap-2",
-                comment !== "" && "flex",
-              )}
-            >
-              <Tooltip
-                label="Lorem ipsum dolor sit amet consectetur adipisicing elit"
-                position="top-start"
-              >
-                <div className="flex items-center gap-1 opacity-50">
-                  <IconInfoCircle size={18} />
-                  <span className="text-xs">Regras gerais</span>
-                </div>
-              </Tooltip>
-              <div className="flex gap-2">
-                <Button variant="light" size="xs">
-                  Cancelar
-                </Button>
-                <Button size="xs">Comentar</Button>
-              </div>
-            </div>
-          </div>
-
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
+          <Comments />
         </div>
         <Divider orientation="vertical" />
         <div className="w-full lg:w-2/5 space-y-8">

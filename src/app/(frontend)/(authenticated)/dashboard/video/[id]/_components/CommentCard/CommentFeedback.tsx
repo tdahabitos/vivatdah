@@ -2,16 +2,12 @@ import { supabase } from "@/services/supabase/client";
 import { useUserStore } from "@/store/userStore";
 import { ActionIcon } from "@mantine/core";
 import { IconThumbDown, IconThumbUp } from "@tabler/icons-react";
-import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function Feedback() {
+export default function CommentFeedback({ id }) {
   const [likesCount, setLikesCount] = useState(0);
-  const [isLikedByCurrentUser, setIsLikedByCurrentUser] = useState<boolean>();
-  const [isDislikedByCurrentUser, setIsDislikedByCurrentUser] =
-    useState<boolean>();
-
-  const { id } = useParams();
+  const [isLiked, setIsLiked] = useState<boolean>();
+  const [isDisliked, setIsDisliked] = useState<boolean>();
   const { user } = useUserStore();
 
   async function getLikesCount() {
@@ -19,7 +15,7 @@ export default function Feedback() {
       .schema("metadata")
       .from("events")
       .select("*")
-      .eq("event", "like")
+      .eq("event", "comment_like")
       .eq("reference_id", id);
 
     setLikesCount(likesCount?.length);
@@ -32,89 +28,93 @@ export default function Feedback() {
       .schema("metadata")
       .from("events")
       .select("*")
-      .eq("event", "like")
+      .eq("event", "comment_like")
       .eq("reference_id", id)
       .eq("user_id", user?.id)
       .single();
 
-    setIsLikedByCurrentUser(isLiked);
+    setIsLiked(isLiked);
 
     const { data: isDisliked } = await supabase
       .schema("metadata")
       .from("events")
       .select("*")
-      .eq("event", "dislike")
+      .eq("event", "comment_dislike")
       .eq("reference_id", id)
       .eq("user_id", user?.id)
       .single();
 
-    setIsDislikedByCurrentUser(isDisliked);
+    setIsDisliked(isDisliked);
   }
 
   async function handleLikeClick() {
-    setIsDislikedByCurrentUser(false);
+    setIsDisliked(false);
 
     await supabase
       .schema("metadata")
       .from("events")
       .delete()
-      .eq("event", "dislike")
+      .eq("event", "comment_dislike")
       .eq("reference_id", id)
       .eq("user_id", user?.id);
 
-    if (isLikedByCurrentUser) {
-      setIsLikedByCurrentUser(false);
+    if (isLiked) {
+      setIsLiked(false);
 
       await supabase
         .schema("metadata")
         .from("events")
         .delete()
-        .eq("event", "like")
+        .eq("event", "comment_like")
         .eq("reference_id", id)
         .eq("user_id", user?.id);
 
       return;
     }
 
-    setIsLikedByCurrentUser(true);
+    setIsLiked(true);
 
     await supabase
       .schema("metadata")
       .from("events")
-      .insert({ event: "like", reference_id: id, user_id: user?.id });
+      .insert({ event: "comment_like", reference_id: id, user_id: user?.id });
   }
 
   async function handleDislikeClick() {
-    setIsLikedByCurrentUser(false);
+    setIsLiked(false);
 
     await supabase
       .schema("metadata")
       .from("events")
       .delete()
-      .eq("event", "like")
+      .eq("event", "comment_like")
       .eq("reference_id", id)
       .eq("user_id", user?.id);
 
-    if (isDislikedByCurrentUser) {
-      setIsDislikedByCurrentUser(false);
+    if (isDisliked) {
+      setIsDisliked(false);
 
       await supabase
         .schema("metadata")
         .from("events")
         .delete()
-        .eq("event", "dislike")
+        .eq("event", "comment_dislike")
         .eq("reference_id", id)
         .eq("user_id", user?.id);
 
       return;
     }
 
-    setIsDislikedByCurrentUser(true);
+    setIsDisliked(true);
 
     await supabase
       .schema("metadata")
       .from("events")
-      .insert({ event: "dislike", reference_id: id, user_id: user?.id });
+      .insert({
+        event: "comment_dislike",
+        reference_id: id,
+        user_id: user?.id,
+      });
   }
 
   useEffect(() => {
@@ -125,7 +125,7 @@ export default function Feedback() {
     <div className="flex items-center gap-4">
       <div className="flex items-center gap-2">
         <ActionIcon
-          variant={isLikedByCurrentUser ? "filled" : "light"}
+          variant={isLiked ? "filled" : "light"}
           onClick={async () => {
             await handleLikeClick();
             getLikesCount();
@@ -136,7 +136,7 @@ export default function Feedback() {
         <span className="text-xs">{likesCount}</span>
       </div>
       <ActionIcon
-        variant={isDislikedByCurrentUser ? "filled" : "light"}
+        variant={isDisliked ? "filled" : "light"}
         onClick={async () => {
           await handleDislikeClick();
           getLikesCount();

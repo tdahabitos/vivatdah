@@ -57,15 +57,13 @@ export default function Settings() {
       .from(bucket)
       .upload(`avatar/${userId}.${fileType}`, file, {
         upsert: true,
-        contentType: file.type,
+        contentType: "image/jpeg",
         cacheControl: "3600",
       });
 
     const {
       data: { publicUrl },
-    } = supabase.storage
-      .from(bucket)
-      .getPublicUrl(`avatar/${userId}.${fileType}`);
+    } = supabase.storage.from(bucket).getPublicUrl(`avatar/${userId}.jpeg`);
 
     const {
       data: { user: updatedUser },

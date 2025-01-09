@@ -88,7 +88,7 @@ export default function VideoCard({
             <div className="overflow-hidden rounded">
               <Image
                 className="w-full rounded aspect-video object-cover hover:scale-105 transition-all duration-300 ease-in-out"
-                src={thumbnailURL}
+                src={thumbnailURL || "/thumbnail-fallback.webp"}
                 alt={video?.title}
               />
             </div>
