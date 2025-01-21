@@ -17,8 +17,35 @@ export const metadata = {
 };
 
 const theme = createTheme({
+  /* Custom colors */
+  colors: {
+    "viva-orange": [
+      "#fff6e0",
+      "#ffebca",
+      "#ffd699",
+      "#ffbf63",
+      "#ffac36",
+      "#ffa018",
+      "#ff9904",
+      "#e48500",
+      "#cb7500",
+      "#b16400",
+    ],
+    "viva-purple": [
+      "#eef0fc",
+      "#d8dcf3",
+      "#adb5e9",
+      "#808cdf",
+      "#5a69d8",
+      "#4453d3",
+      "#3848d3",
+      "#2b3abb",
+      "#2433a7",
+      "#1a2b93",
+    ],
+  },
   defaultRadius: "md",
-  primaryColor: "violet",
+  primaryColor: "viva-orange",
 });
 
 export default function RootLayout({
@@ -27,7 +54,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" {...mantineHtmlProps}>
+    <html lang="pt-BR" {...mantineHtmlProps}>
       <head>
         <ColorSchemeScript />
       </head>

@@ -49,11 +49,7 @@ const mainMenu = [
 export default function Sidebar() {
   const pathname = usePathname();
 
-  const {
-    data: categories,
-    error,
-    isLoading,
-  } = useSWR("/categories", apiFetcher);
+  const { data: categories, isLoading } = useSWR("/categories", apiFetcher);
 
   return (
     <div className="flex flex-col gap-6 text-sm">
@@ -63,11 +59,11 @@ export default function Sidebar() {
           <Link
             key={item.key}
             href={item.url}
-            className="flex items-center gap-4"
+            className="flex items-center gap-2"
           >
             <ActionIcon
-              color={item.url === pathname ? "orange" : "gray"}
               size={32}
+              color={item.url === pathname ? "viva-orange" : "gray"}
             >
               <item.icon color="white" size={18} />
             </ActionIcon>
@@ -94,7 +90,7 @@ export default function Sidebar() {
               className="flex items-center gap-2 rounded-lg px-2 py-2 transition-all duration-100 hover:bg-slate-100/10"
             >
               {item.title === pathname && (
-                <span className="w-2 h-2 block rounded-full bg-orange-500" />
+                <span className="w-2 h-2 block rounded-full bg-orange-500 text-xs" />
               )}
               {item.title}
             </Link>

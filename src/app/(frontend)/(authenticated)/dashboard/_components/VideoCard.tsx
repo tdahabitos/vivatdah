@@ -120,7 +120,7 @@ export default function VideoCard({
 
             <Menu shadow="md" width={200} position="bottom-end">
               <Menu.Target>
-                <ActionIcon variant="subtle">
+                <ActionIcon variant="subtle" color="gray">
                   <IconDotsVertical size={18} />
                 </ActionIcon>
               </Menu.Target>
