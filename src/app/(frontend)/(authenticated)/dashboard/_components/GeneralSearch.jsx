@@ -12,7 +12,7 @@ export default function GeneralSearch() {
     },
   });
 
-  function onSubmit({ value }: { value: string }) {
+  function onSubmit({ value }) {
     if (!value) return;
 
     push(`/dashboard/search?value=${value}`);

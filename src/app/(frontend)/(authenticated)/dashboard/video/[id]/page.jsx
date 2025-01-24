@@ -49,7 +49,7 @@ export default function Video() {
     apiFetcher,
   );
 
-  async function addView(currentViews: number) {
+  async function addView(currentViews) {
     await supabase
       .schema("metadata")
       .from("videos")
@@ -175,8 +175,8 @@ export default function Video() {
 
               <div className="flex flex-wrap gap-4">
                 {video.files?.map((file) => {
-                  let icon: React.ReactNode;
-                  let color: string;
+                  let icon;
+                  let color;
 
                   switch (file?.mimeType) {
                     case "image/jpeg":

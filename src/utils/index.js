@@ -1,15 +1,15 @@
-import { clsx, type ClassValue } from "clsx";
+import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-export function cn(...inputs: ClassValue[]) {
+export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
-export function getVideoId(url: string) {
+export function getVideoId(url) {
   return url?.split("https://www.youtube.com/watch?v=")[1];
 }
 
-export function getVideoThumbnail({ url }: { url: string }) {
+export function getVideoThumbnail({ url }) {
   const id = getVideoId(url);
   return `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
 }

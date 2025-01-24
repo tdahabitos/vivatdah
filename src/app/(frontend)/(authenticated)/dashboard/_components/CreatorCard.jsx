@@ -2,7 +2,7 @@ import { apiFetcher } from "@/services/api";
 import { Avatar, Group, Text } from "@mantine/core";
 import useSWR from "swr";
 
-export function CreatorCard({ creatorId }: { creatorId: string }) {
+export function CreatorCard({ creatorId }) {
   const {
     data: user,
     error,

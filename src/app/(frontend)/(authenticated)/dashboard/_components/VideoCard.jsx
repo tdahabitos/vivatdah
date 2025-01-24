@@ -34,11 +34,7 @@ import { useDisclosure } from "@mantine/hooks";
 import useFavorite from "@/hooks/useFavorite";
 import useSave from "@/hooks/useSave";
 
-export default function VideoCard({
-  id,
-}: {
-  id: string;
-}) {
+export default function VideoCard({ id }) {
   const [opened, { open, close }] = useDisclosure(false);
   const [videoMetadata, setVideoMetadata] = useState(null);
   const { isFavorited, toggle: favoriteToggle } = useFavorite(id);

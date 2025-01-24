@@ -2,9 +2,9 @@ import { supabase } from "@/services/supabase/client";
 import { useUserStore } from "@/store/userStore";
 import { useEffect, useState } from "react";
 
-export default function useSave(id: string) {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isSaved, setIsSaved] = useState<boolean>(false);
+export default function useSave(id) {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaved, setIsSaved] = useState(false);
   const { user } = useUserStore();
 
   async function toggle() {

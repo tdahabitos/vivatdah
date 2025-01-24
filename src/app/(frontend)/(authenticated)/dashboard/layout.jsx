@@ -10,7 +10,7 @@ import AccountButton from "./_components/AccountButton";
 import Sidebar from "./_components/Sidebar";
 import { IconMenu2 } from "@tabler/icons-react";
 
-export default function Dashboard({ children }: { children: React.ReactNode }) {
+export default function Dashboard({ children }) {
   const [opened, { toggle }] = useDisclosure(true);
 
   return (

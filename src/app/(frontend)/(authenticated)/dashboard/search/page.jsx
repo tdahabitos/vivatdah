@@ -88,8 +88,8 @@ export default function SearchPage() {
           ))}
 
           {files?.map((file) => {
-            let icon: React.ReactNode;
-            let color: string;
+            let icon;
+            let color;
 
             switch (file?.mimeType) {
               case "image/jpeg":

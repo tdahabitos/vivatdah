@@ -3,7 +3,7 @@
 import { cn } from "@/utils";
 import { Image, useMantineColorScheme } from "@mantine/core";
 
-export default function Logo({ className }: { className?: string }) {
+export default function Logo({ className }) {
   const { colorScheme } = useMantineColorScheme();
 
   return (

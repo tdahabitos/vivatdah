@@ -2,9 +2,9 @@ import { supabase } from "@/services/supabase/client";
 import { useUserStore } from "@/store/userStore";
 import { useEffect, useState } from "react";
 
-export default function useFavorite(id: string) {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isFavorited, setIsFavorited] = useState<boolean>(false);
+export default function useFavorite(id) {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isFavorited, setIsFavorited] = useState(false);
   const { user } = useUserStore();
 
   async function toggle() {

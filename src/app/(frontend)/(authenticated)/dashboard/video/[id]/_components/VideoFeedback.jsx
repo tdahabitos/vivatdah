@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 
 export default function VideoFeedback() {
   const [likesCount, setLikesCount] = useState(0);
-  const [isLiked, setIsLiked] = useState<boolean>();
-  const [isDisliked, setIsDisliked] = useState<boolean>();
+  const [isLiked, setIsLiked] = useState();
+  const [isDisliked, setIsDisliked] = useState();
 
   const { id } = useParams();
   const { user } = useUserStore();

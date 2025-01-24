@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 
 export default function CommentFeedback({ id }) {
   const [likesCount, setLikesCount] = useState(0);
-  const [isLiked, setIsLiked] = useState<boolean>();
-  const [isDisliked, setIsDisliked] = useState<boolean>();
+  const [isLiked, setIsLiked] = useState();
+  const [isDisliked, setIsDisliked] = useState();
   const { user } = useUserStore();
 
   async function getLikesCount() {
@@ -107,14 +107,11 @@ export default function CommentFeedback({ id }) {
 
     setIsDisliked(true);
 
-    await supabase
-      .schema("metadata")
-      .from("events")
-      .insert({
-        event: "comment_dislike",
-        reference_id: id,
-        user_id: user?.id,
-      });
+    await supabase.schema("metadata").from("events").insert({
+      event: "comment_dislike",
+      reference_id: id,
+      user_id: user?.id,
+    });
   }
 
   useEffect(() => {

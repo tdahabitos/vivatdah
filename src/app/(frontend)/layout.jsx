@@ -48,11 +48,7 @@ const theme = createTheme({
   primaryColor: "viva-orange",
 });
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR" {...mantineHtmlProps}>
       <head>

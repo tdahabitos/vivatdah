@@ -46,7 +46,7 @@ export default function Settings() {
     validate: zodResolver(validationSchema),
   });
 
-  async function handleAvatarUpload(file: File) {
+  async function handleAvatarUpload(file) {
     setIsAvatarUploading(true);
 
     const userId = user.id;

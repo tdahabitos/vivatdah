@@ -3,10 +3,7 @@
 import { useEffect } from "react";
 import { useUserStore } from "@/store/userStore";
 
-export default function AuthProvider({
-  user,
-  children,
-}: { user: any; children: React.ReactNode }) {
+export default function AuthProvider({ user, children }) {
   const { setUser } = useUserStore();
 
   useEffect(() => {
