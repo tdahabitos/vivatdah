@@ -46,7 +46,7 @@ export default function ForgotPassword() {
     <div className="w-full min-h-screen flex justify-center items-center">
       <Paper w="100%" maw="450px" p="xl" withBorder>
         <div className="flex justify-center mb-4">
-          <Logo />
+          <Logo className="h-20 w-auto" />
         </div>
 
         {sent ? (

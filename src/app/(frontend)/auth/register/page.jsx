@@ -61,7 +61,7 @@ export default function Register() {
       <div className="w-full min-h-screen flex justify-center items-center p-8">
         <Paper w="100%" maw="450px" p="xl" withBorder>
           <div className="flex justify-center mb-4">
-            <Logo />
+            <Logo className="h-20 w-auto" />
           </div>
 
           <Divider labelPosition="center" my="lg" />
@@ -82,7 +82,7 @@ export default function Register() {
     <div className="w-full min-h-screen flex justify-center items-center p-8">
       <Paper w="100%" maw="450px" p="xl" withBorder>
         <div className="flex justify-center mb-4">
-          <Logo />
+          <Logo className="h-20 w-auto" />
         </div>
 
         <Divider label="Registre-se" labelPosition="center" my="lg" />
