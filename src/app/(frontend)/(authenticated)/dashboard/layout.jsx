@@ -1,7 +1,13 @@
 "use client";
 
 import Logo from "@/components/Logo";
-import { ActionIcon, AppShell, Burger, ScrollArea } from "@mantine/core";
+import {
+  ActionIcon,
+  AppShell,
+  Burger,
+  Button,
+  ScrollArea,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import GeneralSearch from "./_components/GeneralSearch";
 import CtaButton from "./_components/CtaButton";
@@ -9,6 +15,7 @@ import ThemeSwitcher from "./_components/ThemeSwitcher";
 import AccountButton from "./_components/AccountButton";
 import Sidebar from "./_components/Sidebar";
 import { IconMenu2 } from "@tabler/icons-react";
+import Link from "next/link";
 
 export default function Dashboard({ children }) {
   const [opened, { toggle }] = useDisclosure(true);
@@ -31,7 +38,16 @@ export default function Dashboard({ children }) {
               <IconMenu2 size={18} />
             </ActionIcon>
 
-            <Logo className="h-20 w-auto" />
+            <Button
+              component={Link}
+              href="/"
+              variant="transparent"
+              h="auto"
+              radius={0}
+              p={0}
+            >
+              <Logo className="h-20 w-auto" />
+            </Button>
           </div>
           <div className="flex w-full items-center gap-4 ml-4">
             <GeneralSearch />

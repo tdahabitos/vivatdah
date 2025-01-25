@@ -6,7 +6,7 @@ export default function Hero() {
       <div className="p-8 md:p-12 lg:px-16 lg:py-24">
         <div className="mx-auto max-w-xl text-center ltr:sm:text-left rtl:sm:text-right">
           <h2 className="text-2xl font-bold md:text-3xl">
-            Aprenda no Seu Ritmo com EduTDAH
+            Aprenda no Seu Ritmo com VivaTDAH
           </h2>
 
           <p className="hidden  md:mt-4 md:block">

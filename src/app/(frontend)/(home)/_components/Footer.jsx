@@ -71,7 +71,7 @@ export default function Footer() {
             </div>
 
             <p className="mt-4 max-w-xs ">
-              A EduTDAH é sua parceira no aprendizado personalizado e eficaz
+              A VivaTDAH é sua parceira no aprendizado personalizado e eficaz
               para pessoas com TDAH. Estamos comprometidos com o seu sucesso.
             </p>
 
@@ -131,7 +131,7 @@ export default function Footer() {
         </div>
 
         <p className="text-xs ">
-          &copy; 2025. EduTDAH. Todos os direitos reservados.
+          &copy; 2025. VivaTDAH. Todos os direitos reservados.
         </p>
       </div>
     </footer>

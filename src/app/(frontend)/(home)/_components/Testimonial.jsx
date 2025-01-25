@@ -29,12 +29,12 @@ export default function Testimonial() {
 
                 <div className="mt-4">
                   <p className="text-2xl font-bold sm:text-2xl">
-                    Minha vida mudou com a EduTDAH!
+                    Minha vida mudou com a VivaTDAH!
                   </p>
 
                   <p className="mt-4 leading-relaxed ">
                     Antes, eu achava que nunca conseguiria me concentrar ou
-                    aprender algo novo. Com os recursos e apoio da EduTDAH,
+                    aprender algo novo. Com os recursos e apoio da VivaTDAH,
                     finalmente consigo avançar nos estudos e atingir minhas
                     metas!
                   </p>

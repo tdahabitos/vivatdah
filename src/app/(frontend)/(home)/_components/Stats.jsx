@@ -12,7 +12,7 @@ export default function Stats() {
         <p className="mt-4  sm:text-xl">
           Nossa missão é empoderar pessoas com TDAH a aprenderem de forma
           efetiva e no seu próprio ritmo. Junte-se a milhares que transformaram
-          suas jornadas educacionais com a EduTDAH.
+          suas jornadas educacionais com a VivaTDAH.
         </p>
       </div>
 

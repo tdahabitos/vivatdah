@@ -6,13 +6,15 @@ import { Notifications } from "@mantine/notifications";
 
 import {
   ColorSchemeScript,
+  Divider,
   MantineProvider,
   createTheme,
   mantineHtmlProps,
 } from "@mantine/core";
+import Logo from "@/components/Logo";
 
 export const metadata = {
-  title: "EduTDAH",
+  title: "VivaTDAH",
   description: "A melhor plataforma TDAH do Brasil",
 };
 
@@ -56,7 +58,17 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <MantineProvider defaultColorScheme="dark" theme={theme}>
-          {children}
+          {process.env.MAINTENANCE_MODE === "true" ? (
+            <div className="h-screen w-full flex justify-center items-center">
+              <div className="space-y-4">
+                <Logo className="h-28 w-auto mx-auto" />
+                <Divider />
+                <h1 className="text-xl font-bold">Voltamos em breve</h1>
+              </div>
+            </div>
+          ) : (
+            children
+          )}
           <Notifications />
         </MantineProvider>
       </body>
