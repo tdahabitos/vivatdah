@@ -1,3 +1,4 @@
+import { supabase } from "@/services/supabase/client";
 import { Button } from "@mantine/core";
 
 function GoogleIcon() {
@@ -30,7 +31,21 @@ function GoogleIcon() {
 
 export default function GoogleAuthButton() {
   return (
-    <Button leftSection={<GoogleIcon />} variant="default" radius="xl">
+    <Button
+      leftSection={<GoogleIcon />}
+      variant="default"
+      radius="xl"
+      onClick={async () => {
+        console.log("clicked");
+
+        await supabase.auth.signInWithOAuth({
+          provider: "google",
+          options: {
+            redirectTo: `${window.location.origin}/auth/callback`,
+          },
+        });
+      }}
+    >
       Entrar com Google
     </Button>
   );

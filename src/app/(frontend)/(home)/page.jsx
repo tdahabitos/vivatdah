@@ -1,8 +1,6 @@
 "use client";
 
 import { Divider } from "@mantine/core";
-import Header from "./_components/Header";
-import Footer from "./_components/Footer";
 import Plans from "./_components/Plans";
 import Stats from "./_components/Stats";
 import Hero from "./_components/Hero";
@@ -11,8 +9,6 @@ import Testimonial from "./_components/Testimonial";
 export default function HomePage() {
   return (
     <>
-      <Header />
-
       <Hero />
 
       <div className="w-full max-w-[80%] mx-auto mt-8">
@@ -37,8 +33,6 @@ export default function HomePage() {
       <Plans />
 
       <Divider />
-
-      <Footer />
     </>
   );
 }
