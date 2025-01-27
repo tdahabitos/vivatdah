@@ -27,6 +27,21 @@ const {
 } = process.env;
 
 export default buildConfig({
+  globals: [
+    {
+      slug: "administration",
+      access: {
+        read: () => true,
+      },
+      fields: [
+        {
+          name: "maintenance_mode",
+          label: "Modo de manutenção",
+          type: "checkbox",
+        },
+      ],
+    },
+  ],
   admin: {
     user: Users.slug,
     importMap: {

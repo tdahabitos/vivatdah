@@ -34,8 +34,12 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    administration: Administration;
+  };
+  globalsSelect: {
+    administration: AdministrationSelect<false> | AdministrationSelect<true>;
+  };
   locale: null;
   user: User & {
     collection: 'users';
@@ -327,6 +331,26 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "administration".
+ */
+export interface Administration {
+  id: string;
+  maintenance_mode?: boolean | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "administration_select".
+ */
+export interface AdministrationSelect<T extends boolean = true> {
+  maintenance_mode?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
