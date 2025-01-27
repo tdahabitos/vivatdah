@@ -1,7 +1,6 @@
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 import "../../globals.css";
-import axios from "axios";
 
 import { Notifications } from "@mantine/notifications";
 
@@ -12,7 +11,6 @@ import {
   createTheme,
   mantineHtmlProps,
 } from "@mantine/core";
-import Logo from "@/components/Logo";
 
 export const metadata = {
   title: "VivaTDAH",
@@ -51,10 +49,8 @@ const theme = createTheme({
   primaryColor: "viva-orange",
 });
 
-export default async function RootLayout({ children }) {
-  const { maintenance_mode } = await axios
-    .get(`${process.env.NEXT_PUBLIC_APP_URL}/api/globals/administration`)
-    .then((res) => res.data);
+export default function RootLayout({ children }) {
+  const maintenanceMode = false;
 
   return (
     <html lang="pt-BR" {...mantineHtmlProps}>
@@ -63,7 +59,7 @@ export default async function RootLayout({ children }) {
       </head>
       <body>
         <MantineProvider defaultColorScheme="dark" theme={theme}>
-          {maintenance_mode ? (
+          {maintenanceMode ? (
             <div className="h-screen w-full flex justify-center items-center bg-white">
               <div className="space-y-4">
                 <img
