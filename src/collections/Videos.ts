@@ -2,6 +2,10 @@ import type { CollectionConfig } from "payload";
 
 export const Videos: CollectionConfig = {
   slug: "videos",
+  labels: {
+    singular: "Vídeo",
+    plural: "Vídeos",
+  },
   access: {
     read: () => true,
   },

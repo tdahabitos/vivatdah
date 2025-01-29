@@ -6,12 +6,15 @@ import { buildConfig } from "payload";
 import { fileURLToPath } from "url";
 import sharp from "sharp";
 import { s3Storage } from "@payloadcms/storage-s3";
+import { pt } from "payload/i18n/pt";
 
 import { Categories } from "./collections/Categories";
 import { Posts } from "./collections/Posts";
 import { Videos } from "./collections/Videos";
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
+import Logo from "./components/admin/Logo";
+import Icon from "./components/admin/Icon";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -47,8 +50,17 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      graphics: {
+        Logo,
+        Icon,
+      },
+    },
   },
   collections: [Categories, Posts, Videos, Users, Media],
+  i18n: {
+    supportedLanguages: { pt },
+  },
   editor: lexicalEditor(),
   secret: PAYLOAD_SECRET || "",
   typescript: {
