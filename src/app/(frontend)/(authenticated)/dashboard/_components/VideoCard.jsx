@@ -42,7 +42,10 @@ export default function VideoCard({ id }) {
 
   const { data: video, error, isLoading } = useSWR(`/videos/${id}`, apiFetcher);
 
-  const thumbnailURL = getVideoThumbnail({ url: video?.url });
+  const thumbnailURL = getVideoThumbnail({
+    platform: video?.platform,
+    url: video?.url,
+  });
 
   async function getMetadata() {
     const { data, error } = await supabase

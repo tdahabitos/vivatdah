@@ -2,19 +2,20 @@ import { postgresAdapter } from "@payloadcms/db-postgres";
 import { payloadCloudPlugin } from "@payloadcms/payload-cloud";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
-import { buildConfig } from "payload";
+import { buildConfig, CustomComponent } from "payload";
 import { fileURLToPath } from "url";
 import sharp from "sharp";
 import { s3Storage } from "@payloadcms/storage-s3";
 import { pt } from "payload/i18n/pt";
+
+import Logo from "./components/admin/Logo";
+import Icon from "./components/admin/Icon";
 
 import { Categories } from "./collections/Categories";
 import { Posts } from "./collections/Posts";
 import { Videos } from "./collections/Videos";
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
-import Logo from "./components/admin/Logo";
-import Icon from "./components/admin/Icon";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -52,8 +53,8 @@ export default buildConfig({
     },
     components: {
       graphics: {
-        Logo,
-        Icon,
+        Logo: Logo as unknown as CustomComponent,
+        Icon: Icon as unknown as CustomComponent,
       },
     },
   },

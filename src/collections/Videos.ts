@@ -39,6 +39,10 @@ export const Videos: CollectionConfig = {
       type: "select",
       options: [
         {
+          label: "Panda",
+          value: "panda",
+        },
+        {
           label: "Youtube",
           value: "youtube",
         },

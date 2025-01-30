@@ -94,7 +94,7 @@ export interface Post {
 export interface Video {
   id: string;
   status?: ('published' | 'live' | 'soon') | null;
-  platform?: ('youtube' | 'vimeo') | null;
+  platform?: ('panda' | 'youtube' | 'vimeo') | null;
   creator: string | User;
   url?: string | null;
   title?: string | null;

@@ -104,18 +104,32 @@ export default function Video() {
       </div>
     );
 
+  console.log(video);
+
   return (
     <div className="space-y-4">
       <div className="rounded-lg overflow-hidden">
-        <ReactPlayer
-          controls
-          width="100%"
-          height="450px"
-          url={`${video.url}`}
-          onReady={(player) => {
-            player.setState({ playing: true });
-          }}
-        />
+        {video?.platform === "youtube" && (
+          <ReactPlayer
+            controls
+            width="100%"
+            height="450px"
+            url={`${video.url}`}
+            onReady={(player) => {
+              player.setState({ playing: true });
+            }}
+          />
+        )}
+        {video?.platform === "panda" && (
+          <iframe
+            title="panda"
+            src="https://player-vz-0ab54fe1-7b5.tv.pandavideo.com.br/embed/?v=6e397686-ff86-4e01-bbc3-6611421c7e35"
+            allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture"
+            allowfullscreen="true"
+            fetchpriority="high"
+            className="border-none w-full h-[450px] rounded-lg"
+          />
+        )}
       </div>
 
       <div className="flex gap-6">
