@@ -1,3 +1,4 @@
+import axios from "axios";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -15,11 +16,12 @@ export function getVideoThumbnail({ platform, url }) {
 
   switch (platform) {
     case "panda":
-      /* TODO: add panda thumbnail */
+      id = url?.split("v=")[1];
+      thumbnail = `https://b-vz-0ab54fe1-7b5.tv.pandavideo.com.br/${id}/thumbnail.jpg`;
       break;
 
     case "youtube":
-      id = url?.split("https://www.youtube.com/watch?v=")[1];
+      id = url?.split("v=")[1];
       thumbnail = `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
       break;
 

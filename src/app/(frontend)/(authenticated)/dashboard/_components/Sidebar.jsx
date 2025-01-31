@@ -15,8 +15,8 @@ import { usePathname } from "next/navigation";
 
 const mainMenu = [
   {
-    key: "news",
-    label: "Novidades",
+    key: "home",
+    label: "Home",
     url: "/dashboard",
     icon: IconHome,
   },

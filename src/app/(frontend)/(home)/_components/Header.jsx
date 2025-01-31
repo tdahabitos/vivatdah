@@ -12,19 +12,19 @@ export default function Header() {
     },
     {
       label: "Cursos",
-      href: "/cursos",
+      href: "#",
     },
     {
       label: "O que esperar?",
-      href: "/o-que-esperar",
+      href: "#",
     },
     {
       label: "Assinatura",
-      href: "/assinatura",
+      href: "#",
     },
     {
       label: "Blog",
-      href: "/blog",
+      href: "#",
     },
   ];
 

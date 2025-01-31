@@ -36,6 +36,9 @@ import VideoFeedback from "./_components/VideoFeedback";
 
 export default function Video() {
   const { id } = useParams();
+
+  console.log(id);
+
   const [videoMetadata, setVideoMetadata] = useState(null);
   const { isFavorited, toggle: favoriteToggle } = useFavorite(id);
   const { isSaved, toggle: saveToggle } = useSave(id);
@@ -104,33 +107,32 @@ export default function Video() {
       </div>
     );
 
-  console.log(video);
-
   return (
     <div className="space-y-4">
-      <div className="rounded-lg overflow-hidden">
-        {video?.platform === "youtube" && (
-          <ReactPlayer
-            controls
-            width="100%"
-            height="450px"
-            url={`${video.url}`}
-            onReady={(player) => {
-              player.setState({ playing: true });
-            }}
-          />
-        )}
-        {video?.platform === "panda" && (
-          <iframe
-            title="panda"
-            src="https://player-vz-0ab54fe1-7b5.tv.pandavideo.com.br/embed/?v=6e397686-ff86-4e01-bbc3-6611421c7e35"
-            allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture"
-            allowfullscreen="true"
-            fetchpriority="high"
-            className="border-none w-full h-[450px] rounded-lg"
-          />
-        )}
-      </div>
+      {video?.platform === "panda" && (
+        <iframe
+          title="Panda video player"
+          src={video?.url}
+          allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture"
+          allowfullscreen="true"
+          fetchpriority="high"
+          className="border-none w-full h-[450px] rounded-lg"
+        />
+      )}
+
+      {video?.platform === "youtube" && (
+        <iframe
+          width="auto"
+          height="450"
+          src={`https://www.youtube.com/embed/${video?.url?.split("v=")[1]}`}
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+          className="border-none w-full h-[450px] rounded-lg"
+        />
+      )}
 
       <div className="flex gap-6">
         <div className="w-full lg:w-3/5 space-y-8">
