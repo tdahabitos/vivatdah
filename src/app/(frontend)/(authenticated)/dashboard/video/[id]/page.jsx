@@ -112,7 +112,7 @@ export default function Video() {
       {video?.platform === "panda" && (
         <iframe
           title="Panda video player"
-          src={video?.url}
+          src={`${video?.url}&muted=false&autoplay=true`}
           allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture"
           allowfullscreen="true"
           fetchpriority="high"
@@ -124,7 +124,7 @@ export default function Video() {
         <iframe
           width="auto"
           height="450"
-          src={`https://www.youtube.com/embed/${video?.url?.split("v=")[1]}`}
+          src={`https://www.youtube.com/embed/${video?.url?.split("v=")[1]}?&autoplay=1`}
           title="YouTube video player"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
