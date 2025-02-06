@@ -1,8 +1,12 @@
 import Logo from "@/components/Logo";
-import { IconTrophy, IconUserSquareRounded } from "@tabler/icons-react";
+import {
+  IconStar,
+  IconTrophy,
+  IconUserSquareRounded,
+} from "@tabler/icons-react";
 import Link from "next/link";
 import ThemeSwitcher from "../../(authenticated)/dashboard/_components/ThemeSwitcher";
-import { Button } from "@mantine/core";
+import { Box, Button } from "@mantine/core";
 
 export default function Header() {
   const menu = [
@@ -11,25 +15,26 @@ export default function Header() {
       href: "/sobre",
     },
     {
-      label: "Cursos",
-      href: "#",
+      label: "Trilhas",
+      href: "/trilhas",
     },
     {
       label: "O que esperar?",
-      href: "#",
+      href: "/o-que-esperar",
     },
     {
       label: "Assinatura",
-      href: "#",
+      href: "/assinatura",
     },
     {
       label: "Blog",
-      href: "#",
+      href: "https://tdah.blog",
+      target: "_blank",
     },
   ];
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur bg-white/50 border-b">
+    <Box className="sticky top-0 z-50 backdrop-blur border-b">
       <div className="mx-auto flex h-24 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
         <Button component={Link} href="/" variant="transparent" h="auto">
           <Logo className="h-20 w-auto" />
@@ -43,6 +48,7 @@ export default function Header() {
                   <Link
                     className="transition hover:text-gray-500/75"
                     href={item.href}
+                    target={item.target}
                   >
                     {item.label}
                   </Link>
@@ -54,7 +60,13 @@ export default function Header() {
           <div className="flex items-center gap-4">
             <div className="items-center flex gap-4">
               <ThemeSwitcher />
-              <Button leftSection={<IconTrophy size={18} />}>Assinar</Button>
+              <Button
+                component={Link}
+                href="/assinatura"
+                leftSection={<IconStar size={18} />}
+              >
+                Assinar
+              </Button>
               <Button
                 variant="light"
                 leftSection={<IconUserSquareRounded size={18} />}
@@ -67,6 +79,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-    </header>
+    </Box>
   );
 }

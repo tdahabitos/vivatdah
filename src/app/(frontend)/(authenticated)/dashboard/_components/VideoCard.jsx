@@ -172,7 +172,7 @@ export default function VideoCard({ id }) {
               <div className="p-1 border-white/50 border-solid border rounded-full">
                 <Avatar
                   size="sm"
-                  src={`${process.env.NEXT_PUBLIC_APP_URL}/${video?.creator.avatar.url}`}
+                  src={`${process.env.NEXT_PUBLIC_APP_URL}/${video?.creator?.avatar?.url}`}
                 />
               </div>
               <Text c="dimmed">{video?.creator.name}</Text>

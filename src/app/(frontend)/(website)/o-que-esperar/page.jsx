@@ -1,37 +1,37 @@
-export default function Page() {
+export default function OQueEsperarPage() {
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">Termos de serviço</h1>
-      <div>
+      <h1 className="text-2xl font-bold">O que esperar</h1>
+      <p>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo
         aspernatur esse sit! Et, cumque quisquam? Consequatur temporibus
         molestiae magni id illo sapiente laboriosam quod hic asperiores! Eveniet
         vitae dolor quod.
-      </div>
-      <div>
+      </p>
+      <p>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo
         aspernatur esse sit! Et, cumque quisquam? Consequatur temporibus
         molestiae magni id illo sapiente laboriosam quod hic asperiores! Eveniet
         vitae dolor quod.
-      </div>
-      <div>
+      </p>
+      <p>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo
         aspernatur esse sit! Et, cumque quisquam? Consequatur temporibus
         molestiae magni id illo sapiente laboriosam quod hic asperiores! Eveniet
         vitae dolor quod.
-      </div>
-      <div>
+      </p>
+      <p>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo
         aspernatur esse sit! Et, cumque quisquam? Consequatur temporibus
         molestiae magni id illo sapiente laboriosam quod hic asperiores! Eveniet
         vitae dolor quod.
-      </div>
-      <div>
+      </p>
+      <p>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo
         aspernatur esse sit! Et, cumque quisquam? Consequatur temporibus
         molestiae magni id illo sapiente laboriosam quod hic asperiores! Eveniet
         vitae dolor quod.
-      </div>
+      </p>
     </div>
   );
 }
