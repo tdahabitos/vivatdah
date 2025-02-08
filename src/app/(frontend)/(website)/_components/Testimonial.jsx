@@ -25,7 +25,7 @@ export default function Testimonial() {
               className="flex h-full flex-col justify-between p-6 shadow-sm sm:p-8"
             >
               <div>
-                <Rating defaultValue={2} />
+                <Rating defaultValue={2} readOnly />
 
                 <div className="mt-4">
                   <p className="text-2xl font-bold sm:text-2xl">

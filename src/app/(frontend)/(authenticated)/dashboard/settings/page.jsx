@@ -21,6 +21,7 @@ import { zodResolver } from "mantine-form-zod-resolver";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 import { notifications } from "@mantine/notifications";
+import PageLoader from "../_components/PageLoader";
 
 export default function Settings() {
   const [isLoading, setIsLoading] = useState(true);
@@ -121,12 +122,7 @@ export default function Settings() {
   }, [user]);
 
   if (isLoading) {
-    return (
-      <div className="flex flex-col gap-8">
-        <Skeleton h={150} />
-        <Skeleton h={250} />
-      </div>
-    );
+    return <PageLoader variant="simple" />;
   }
 
   return (

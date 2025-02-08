@@ -11,7 +11,7 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import GeneralSearch from "./_components/GeneralSearch";
 import CtaButton from "./_components/CtaButton";
-import ThemeSwitcher from "./_components/ThemeSwitcher";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 import AccountButton from "./_components/AccountButton";
 import Sidebar from "./_components/Sidebar";
 import { IconMenu2 } from "@tabler/icons-react";

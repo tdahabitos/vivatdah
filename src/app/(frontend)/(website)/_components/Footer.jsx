@@ -9,40 +9,15 @@ import Link from "next/link";
 export default function Footer() {
   const menu = [
     {
-      title: "Serviços",
-      items: [
-        {
-          label: "Coaching 1:1",
-          href: "/",
-        },
-        {
-          label: "Revisão de Aprendizado",
-          href: "/",
-        },
-        {
-          label: "Consultoria Educacional",
-          href: "/",
-        },
-        {
-          label: "Otimização de Rotinas",
-          href: "/",
-        },
-      ],
-    },
-    {
       title: "Links úteis",
       items: [
         {
-          label: "FAQ",
-          href: "/",
+          label: "Politica de Privacidade",
+          href: "/politica-de-privacidade",
         },
         {
-          label: "Central de Ajuda",
-          href: "/",
-        },
-        {
-          label: "Políticas de Retorno",
-          href: "/",
+          label: "Termos de Serviço",
+          href: "/termos-de-servico",
         },
       ],
     },
@@ -51,11 +26,11 @@ export default function Footer() {
       items: [
         {
           label: "Sobre nós",
-          href: "/",
+          href: "/sobre",
         },
         {
           label: "Contato",
-          href: "/",
+          href: "/contato",
         },
       ],
     },

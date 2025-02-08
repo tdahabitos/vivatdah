@@ -11,18 +11,11 @@ import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Empty from "../_components/Empty";
-import {
-  Badge,
-  Button,
-  Card,
-  Divider,
-  Group,
-  Skeleton,
-  Text,
-} from "@mantine/core";
+import { Badge, Button, Card, Divider, Group, Text } from "@mantine/core";
 import GeneralSearch from "../_components/GeneralSearch";
 import Link from "next/link";
 import VideoCard from "../_components/VideoCard";
+import PageLoader from "../_components/PageLoader";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
@@ -52,18 +45,7 @@ export default function SearchPage() {
   }, [value]);
 
   if (isLoading) {
-    return (
-      <div className="flex flex-col gap-6">
-        <Skeleton w={350} h={35} />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-            <div key={item} className="flex flex-col gap-4">
-              <Skeleton height={176} radius="md" />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
+    return <PageLoader />;
   }
 
   return (

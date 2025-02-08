@@ -3,7 +3,7 @@ import { supabase } from "@/services/supabase/client";
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 import VideoCard from "../../_components/VideoCard";
-import { Skeleton } from "@mantine/core";
+import PageLoader from "../../_components/PageLoader";
 
 export default function NewVideos() {
   const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +35,7 @@ export default function NewVideos() {
   }, [videos, metadata]);
 
   if (isLoading) {
-    return <Skeleton w={350} h={35} />;
+    return <PageLoader />;
   }
 
   return (

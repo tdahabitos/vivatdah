@@ -1,12 +1,12 @@
 "use client";
 
 import { apiFetcher } from "@/services/api";
-import { Skeleton } from "@mantine/core";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import VideoCard from "../../_components/VideoCard";
 import Empty from "../../_components/Empty";
 import { IconArrowLeftFromArc } from "@tabler/icons-react";
+import PageLoader from "../../_components/PageLoader";
 
 export default function Page() {
   const { id } = useParams();
@@ -23,7 +23,7 @@ export default function Page() {
   );
 
   if (isLoading) {
-    return <Skeleton w={350} h={35} />;
+    return <PageLoader />;
   }
 
   return (

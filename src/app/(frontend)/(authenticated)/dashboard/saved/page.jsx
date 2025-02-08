@@ -1,12 +1,12 @@
 "use client";
 
-import { Skeleton } from "@mantine/core";
-import VideoCard from "../../_components/VideoCard";
-import Empty from "../../_components/Empty";
+import VideoCard from "../_components/VideoCard";
+import Empty from "../_components/Empty";
 import { useEffect, useState } from "react";
 import { supabase } from "@/services/supabase/client";
 import { useUserStore } from "@/store/userStore";
 import { IconBookmark } from "@tabler/icons-react";
+import PageLoader from "../_components/PageLoader";
 
 export default function Page() {
   const [videos, setVideos] = useState([]);
@@ -35,7 +35,7 @@ export default function Page() {
   }, [user]);
 
   if (isLoading) {
-    return <Skeleton w={350} h={35} />;
+    return <PageLoader />;
   }
 
   return (
