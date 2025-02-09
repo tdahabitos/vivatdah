@@ -36,7 +36,7 @@ export default function Page() {
       {videos?.length === 0 ? (
         <Empty />
       ) : (
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {videos?.map((video) => (
             <VideoCard key={video.id} id={video.id} />
           ))}

@@ -42,12 +42,12 @@ export default function NewVideos() {
     <div className="space-y-4">
       <h2 className="text-3xl font-semibold">Novidades</h2>
 
-      <div className="flex gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {metadata?.map((item, index) => {
           if (!videos.find((v) => v?.id === item?.reference_id)) return null;
 
           return (
-            <div key={item?.id} className={index === 0 ? "w-2/5" : "flex-1"}>
+            <div key={item?.id}>
               <VideoCard id={item?.reference_id} />
             </div>
           );

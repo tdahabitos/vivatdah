@@ -12,6 +12,7 @@ import Link from "next/link";
 import { apiFetcher } from "@/services/api";
 import useSWR from "swr";
 import { usePathname } from "next/navigation";
+import GeneralSearch from "./GeneralSearch";
 
 const mainMenu = [
   {
@@ -53,6 +54,10 @@ export default function Sidebar() {
 
   return (
     <div className="flex flex-col gap-6 text-sm">
+      <div className="md:hidden">
+        <GeneralSearch />
+      </div>
+
       <span className="text-xs font-semibold uppercase opacity-50">Menu</span>
       <div className="flex flex-col gap-8">
         {mainMenu.map((item) => (

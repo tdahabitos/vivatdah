@@ -19,7 +19,7 @@ export default function GeneralSearch() {
   }
 
   return (
-    <form className="flex flex-1" onSubmit={form.onSubmit(onSubmit)}>
+    <form className="flex" onSubmit={form.onSubmit(onSubmit)}>
       <TextInput
         className="flex-1"
         placeholder="Pesquisar"

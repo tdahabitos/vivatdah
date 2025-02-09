@@ -18,7 +18,7 @@ import { IconMenu2 } from "@tabler/icons-react";
 import Link from "next/link";
 
 export default function Dashboard({ children }) {
-  const [opened, { toggle }] = useDisclosure(true);
+  const [opened, { toggle }] = useDisclosure();
 
   return (
     <AppShell
@@ -27,7 +27,7 @@ export default function Dashboard({ children }) {
       navbar={{
         width: 240,
         breakpoint: "sm",
-        collapsed: { mobile: !opened, desktop: !opened },
+        collapsed: { mobile: !opened, desktop: opened },
       }}
       padding="md"
     >
@@ -49,8 +49,10 @@ export default function Dashboard({ children }) {
               <Logo className="h-20 w-auto" />
             </Button>
           </div>
-          <div className="flex w-full items-center gap-4 ml-4">
-            <GeneralSearch />
+          <div className="flex w-full justify-end items-center gap-4 ml-4">
+            <div className="flex-1 hidden md:block">
+              <GeneralSearch />
+            </div>
 
             <div className="hidden lg:block">
               <CtaButton />

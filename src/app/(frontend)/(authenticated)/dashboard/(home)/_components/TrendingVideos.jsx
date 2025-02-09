@@ -49,7 +49,7 @@ export default function Page() {
       </div>
 
       {videos?.length > 0 ? (
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-4 gap-4">
           {metadata?.map((item) => {
             if (!videos.find((v) => v.id === item.reference_id)) return null;
 
