@@ -74,6 +74,10 @@ export default buildConfig({
     },
   }),
   sharp,
+  upload: {
+    defParamCharset: "utf-8",
+    safeFileNames: true,
+  },
   plugins: [
     payloadCloudPlugin(),
     s3Storage({
