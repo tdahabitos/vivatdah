@@ -114,7 +114,7 @@ export default function VideoCard({ id }) {
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex justify-between gap-2">
-            <Link href={`/video/${id}`}>
+            <Link href={`/dashboard/video/${id}`}>
               <h3 className="font-bold">{video?.title}</h3>
             </Link>
 

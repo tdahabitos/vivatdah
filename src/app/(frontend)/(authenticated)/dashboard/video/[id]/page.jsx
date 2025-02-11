@@ -170,11 +170,9 @@ export default function Video() {
                 </div>
                 <Text c="dimmed">{video?.creator?.name}</Text>
               </Link>
-              <Link href="/video/1">
-                <Text size="sm" c="dimmed">
-                  {`${videoMetadata?.views || 0} visualizações • ${dayjs(video.createdAt).fromNow()}`}
-                </Text>
-              </Link>
+              <Text size="sm" c="dimmed">
+                {`${videoMetadata?.views || 0} visualizações • ${dayjs(video.createdAt).fromNow()}`}
+              </Text>
             </div>
 
             <VideoFeedback />
