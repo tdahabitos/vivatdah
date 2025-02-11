@@ -180,8 +180,6 @@ export default function Video() {
             <VideoFeedback />
           </div>
 
-          {console.log(video)}
-
           {video?.files?.length > 0 && (
             <Card withBorder>
               <div className="flex items-center gap-2 mb-4">
