@@ -180,6 +180,8 @@ export default function Video() {
             <VideoFeedback />
           </div>
 
+          {console.log(video)}
+
           {video?.files?.length > 0 && (
             <Card withBorder>
               <div className="flex items-center gap-2 mb-4">
@@ -230,7 +232,7 @@ export default function Video() {
                       leftSection={icon}
                     >
                       <div className="flex items-center gap-2">
-                        <span className="text-xs">{file?.filename}</span>
+                        <span className="text-xs">{file?.alt}</span>
 
                         <Badge size="xs" color={color}>
                           {file?.mimeType.split("/")[1]}
