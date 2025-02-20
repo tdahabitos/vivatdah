@@ -7,7 +7,7 @@ import {
   IconHeart,
   IconHome,
 } from "@tabler/icons-react";
-import { ActionIcon, Divider, Skeleton } from "@mantine/core";
+import { Divider, NavLink, Skeleton } from "@mantine/core";
 import Link from "next/link";
 import { apiFetcher } from "@/services/api";
 import useSWR from "swr";
@@ -59,21 +59,16 @@ export default function Sidebar() {
       </div>
 
       <span className="text-xs font-semibold uppercase opacity-50">Menu</span>
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-4">
         {mainMenu.map((item) => (
-          <Link
+          <NavLink
             key={item.key}
+            component={Link}
             href={item.url}
-            className="flex items-center gap-2"
-          >
-            <ActionIcon
-              size={32}
-              color={item.url === pathname ? "viva-orange" : "gray"}
-            >
-              <item.icon color="white" size={18} />
-            </ActionIcon>
-            {item.label}
-          </Link>
+            active={pathname === item.url}
+            leftSection={<item.icon size={18} />}
+            label={item.label}
+          />
         ))}
       </div>
       <Divider />
@@ -88,18 +83,17 @@ export default function Sidebar() {
             <Skeleton w="100%" h={35} />
           </>
         ) : (
-          categories?.map((item) => (
-            <Link
-              key={item.id}
-              href={`/dashboard/category/${item.id}`}
-              className="flex items-center gap-2 rounded-lg px-2 py-2 transition-all duration-100 hover:bg-slate-100/10"
-            >
-              {item.title === pathname && (
-                <span className="w-2 h-2 block rounded-full bg-orange-500 text-xs" />
-              )}
-              {item.title}
-            </Link>
-          ))
+          categories
+            ?.sort((a, b) => a.title.localeCompare(b.title))
+            .map((item) => (
+              <NavLink
+                key={item.id}
+                component={Link}
+                href={`/dashboard/category/${item.id}`}
+                active={pathname === `/dashboard/category/${item.id}`}
+                label={item.title}
+              />
+            ))
         )}
       </div>
     </div>

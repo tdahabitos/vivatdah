@@ -8,6 +8,7 @@ export const Videos: CollectionConfig = {
   },
   access: {
     read: () => true,
+    create: () => true,
   },
   admin: {
     useAsTitle: "title",
@@ -15,6 +16,7 @@ export const Videos: CollectionConfig = {
   fields: [
     {
       name: "status",
+      defaultValue: "published",
       type: "select",
       options: [
         {
@@ -36,6 +38,8 @@ export const Videos: CollectionConfig = {
     },
     {
       name: "platform",
+      label: "Plataforma",
+      defaultValue: "panda",
       type: "select",
       options: [
         {
@@ -66,18 +70,22 @@ export const Videos: CollectionConfig = {
     },
     {
       name: "url",
+      label: "URL",
       type: "text",
     },
     {
       name: "title",
+      label: "Título",
       type: "text",
     },
     {
       name: "description",
-      type: "richText",
+      label: "Descrição",
+      type: "textarea",
     },
     {
       name: "categories",
+      label: "Categorias",
       type: "relationship",
       relationTo: "categories",
       required: true,
@@ -85,6 +93,7 @@ export const Videos: CollectionConfig = {
     },
     {
       name: "files",
+      label: "Arquivos anexados",
       type: "relationship",
       relationTo: "media",
       hasMany: true,

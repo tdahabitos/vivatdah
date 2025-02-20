@@ -15,6 +15,7 @@ export const Categories: CollectionConfig = {
   fields: [
     {
       name: "title",
+      label: "Título",
       type: "text",
     },
   ],

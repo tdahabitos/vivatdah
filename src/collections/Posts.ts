@@ -15,6 +15,7 @@ export const Posts: CollectionConfig = {
   fields: [
     {
       name: "title",
+      label: "Título",
       type: "text",
     },
   ],

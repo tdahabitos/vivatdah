@@ -89,7 +89,7 @@ export default function VideoCard({ id }) {
                 className="w-full rounded aspect-video object-cover hover:scale-105 transition-all duration-300 ease-in-out"
                 src={thumbnailURL}
                 alt={video?.title}
-                fallbackSrc="/thumbnail-fallback.webp"
+                fallbackSrc="/fallback-thumbnail.svg"
               />
             </div>
           </Link>
