@@ -5,24 +5,30 @@ import Empty from "../_components/Empty";
 import { useEffect, useState } from "react";
 import { supabase } from "@/services/supabase/client";
 import { IconFlame } from "@tabler/icons-react";
-import useSWR from "swr";
 import { apiFetcher } from "@/services/api";
 import PageLoader from "../_components/PageLoader";
 
 export default function Page() {
   const [isLoading, setIsLoading] = useState(true);
   const [metadata, setMetadata] = useState([]);
-  const { data: videos } = useSWR("/videos", apiFetcher);
+  const [videos, setVideos] = useState([]);
 
   async function getMetadata() {
     const { data, error } = await supabase
       .schema("metadata")
       .from("videos")
       .select("*")
+      .limit(16)
       .order("views", { ascending: false });
 
     if (!error) {
       setMetadata(data);
+
+      data.map(async (item) => {
+        await apiFetcher(`/videos/${item?.reference_id}`).then((res) => {
+          setVideos((prev) => [...prev, res]);
+        });
+      });
     }
   }
 
