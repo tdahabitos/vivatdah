@@ -1,8 +1,14 @@
-import axios from "axios";
+export const apiFetcher = async (url, simplified = true) => {
+  try {
+    const req = await fetch(`/api/${url}`);
+    const data = await req.json();
 
-export const apiFetcher = async (url) => {
-  return await axios
-    .get(`/api/${url}/`)
-    .then((res) => (res.data.docs ? res.data.docs : res.data))
-    .catch((err) => console.log(err));
+    console.log(data, data.docs ? "docs" : "data");
+
+    if (simplified) return data.docs ? data.docs : data;
+
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
 };
