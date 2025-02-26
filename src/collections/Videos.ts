@@ -8,6 +8,7 @@ export const Videos: CollectionConfig = {
   },
   access: {
     read: () => true,
+    create: () => true,
   },
   admin: {
     useAsTitle: "title",
