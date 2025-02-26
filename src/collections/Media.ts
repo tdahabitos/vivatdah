@@ -11,10 +11,18 @@ export const Media: CollectionConfig = {
   },
   fields: [
     {
-      name: "alt",
-      label: "Alt",
+      name: "title",
+      label: "Título",
       type: "text",
       required: true,
+    },
+    {
+      name: "categories",
+      label: "Categorias",
+      type: "relationship",
+      relationTo: "categories",
+      required: true,
+      hasMany: true,
     },
   ],
   upload: true,

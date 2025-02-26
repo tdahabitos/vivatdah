@@ -58,7 +58,7 @@ export default function SearchPage() {
       {files?.length === 0 && videos?.length === 0 ? (
         <div className="space-y-4">
           <Empty />
-          <div className="flex items-center gap-4 px-[15%]">
+          <div className="flex justify-center items-center gap-4 px-[15%]">
             <h3>Fazer uma nova pesquisa:</h3>
             <GeneralSearch />
           </div>

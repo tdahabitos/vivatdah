@@ -153,7 +153,21 @@ export interface Video {
   creator: string | User;
   url?: string | null;
   title?: string | null;
-  description?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   categories: (string | Category)[];
   files?: (string | Media)[] | null;
   updatedAt: string;
@@ -186,7 +200,8 @@ export interface User {
  */
 export interface Media {
   id: string;
-  alt: string;
+  title: string;
+  categories: (string | Category)[];
   prefix?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -327,7 +342,8 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
-  alt?: T;
+  title?: T;
+  categories?: T;
   prefix?: T;
   updatedAt?: T;
   createdAt?: T;

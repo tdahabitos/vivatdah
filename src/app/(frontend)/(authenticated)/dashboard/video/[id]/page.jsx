@@ -8,6 +8,7 @@ import {
   Card,
   Divider,
   Skeleton,
+  Spoiler,
   Text,
 } from "@mantine/core";
 import {
@@ -27,23 +28,22 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import VideoCard from "../../_components/VideoCard";
 import { dayjs } from "@/lib/dayjs";
-import ReactPlayer from "react-player";
 import { supabase } from "@/services/supabase/client";
 import useFavorite from "@/hooks/useFavorite";
 import useSave from "@/hooks/useSave";
 import Comments from "./_components/Comments";
 import VideoFeedback from "./_components/VideoFeedback";
+import { RichText } from "@payloadcms/richtext-lexical/react";
 
 export default function Video() {
   const { id } = useParams();
-
-  console.log(id);
 
   const [videoMetadata, setVideoMetadata] = useState(null);
   const { isFavorited, toggle: favoriteToggle } = useFavorite(id);
   const { isSaved, toggle: saveToggle } = useSave(id);
 
   const { data: video, error, isLoading } = useSWR(`/videos/${id}`, apiFetcher);
+  console.log(video);
 
   const categoryId = video?.categories[0].id;
 
@@ -135,7 +135,7 @@ export default function Video() {
       )}
 
       <div className="flex gap-6">
-        <div className="w-full lg:w-3/5 space-y-8">
+        <div className="w-full lg:w-3/5 space-y-6">
           <div className="flex justify-between items-center gap-2">
             <h2 className="text-xl font-bold">{video.title}</h2>
             <div className="flex items-center gap-2">
@@ -177,6 +177,20 @@ export default function Video() {
 
             <VideoFeedback />
           </div>
+
+          {video?.description && (
+            <Card withBorder>
+              <Spoiler
+                maxHeight={80}
+                showLabel={<span className="text-sm">Ver mais</span>}
+                hideLabel={<span className="text-sm">Ver menos</span>}
+              >
+                <div className="[&_a]:text-blue-400 [&_a:hover]:underline text-sm">
+                  <RichText data={video.description} />
+                </div>
+              </Spoiler>
+            </Card>
+          )}
 
           {video?.files?.length > 0 && (
             <Card withBorder>
@@ -228,7 +242,7 @@ export default function Video() {
                       leftSection={icon}
                     >
                       <div className="flex items-center gap-2">
-                        <span className="text-xs">{file?.alt}</span>
+                        <span className="text-xs">{file?.title}</span>
 
                         <Badge size="xs" color={color}>
                           {file?.mimeType.split("/")[1]}
@@ -243,7 +257,9 @@ export default function Video() {
 
           <Comments />
         </div>
+
         <Divider orientation="vertical" />
+
         <div className="w-full lg:w-2/5 space-y-8">
           <h3 className="font-semibold">Mais vídeos</h3>
           {moreVideos

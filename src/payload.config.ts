@@ -34,6 +34,7 @@ export default buildConfig({
   globals: [
     {
       slug: "administration",
+      label: "Administração",
       access: {
         read: () => true,
       },

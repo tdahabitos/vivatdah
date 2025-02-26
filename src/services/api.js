@@ -3,8 +3,6 @@ export const apiFetcher = async (url, simplified = true) => {
     const req = await fetch(`/api/${url}`);
     const data = await req.json();
 
-    console.log(data, data.docs ? "docs" : "data");
-
     if (simplified) return data.docs ? data.docs : data;
 
     return data;
