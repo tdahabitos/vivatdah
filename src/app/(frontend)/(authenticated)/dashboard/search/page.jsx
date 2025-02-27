@@ -28,7 +28,7 @@ export default function SearchPage() {
     setIsLoading(true);
 
     await axios
-      .get(`/api/media?where[filename][contains]=${value}`)
+      .get(`/api/media?where[title][contains]=${value}`)
       .then((res) => setFiles(res.data.docs))
       .catch((err) => console.log(err));
 
@@ -118,7 +118,7 @@ export default function SearchPage() {
 
                 <Group justify="space-between" my="md">
                   <Text fz={14} fw={500}>
-                    {file?.filename}
+                    {file?.title}
                   </Text>
                   <Badge size="xs" color={color}>
                     {file?.mimeType.split("/")[1]}
@@ -128,7 +128,8 @@ export default function SearchPage() {
                 <Button
                   component={Link}
                   href={`${process.env.NEXT_PUBLIC_APP_URL}${file.url}`}
-                  download={true}
+                  download={`${file.title}.${file.mimeType.split("/")[1]}`}
+                  target="_blank"
                   leftSection={<IconDownload size={16} />}
                 >
                   Baixar

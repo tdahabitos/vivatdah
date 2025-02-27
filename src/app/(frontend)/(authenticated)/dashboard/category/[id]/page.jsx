@@ -5,14 +5,11 @@ import { useParams } from "next/navigation";
 import useSWR from "swr";
 import VideoCard from "../../_components/VideoCard";
 import Empty from "../../_components/Empty";
-import {
-  IconArrowLeftFromArc,
-  IconMovie,
-  IconVideo,
-} from "@tabler/icons-react";
+import { IconArrowLeftFromArc } from "@tabler/icons-react";
 import PageLoader from "../../_components/PageLoader";
 import { useState } from "react";
 import { Pagination } from "@mantine/core";
+import FileList from "../../_components/FileList";
 
 export default function Page() {
   const { id } = useParams();
@@ -42,10 +39,7 @@ export default function Page() {
           <h2 className="text-2xl font-semibold">{category?.title}</h2>
         </div>
 
-        <div className="hidden md:flex items-center gap-1 text-sm">
-          <IconMovie size={16} />
-          <span>{videos?.totalDocs}</span>
-        </div>
+        <FileList categoryId={id} />
       </div>
 
       {videos?.docs.length === 0 ? (
@@ -61,7 +55,11 @@ export default function Page() {
       <div className="flex justify-center md:justify-end items-center gap-4 mt-8">
         <div className="hidden md:flex items-center gap-1 text-sm">
           <span className="font-bold">{videos?.totalDocs}</span>
-          <span>resultados encontrados</span>
+          <span>
+            {videos?.totalDocs > 1
+              ? "resultados encontrados"
+              : "resultado encontrado"}
+          </span>
         </div>
         <Pagination
           className="!mt-0"
