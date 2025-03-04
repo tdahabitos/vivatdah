@@ -14,9 +14,48 @@ export const Posts: CollectionConfig = {
   },
   fields: [
     {
+      name: "status",
+      label: "Status",
+      defaultValue: "published",
+      type: "select",
+      options: [
+        {
+          label: "Rascunho",
+          value: "draft",
+        },
+        {
+          label: "Publicado",
+          value: "published",
+        },
+      ],
+      admin: {
+        position: "sidebar",
+      },
+    },
+    {
+      name: "cover",
+      label: "Cover",
+      type: "upload",
+      relationTo: "media",
+      admin: {
+        position: "sidebar",
+      },
+    },
+    {
       name: "title",
       label: "Título",
       type: "text",
+    },
+    {
+      name: "slug",
+      label: "Slug",
+      unique: true,
+      type: "text",
+    },
+    {
+      name: "content",
+      label: "Conteúdo",
+      type: "richText",
     },
   ],
 };

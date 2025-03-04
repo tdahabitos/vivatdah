@@ -1,6 +1,9 @@
 import type { CollectionConfig } from "payload";
 
 export const Users: CollectionConfig = {
+  auth: {
+    useAPIKey: true,
+  },
   slug: "users",
   labels: {
     singular: "Usuário",
@@ -12,7 +15,6 @@ export const Users: CollectionConfig = {
   admin: {
     useAsTitle: "email",
   },
-  auth: true,
   fields: [
     {
       name: "avatar",
