@@ -53,6 +53,12 @@ export const Posts: CollectionConfig = {
       type: "text",
     },
     {
+      name: "description",
+      label: "Descrição curta",
+      type: "textarea",
+      maxLength: 200,
+    },
+    {
       name: "content",
       label: "Conteúdo",
       type: "richText",

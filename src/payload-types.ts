@@ -87,6 +87,7 @@ export interface Post {
   cover?: (string | null) | Media;
   title?: string | null;
   slug?: string | null;
+  description?: string | null;
   content?: {
     root: {
       type: string;
@@ -268,6 +269,7 @@ export interface PostsSelect<T extends boolean = true> {
   cover?: T;
   title?: T;
   slug?: T;
+  description?: T;
   content?: T;
   updatedAt?: T;
   createdAt?: T;
