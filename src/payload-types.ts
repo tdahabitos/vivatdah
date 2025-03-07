@@ -113,7 +113,7 @@ export interface Post {
 export interface Media {
   id: string;
   title: string;
-  categories: (string | Category)[];
+  categories?: (string | Category)[] | null;
   prefix?: string | null;
   updatedAt: string;
   createdAt: string;

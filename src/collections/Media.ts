@@ -21,7 +21,6 @@ export const Media: CollectionConfig = {
       label: "Categorias",
       type: "relationship",
       relationTo: "categories",
-      required: true,
       hasMany: true,
     },
   ],
