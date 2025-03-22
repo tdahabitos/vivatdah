@@ -33,8 +33,22 @@ export const Posts: CollectionConfig = {
       },
     },
     {
+      name: "categories",
+      label: {
+        singular: "Categoria",
+        plural: "Categorias",
+      },
+      type: "relationship",
+      relationTo: "post-categories",
+      hasMany: true,
+      required: true,
+      admin: {
+        position: "sidebar",
+      },
+    },
+    {
       name: "cover",
-      label: "Cover",
+      label: "Capa",
       type: "upload",
       relationTo: "media",
       admin: {
@@ -45,17 +59,29 @@ export const Posts: CollectionConfig = {
       name: "title",
       label: "Título",
       type: "text",
+      required: true,
     },
     {
       name: "slug",
       label: "Slug",
-      unique: true,
       type: "text",
+      unique: true,
+      required: true,
+      hooks: {
+        beforeValidate: [
+          ({ data }) => {
+            if (data?.slug) {
+              return data.slug.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');;
+            }
+          },
+        ],
+      },
     },
     {
       name: "description",
       label: "Descrição curta",
       type: "textarea",
+      required: true,
       maxLength: 200,
     },
     {

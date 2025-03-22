@@ -10,8 +10,10 @@ import { pt } from "payload/i18n/pt";
 
 import Logo from "./components/admin/Logo";
 import Icon from "./components/admin/Icon";
+import ThemeSwitcher from "./components/admin/ThemeSwitcher";
 
 import { Categories } from "./collections/Categories";
+import { PostCategories } from "./collections/PostCategories";
 import { Posts } from "./collections/Posts";
 import { Videos } from "./collections/Videos";
 import { Users } from "./collections/Users";
@@ -48,18 +50,23 @@ export default buildConfig({
     },
   ],
   admin: {
+    
     user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
     },
     components: {
+      actions: [
+        ThemeSwitcher as unknown as CustomComponent,
+      ],
       graphics: {
+
         Logo: Logo as unknown as CustomComponent,
         Icon: Icon as unknown as CustomComponent,
       },
     },
   },
-  collections: [Categories, Posts, Videos, Users, Media],
+  collections: [Categories, PostCategories, Posts, Videos, Users, Media],
   i18n: {
     supportedLanguages: { pt },
   },
