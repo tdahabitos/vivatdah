@@ -10,7 +10,6 @@ import { pt } from "payload/i18n/pt";
 
 import Logo from "./components/admin/Logo";
 import Icon from "./components/admin/Icon";
-import ThemeSwitcher from "./components/admin/ThemeSwitcher";
 
 import { Categories } from "./collections/Categories";
 import { PostCategories } from "./collections/PostCategories";
@@ -56,11 +55,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
     components: {
-      actions: [
-        ThemeSwitcher as unknown as CustomComponent,
-      ],
       graphics: {
-
         Logo: Logo as unknown as CustomComponent,
         Icon: Icon as unknown as CustomComponent,
       },

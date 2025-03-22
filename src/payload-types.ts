@@ -87,6 +87,7 @@ export interface PostCategory {
   id: string;
   title: string;
   slug: string;
+  description?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -97,10 +98,7 @@ export interface PostCategory {
 export interface Post {
   id: string;
   status?: ('draft' | 'published') | null;
-  categories: {
-    category?: (string | null) | PostCategory;
-    id?: string | null;
-  }[];
+  categories: (string | PostCategory)[];
   cover?: (string | null) | Media;
   title: string;
   slug: string;
@@ -288,6 +286,7 @@ export interface CategoriesSelect<T extends boolean = true> {
 export interface PostCategoriesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
+  description?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -297,12 +296,7 @@ export interface PostCategoriesSelect<T extends boolean = true> {
  */
 export interface PostsSelect<T extends boolean = true> {
   status?: T;
-  categories?:
-    | T
-    | {
-        category?: T;
-        id?: T;
-      };
+  categories?: T;
   cover?: T;
   title?: T;
   slug?: T;
