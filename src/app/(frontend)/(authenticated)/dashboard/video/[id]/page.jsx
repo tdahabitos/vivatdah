@@ -43,7 +43,6 @@ export default function Video() {
   const { isSaved, toggle: saveToggle } = useSave(id);
 
   const { data: video, error, isLoading } = useSWR(`/videos/${id}`, apiFetcher);
-  console.log(video);
 
   const categoryId = video?.categories[0].id;
 
