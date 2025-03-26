@@ -113,8 +113,8 @@ export default function Video() {
           title="Panda video player"
           src={`${video?.url}&muted=false&autoplay=true`}
           allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture"
-          allowfullscreen="true"
-          fetchpriority="high"
+          allowFullScreen
+          fetchPriority="high"
           className="border-none w-full h-[450px] rounded-lg"
         />
       )}
@@ -125,10 +125,10 @@ export default function Video() {
           height="450"
           src={`https://www.youtube.com/embed/${video?.url?.split("v=")[1]}?&autoplay=1`}
           title="YouTube video player"
-          frameborder="0"
+          frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
           className="border-none w-full h-[450px] rounded-lg"
         />
       )}
