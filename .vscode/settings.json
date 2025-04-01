@@ -16,7 +16,7 @@
     }
   },
   "[javascript]": {
-    "editor.defaultFormatter": "biomejs.biome",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": "explicit"
@@ -40,5 +40,8 @@
   "workbench.colorCustomizations": {
     "titleBar.activeBackground": "#24497a",
     "titleBar.activeForeground": "#FFFBFD"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }
