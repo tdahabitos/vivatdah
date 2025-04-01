@@ -11,11 +11,12 @@ import {
   createTheme,
   mantineHtmlProps,
 } from '@mantine/core'
+import getMetadata from '@/utils/metadata'
 
-export const metadata = {
+export const metadata = getMetadata({
   title: 'VivaTDAH',
   description: 'A melhor plataforma TDAH do Brasil',
-}
+})
 
 const theme = createTheme({
   /* Custom colors */
