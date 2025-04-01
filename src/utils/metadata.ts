@@ -14,7 +14,7 @@ export default function getMetadata({
       description,
       images: [
         {
-          url: "/og-image.png",
+          url: "/og-image.jpg",
           width: 800,
           height: 600,
           alt: "VivaTDAH",
@@ -27,7 +27,7 @@ export default function getMetadata({
       description,
       images: [
         {
-          url: "/og-image.png",
+          url: "/og-image.jpg",
           width: 800,
           height: 600,
           alt: "VivaTDAH",
