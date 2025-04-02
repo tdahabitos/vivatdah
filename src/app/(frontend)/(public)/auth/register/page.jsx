@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   Anchor,
@@ -10,36 +10,40 @@ import {
   PasswordInput,
   Stack,
   TextInput,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import Logo from "@/components/Logo";
-import { useState } from "react";
-import Link from "next/link";
-import { IconMailCheck } from "@tabler/icons-react";
-import { z } from "zod";
-import { zodResolver } from "mantine-form-zod-resolver";
-import GoogleAuthButton from "../_components/GoogleAuthButton";
-import { supabase } from "@/services/supabase/client";
+} from '@mantine/core'
+import { useForm } from '@mantine/form'
+import Logo from '@/components/Logo'
+import { useState } from 'react'
+import Link from 'next/link'
+import { IconMailCheck } from '@tabler/icons-react'
+import { z } from 'zod'
+import { zodResolver } from 'mantine-form-zod-resolver'
+import GoogleAuthButton from '../_components/GoogleAuthButton'
+import { supabase } from '@/services/supabase/client'
+
+import getMetadata from '@/utils/metadata'
+
+export const metadata = getMetadata({
+  title: 'VivaTDAH - Registre-se',
+})
 
 export default function Register() {
-  const [emailSent, setEmailSent] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [emailSent, setEmailSent] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const validationSchema = z.object({
-    name: z.string({ message: "O campo é obrigatorio" }),
-    email: z
-      .string({ message: "O campo é obrigatorio" })
-      .email({ message: "E-mail inválido" }),
-    password: z.string({ message: "O campo é obrigatorio" }),
-    terms: z.boolean({ message: "O campo é obrigatorio" }),
-  });
+    name: z.string({ message: 'O campo é obrigatorio' }),
+    email: z.string({ message: 'O campo é obrigatorio' }).email({ message: 'E-mail inválido' }),
+    password: z.string({ message: 'O campo é obrigatorio' }),
+    terms: z.boolean({ message: 'O campo é obrigatorio' }),
+  })
 
   const form = useForm({
     validate: zodResolver(validationSchema),
-  });
+  })
 
   async function handleSubmit({ name, email, password, terms }) {
-    setIsLoading(true);
+    setIsLoading(true)
 
     await supabase.auth.signUp({
       email,
@@ -50,10 +54,10 @@ export default function Register() {
           terms,
         },
       },
-    });
+    })
 
-    setEmailSent(true);
-    setIsLoading(false);
+    setEmailSent(true)
+    setIsLoading(false)
   }
 
   if (emailSent) {
@@ -69,13 +73,11 @@ export default function Register() {
           <div className="flex flex-col items-center gap-4">
             <IconMailCheck size={64} />
             <h3 className="font-bold">Verifique a sua conta</h3>
-            <p className="text-sm">
-              Um e-mail de confirmação foi enviado para o seu e-mail
-            </p>
+            <p className="text-sm">Um e-mail de confirmação foi enviado para o seu e-mail</p>
           </div>
         </Paper>
       </div>
-    );
+    )
   }
 
   return (
@@ -99,38 +101,32 @@ export default function Register() {
               label="Nome"
               placeholder="Nome"
               disabled={isLoading}
-              {...form.getInputProps("name")}
+              {...form.getInputProps('name')}
             />
 
             <TextInput
               label="E-mail"
               placeholder="meu-melhor@email.com"
               disabled={isLoading}
-              {...form.getInputProps("email")}
+              {...form.getInputProps('email')}
             />
 
             <PasswordInput
               label="Senha"
               placeholder="Senha"
               disabled={isLoading}
-              {...form.getInputProps("password")}
+              {...form.getInputProps('password')}
             />
 
             <Checkbox
               label="Aceito os termos e condições"
               disabled={isLoading}
-              {...form.getInputProps("terms", { type: "checkbox" })}
+              {...form.getInputProps('terms', { type: 'checkbox' })}
             />
           </Stack>
 
           <Group justify="space-between" mt="xl">
-            <Anchor
-              component={Link}
-              href="/auth/login"
-              type="button"
-              c="dimmed"
-              size="xs"
-            >
+            <Anchor component={Link} href="/auth/login" type="button" c="dimmed" size="xs">
               Já tem uma conta? Login
             </Anchor>
 
@@ -139,5 +135,5 @@ export default function Register() {
         </form>
       </Paper>
     </div>
-  );
+  )
 }

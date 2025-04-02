@@ -1,7 +1,12 @@
-"use client";
+'use client'
 
-import { Badge, Button, Card, Group, Image, Text } from "@mantine/core";
-import Link from "next/link";
+import getMetadata from '@/utils/metadata'
+import { Badge, Button, Card, Group, Image, Text } from '@mantine/core'
+import Link from 'next/link'
+
+export const metadata = getMetadata({
+  title: 'VivaTDAH - Trilhas',
+})
 
 export default function TrilhasPage() {
   return (
@@ -24,23 +29,16 @@ export default function TrilhasPage() {
             </Group>
 
             <Text size="sm" c="dimmed">
-              Um Evento Feito para Você: estratégias Simples, acolhimento e
-              soluções baseadas em Evidências Científicas para transformações
-              reais.
+              Um Evento Feito para Você: estratégias Simples, acolhimento e soluções baseadas em
+              Evidências Científicas para transformações reais.
             </Text>
 
-            <Button
-              component={Link}
-              href="/assinatura"
-              fullWidth
-              mt="md"
-              radius="md"
-            >
+            <Button component={Link} href="/assinatura" fullWidth mt="md" radius="md">
               Iniciar agora
             </Button>
           </Card>
         ))}
       </div>
     </div>
-  );
+  )
 }

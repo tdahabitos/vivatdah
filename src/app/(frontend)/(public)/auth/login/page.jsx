@@ -1,4 +1,9 @@
-"use client";
+'use client'
+import getMetadata from '@/utils/metadata'
+
+export const metadata = getMetadata({
+  title: 'VivaTDAH - Login',
+})
 
 import {
   Anchor,
@@ -9,50 +14,48 @@ import {
   PasswordInput,
   Stack,
   TextInput,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import Logo from "@/components/Logo";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { z } from "zod";
-import { zodResolver } from "mantine-form-zod-resolver";
-import GoogleAuthButton from "../_components/GoogleAuthButton";
-import { useUserStore } from "@/store/userStore";
-import { supabase } from "@/services/supabase/client";
+} from '@mantine/core'
+import { useForm } from '@mantine/form'
+import Logo from '@/components/Logo'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { z } from 'zod'
+import { zodResolver } from 'mantine-form-zod-resolver'
+import GoogleAuthButton from '../_components/GoogleAuthButton'
+import { useUserStore } from '@/store/userStore'
+import { supabase } from '@/services/supabase/client'
 
 export default function Login() {
-  const [isLoading, setIsLoading] = useState(false);
-  const { push } = useRouter();
-  const { setUser } = useUserStore();
+  const [isLoading, setIsLoading] = useState(false)
+  const { push } = useRouter()
+  const { setUser } = useUserStore()
 
   const validationSchema = z.object({
-    email: z
-      .string({ message: "O campo é obrigatorio" })
-      .email({ message: "E-mail inválido" }),
-    password: z.string({ message: "O campo é obrigatorio" }),
-  });
+    email: z.string({ message: 'O campo é obrigatorio' }).email({ message: 'E-mail inválido' }),
+    password: z.string({ message: 'O campo é obrigatorio' }),
+  })
 
   const form = useForm({
     validate: zodResolver(validationSchema),
-  });
+  })
 
   async function handleSubmit({ email, password }) {
-    setIsLoading(true);
+    setIsLoading(true)
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
-    });
+    })
 
     if (error) {
-      form.setFieldError("password", "E-mail e/ou senha incorretos");
-      setIsLoading(false);
-      return;
+      form.setFieldError('password', 'E-mail e/ou senha incorretos')
+      setIsLoading(false)
+      return
     }
 
-    setUser(data.user);
-    push("/dashboard");
+    setUser(data.user)
+    push('/dashboard')
   }
 
   return (
@@ -76,7 +79,7 @@ export default function Login() {
               label="E-mail"
               placeholder="meu-melhor@email.com"
               disabled={isLoading}
-              {...form.getInputProps("email")}
+              {...form.getInputProps('email')}
             />
 
             <div>
@@ -84,7 +87,7 @@ export default function Login() {
                 label="Senha"
                 placeholder="Sua senha"
                 disabled={isLoading}
-                {...form.getInputProps("password")}
+                {...form.getInputProps('password')}
               />
               <Anchor
                 component={Link}
@@ -99,13 +102,7 @@ export default function Login() {
           </Stack>
 
           <Group justify="space-between" mt="xl">
-            <Anchor
-              component={Link}
-              href="/auth/register"
-              type="button"
-              c="dimmed"
-              size="xs"
-            >
+            <Anchor component={Link} href="/auth/register" type="button" c="dimmed" size="xs">
               Não tem uma conta? Cadastre-se
             </Anchor>
 
@@ -116,5 +113,5 @@ export default function Login() {
         </form>
       </Paper>
     </div>
-  );
+  )
 }

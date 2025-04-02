@@ -1,10 +1,13 @@
-"use client";
+'use client'
 
-import { Divider } from "@mantine/core";
-import Plans from "./_components/Plans";
-import Stats from "./_components/Stats";
-import Hero from "./_components/Hero";
-import Testimonial from "./_components/Testimonial";
+import { Divider } from '@mantine/core'
+import Plans from './_components/Plans'
+import Stats from './_components/Stats'
+import Hero from './_components/Hero'
+import Testimonial from './_components/Testimonial'
+import getMetadata from '@/utils/metadata'
+
+export const metadata = getMetadata()
 
 export default function HomePage() {
   return (
@@ -34,5 +37,5 @@ export default function HomePage() {
 
       <Divider />
     </>
-  );
+  )
 }
