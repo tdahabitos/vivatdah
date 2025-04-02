@@ -1,40 +1,88 @@
-import Logo from "@/components/Logo";
-import {
-  IconBrandFacebook,
-  IconBrandInstagram,
-  IconBrandX,
-} from "@tabler/icons-react";
-import Link from "next/link";
+import Logo from '@/components/Logo'
+import { IconBrandFacebook, IconBrandInstagram, IconBrandX } from '@tabler/icons-react'
+import Link from 'next/link'
 
 export default function Footer() {
   const menu = [
     {
-      title: "Links úteis",
+      title: 'Links úteis',
       items: [
         {
-          label: "Politica de Privacidade",
-          href: "/politica-de-privacidade",
+          label: 'Politica de Privacidade',
+          href: '/politica-de-privacidade',
         },
         {
-          label: "Termos de Serviço",
-          href: "/termos-de-servico",
+          label: 'Termos de Serviço',
+          href: '/termos-de-servico',
         },
       ],
     },
     {
-      title: "Institucional",
+      title: 'Institucional',
       items: [
         {
-          label: "Sobre nós",
-          href: "/sobre",
+          label: 'Sobre nós',
+          href: '/sobre',
         },
         {
-          label: "Contato",
-          href: "/contato",
+          label: 'Contato',
+          href: '/contato',
         },
       ],
     },
-  ];
+    {
+      title: 'Links úteis',
+      items: [
+        {
+          label: 'Politica de Privacidade',
+          href: '/politica-de-privacidade',
+        },
+        {
+          label: 'Termos de Serviço',
+          href: '/termos-de-servico',
+        },
+      ],
+    },
+    {
+      title: 'Institucional',
+      items: [
+        {
+          label: 'Sobre nós',
+          href: '/sobre',
+        },
+        {
+          label: 'Contato',
+          href: '/contato',
+        },
+      ],
+    },
+    {
+      title: 'Links úteis',
+      items: [
+        {
+          label: 'Politica de Privacidade',
+          href: '/politica-de-privacidade',
+        },
+        {
+          label: 'Termos de Serviço',
+          href: '/termos-de-servico',
+        },
+      ],
+    },
+    {
+      title: 'Institucional',
+      items: [
+        {
+          label: 'Sobre nós',
+          href: '/sobre',
+        },
+        {
+          label: 'Contato',
+          href: '/contato',
+        },
+      ],
+    },
+  ]
 
   return (
     <footer>
@@ -46,37 +94,25 @@ export default function Footer() {
             </div>
 
             <p className="mt-4 max-w-xs ">
-              A VivaTDAH é sua parceira no aprendizado personalizado e eficaz
-              para pessoas com TDAH. Estamos comprometidos com o seu sucesso.
+              A VivaTDAH é sua parceira no aprendizado personalizado e eficaz para pessoas com TDAH.
+              Estamos comprometidos com o seu sucesso.
             </p>
 
             <ul className="mt-8 flex gap-6">
               <li>
-                <Link
-                  href="#"
-                  target="_blank"
-                  className="transition hover:opacity-75"
-                >
+                <Link href="#" target="_blank" className="transition hover:opacity-75">
                   <IconBrandFacebook size={24} />
                 </Link>
               </li>
 
               <li>
-                <Link
-                  href="#"
-                  target="_blank"
-                  className="transition hover:opacity-75"
-                >
+                <Link href="#" target="_blank" className="transition hover:opacity-75">
                   <IconBrandInstagram size={24} />
                 </Link>
               </li>
 
               <li>
-                <Link
-                  href="#"
-                  target="_blank"
-                  className="transition hover:opacity-75"
-                >
+                <Link href="#" target="_blank" className="transition hover:opacity-75">
                   <IconBrandX size={24} />
                 </Link>
               </li>
@@ -91,10 +127,7 @@ export default function Footer() {
                 <ul className="mt-6 space-y-4 text-sm">
                   {item.items.map((item) => (
                     <li key={item.label}>
-                      <a
-                        href={item.href}
-                        className="transition hover:opacity-75"
-                      >
+                      <a href={item.href} className="transition hover:opacity-75">
                         {item.label}
                       </a>
                     </li>
@@ -105,10 +138,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <p className="text-xs ">
-          &copy; 2025. VivaTDAH. Todos os direitos reservados.
-        </p>
+        <p className="text-xs ">&copy; 2025. VivaTDAH. Todos os direitos reservados.</p>
       </div>
     </footer>
-  );
+  )
 }

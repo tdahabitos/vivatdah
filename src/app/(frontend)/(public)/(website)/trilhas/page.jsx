@@ -1,12 +1,7 @@
 'use client'
 
-import getMetadata from '@/utils/metadata'
 import { Badge, Button, Card, Group, Image, Text } from '@mantine/core'
 import Link from 'next/link'
-
-export const metadata = getMetadata({
-  title: 'VivaTDAH - Trilhas',
-})
 
 export default function TrilhasPage() {
   return (

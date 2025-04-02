@@ -4,37 +4,19 @@ import { Divider } from '@mantine/core'
 import Plans from './_components/Plans'
 import Stats from './_components/Stats'
 import Hero from './_components/Hero'
+import Blog from './_components/Blog'
+import CookieConsent from './_components/CookieConsent'
 import Testimonial from './_components/Testimonial'
-import getMetadata from '@/utils/metadata'
-
-export const metadata = getMetadata()
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-
-      <div className="w-full max-w-[80%] mx-auto mt-8">
-        <div className="rounded overflow-hidden">
-          <iframe
-            width="100%"
-            height="450"
-            src="https://www.youtube.com/embed/EUfzHKBvkeY?si=h5Ne3A09ftQEUCTn"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          />
-        </div>
-      </div>
-
       <Stats />
-
       <Testimonial />
-
+      <Blog />
       <Plans />
-
+      <CookieConsent />
       <Divider />
     </>
   )

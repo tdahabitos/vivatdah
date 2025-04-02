@@ -1,11 +1,6 @@
 'use client'
 
 import Plans from '../_components/Plans'
-import getMetadata from '@/utils/metadata'
-
-export const metadata = getMetadata({
-  title: 'VivaTDAH - Assinatura',
-})
 
 export default function AssinaturaPage() {
   return (
