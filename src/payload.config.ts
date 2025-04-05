@@ -45,11 +45,22 @@ export default buildConfig({
           label: "Modo de manutenção",
           type: "checkbox",
         },
+        {
+          name: "auth_private_mode",
+          label:
+            "Modo de autenticação privada (autenticação exclusiva para usuarios autorizados)",
+          type: "checkbox",
+        },
+        {
+          name: "auth_allowed_user_emails",
+          label:
+            "Usuários autorizados no modo de autenticação privada (e-mails separados por vírgula (,) - Exemplo: email1@email.com, email2@email.com...)",
+          type: "textarea",
+        },
       ],
     },
   ],
   admin: {
-    
     user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),

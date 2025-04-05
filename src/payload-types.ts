@@ -402,6 +402,8 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface Administration {
   id: string;
   maintenance_mode?: boolean | null;
+  auth_private_mode?: boolean | null;
+  auth_allowed_user_emails?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -411,6 +413,8 @@ export interface Administration {
  */
 export interface AdministrationSelect<T extends boolean = true> {
   maintenance_mode?: T;
+  auth_private_mode?: T;
+  auth_allowed_user_emails?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

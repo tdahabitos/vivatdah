@@ -4,6 +4,8 @@ import '@/globals.css'
 
 import { Notifications } from '@mantine/notifications'
 
+import { payload } from '@/services/payload'
+
 import {
   ColorSchemeScript,
   Divider,
@@ -12,6 +14,7 @@ import {
   mantineHtmlProps,
 } from '@mantine/core'
 import getMetadata from '@/utils/metadata'
+import ThemeSwitcher from '@/components/ThemeSwitcher'
 
 export const metadata = getMetadata({
   title: 'VivaTDAH',
@@ -50,8 +53,10 @@ const theme = createTheme({
   primaryColor: 'viva-orange',
 })
 
-export default function RootLayout({ children }) {
-  const maintenanceMode = false
+export default async function RootLayout({ children }) {
+  const { maintenance_mode: maintenanceMode } = await payload.findGlobal({
+    slug: 'administration',
+  })
 
   return (
     <html lang="pt-BR" {...mantineHtmlProps}>
@@ -75,7 +80,10 @@ export default function RootLayout({ children }) {
       <body>
         <MantineProvider defaultColorScheme="dark" theme={theme}>
           {maintenanceMode ? (
-            <div className="h-screen w-full flex justify-center items-center bg-white">
+            <div className="h-screen w-full flex justify-center items-center relative">
+              <div className="absolute top-4 right-4">
+                <ThemeSwitcher />
+              </div>
               <div className="space-y-4">
                 <img src="/logo.svg" alt="VivaTDAH" className="h-28 w-auto mx-auto" />
                 <Divider />
