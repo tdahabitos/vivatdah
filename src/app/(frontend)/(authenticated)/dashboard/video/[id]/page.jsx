@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   ActionIcon,
@@ -10,7 +10,7 @@ import {
   Skeleton,
   Spoiler,
   Text,
-} from "@mantine/core";
+} from '@mantine/core'
 import {
   IconArrowBigDownLines,
   IconBookmark,
@@ -20,72 +20,77 @@ import {
   IconHeartFilled,
   IconMicrophoneFilled,
   IconPhoto,
-} from "@tabler/icons-react";
-import { useEffect, useState } from "react";
-import useSWR from "swr";
-import { apiFetcher } from "@/services/api";
-import { useParams } from "next/navigation";
-import Link from "next/link";
-import VideoCard from "../../_components/VideoCard";
-import { dayjs } from "@/lib/dayjs";
-import { supabase } from "@/services/supabase/client";
-import useFavorite from "@/hooks/useFavorite";
-import useSave from "@/hooks/useSave";
-import Comments from "./_components/Comments";
-import VideoFeedback from "./_components/VideoFeedback";
-import { RichText } from "@payloadcms/richtext-lexical/react";
+} from '@tabler/icons-react'
+import { useEffect, useState } from 'react'
+import useSWR from 'swr'
+import { apiFetcher } from '@/services/api'
+import { useParams } from 'next/navigation'
+import Link from 'next/link'
+import VideoCard from '../../_components/VideoCard'
+import { dayjs } from '@/lib/dayjs'
+import { supabase } from '@/services/supabase/client'
+import useFavorite from '@/hooks/useFavorite'
+import useSave from '@/hooks/useSave'
+import Comments from './_components/Comments'
+import VideoFeedback from './_components/VideoFeedback'
+import { RichText } from '@payloadcms/richtext-lexical/react'
 
 export default function Video() {
-  const { id } = useParams();
+  const { id } = useParams()
+  const [moreVideos, setMoreVideos] = useState([])
 
-  const [videoMetadata, setVideoMetadata] = useState(null);
-  const { isFavorited, toggle: favoriteToggle } = useFavorite(id);
-  const { isSaved, toggle: saveToggle } = useSave(id);
+  const [videoMetadata, setVideoMetadata] = useState(null)
+  const { isFavorited, toggle: favoriteToggle } = useFavorite(id)
+  const { isSaved, toggle: saveToggle } = useSave(id)
 
-  const { data: video, error, isLoading } = useSWR(`/videos/${id}`, apiFetcher);
-
-  const categoryId = video?.categories[0].id;
-
-  const { data: moreVideos } = useSWR(
-    `/videos?where[categories.id][equals]=${categoryId}&limit=16&page=1`,
-    apiFetcher,
-  );
+  const { data: video, isLoading } = useSWR(`/videos/${id}`, apiFetcher)
 
   async function addView(currentViews) {
     await supabase
-      .schema("metadata")
-      .from("videos")
+      .schema('metadata')
+      .from('videos')
       .update({ views: currentViews })
-      .eq("reference_id", id);
+      .eq('reference_id', id)
   }
 
   async function getMetadata() {
     const { data, error } = await supabase
-      .schema("metadata")
-      .from("videos")
-      .select("views")
-      .eq("reference_id", id)
-      .single();
+      .schema('metadata')
+      .from('videos')
+      .select('views')
+      .eq('reference_id', id)
+      .single()
 
     if (error) {
-      await supabase
-        .schema("metadata")
-        .from("videos")
-        .insert({ reference_id: id });
+      await supabase.schema('metadata').from('videos').insert({ reference_id: id })
     }
 
-    const currentViews = (data?.views || 0) + 1;
+    const currentViews = (data?.views || 0) + 1
 
-    addView(currentViews);
+    addView(currentViews)
 
     setVideoMetadata({
       views: currentViews,
-    });
+    })
+  }
+
+  async function getMoreVideos() {
+    const categoryId = video?.categories[0].id
+
+    await apiFetcher(`/videos?where[categories.id][equals]=${categoryId}&limit=16&page=1`).then(
+      (res) => setMoreVideos(res),
+    )
   }
 
   useEffect(() => {
-    getMetadata();
-  }, []);
+    getMetadata()
+  }, [])
+
+  useEffect(() => {
+    if (isLoading) return
+
+    getMoreVideos()
+  }, [isLoading])
 
   if (isLoading)
     return (
@@ -104,11 +109,11 @@ export default function Video() {
           </div>
         </div>
       </div>
-    );
+    )
 
   return (
     <div className="space-y-4">
-      {video?.platform === "panda" && (
+      {video?.platform === 'panda' && (
         <iframe
           title="Panda video player"
           src={`${video?.url}&muted=false&autoplay=true`}
@@ -119,11 +124,11 @@ export default function Video() {
         />
       )}
 
-      {video?.platform === "youtube" && (
+      {video?.platform === 'youtube' && (
         <iframe
           width="auto"
           height="450"
-          src={`https://www.youtube.com/embed/${video?.url?.split("v=")[1]}?&autoplay=1`}
+          src={`https://www.youtube.com/embed/${video?.url?.split('v=')[1]}?&autoplay=1`}
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -139,11 +144,7 @@ export default function Video() {
             <h2 className="text-xl font-bold">{video.title}</h2>
             <div className="flex items-center gap-2">
               <ActionIcon variant="default" onClick={favoriteToggle}>
-                {isFavorited ? (
-                  <IconHeartFilled size={16} color="red" />
-                ) : (
-                  <IconHeart size={16} />
-                )}
+                {isFavorited ? <IconHeartFilled size={16} color="red" /> : <IconHeart size={16} />}
               </ActionIcon>
               <ActionIcon variant="default" onClick={saveToggle}>
                 {isSaved ? (
@@ -195,38 +196,36 @@ export default function Video() {
             <Card withBorder>
               <div className="flex items-center gap-2 mb-4">
                 <IconArrowBigDownLines size={18} />
-                <h3 className="text-xl font-semibold">
-                  Arquivos disponíveis para download
-                </h3>
+                <h3 className="text-xl font-semibold">Arquivos disponíveis para download</h3>
               </div>
 
               <div className="flex flex-wrap gap-4">
                 {video.files?.map((file) => {
-                  let icon;
-                  let color;
+                  let icon
+                  let color
 
                   switch (file?.mimeType) {
-                    case "image/jpeg":
-                    case "image/png":
-                    case "image/gif":
-                    case "image/webp":
-                    case "image/svg+xml":
-                      icon = <IconPhoto />;
-                      color = "violet";
-                      break;
+                    case 'image/jpeg':
+                    case 'image/png':
+                    case 'image/gif':
+                    case 'image/webp':
+                    case 'image/svg+xml':
+                      icon = <IconPhoto />
+                      color = 'violet'
+                      break
 
-                    case "audio/mpeg":
-                    case "audio/ogg":
-                    case "audio/wav":
-                    case "audio/aac":
-                      icon = <IconMicrophoneFilled />;
-                      color = "blue";
-                      break;
+                    case 'audio/mpeg':
+                    case 'audio/ogg':
+                    case 'audio/wav':
+                    case 'audio/aac':
+                      icon = <IconMicrophoneFilled />
+                      color = 'blue'
+                      break
 
                     default:
-                      icon = <IconFileStack />;
-                      color = "teal";
-                      break;
+                      icon = <IconFileStack />
+                      color = 'teal'
+                      break
                   }
 
                   return (
@@ -244,11 +243,11 @@ export default function Video() {
                         <span className="text-xs">{file?.title}</span>
 
                         <Badge size="xs" color={color}>
-                          {file?.mimeType.split("/")[1]}
+                          {file?.mimeType.split('/')[1]}
                         </Badge>
                       </div>
                     </Button>
-                  );
+                  )
                 })}
               </div>
             </Card>
@@ -269,5 +268,5 @@ export default function Video() {
         </div>
       </div>
     </div>
-  );
+  )
 }
