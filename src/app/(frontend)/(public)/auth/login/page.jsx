@@ -74,13 +74,13 @@ export default function Login() {
           <Logo className="h-20 w-auto" />
         </div>
 
-        <Divider label="Login" labelPosition="center" my="lg" />
-
+        {/* <Divider label="Login" labelPosition="center" my="lg" />
+        
         <Group grow mb="md" mt="md">
           <GoogleAuthButton />
         </Group>
 
-        <Divider label="Ou continue com email" labelPosition="center" my="lg" />
+        <Divider label="Ou continue com email" labelPosition="center" my="lg" /> */}
 
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Stack>
