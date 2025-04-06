@@ -1,34 +1,30 @@
-"use client";
+'use client'
 
-import { apiFetcher } from "@/services/api";
-import { useParams } from "next/navigation";
-import useSWR from "swr";
-import VideoCard from "../../_components/VideoCard";
-import Empty from "../../_components/Empty";
-import { IconArrowLeftFromArc } from "@tabler/icons-react";
-import PageLoader from "../../_components/PageLoader";
-import { useState } from "react";
-import { Pagination } from "@mantine/core";
-import FileList from "../../_components/FileList";
+import { apiFetcher } from '@/services/api'
+import { useParams } from 'next/navigation'
+import useSWR from 'swr'
+import VideoCard from '../../_components/VideoCard'
+import Empty from '../../_components/Empty'
+import { IconArrowLeftFromArc } from '@tabler/icons-react'
+import PageLoader from '../../_components/PageLoader'
+import { useState } from 'react'
+import { Pagination } from '@mantine/core'
+import FileList from '../../_components/FileList'
 
 export default function Page() {
-  const { id } = useParams();
-  const limit = 16;
-  const [activePage, setActivePage] = useState(1);
+  const { id } = useParams()
+  const [activePage, setActivePage] = useState(1)
+  const limit = 16
 
-  const { data: category } = useSWR(`/categories/${id}`, apiFetcher);
+  const { data: category } = useSWR(`/categories/${id}`, apiFetcher)
 
-  const {
-    data: videos,
-    error,
-    isLoading,
-  } = useSWR(
+  const { data: videos, isLoading } = useSWR(
     `/videos?where[categories.id][equals]=${id}&limit=${limit}&page=${activePage}`,
     (url) => apiFetcher(url, false),
-  );
+  )
 
   if (isLoading) {
-    return <PageLoader />;
+    return <PageLoader />
   }
 
   return (
@@ -52,23 +48,22 @@ export default function Page() {
         </div>
       )}
 
-      <div className="flex justify-center md:justify-end items-center gap-4 mt-8">
-        <div className="hidden md:flex items-center gap-1 text-sm">
-          <span className="font-bold">{videos?.totalDocs}</span>
-          <span>
-            {videos?.totalDocs > 1
-              ? "resultados encontrados"
-              : "resultado encontrado"}
-          </span>
+      {videos?.totalDocs > limit && (
+        <div className="flex justify-center md:justify-end items-center gap-4 mt-8">
+          <div className="hidden md:flex items-center gap-1 text-sm">
+            <span className="font-bold">{videos?.totalDocs}</span>
+            <span>{videos?.totalDocs > 1 ? 'resultados encontrados' : 'resultado encontrado'}</span>
+          </div>
+
+          <Pagination
+            className="!mt-0"
+            total={videos?.totalPages}
+            value={activePage}
+            onChange={setActivePage}
+            mt="sm"
+          />
         </div>
-        <Pagination
-          className="!mt-0"
-          total={videos?.totalPages}
-          value={activePage}
-          onChange={setActivePage}
-          mt="sm"
-        />
-      </div>
+      )}
     </div>
-  );
+  )
 }
