@@ -20,12 +20,7 @@ import { z } from 'zod'
 import { zodResolver } from 'mantine-form-zod-resolver'
 import GoogleAuthButton from '../_components/GoogleAuthButton'
 import { supabase } from '@/services/supabase/client'
-
-import getMetadata from '@/utils/metadata'
-
-export const metadata = getMetadata({
-  title: 'VivaTDAH - Registre-se',
-})
+import axios from 'axios'
 
 export default function Register() {
   const [emailSent, setEmailSent] = useState(false)
@@ -44,6 +39,19 @@ export default function Register() {
 
   async function handleSubmit({ name, email, password, terms }) {
     setIsLoading(true)
+
+    const { allowed } = await axios
+      .post('/api/public/auth/private-mode-verify', { email })
+      .then((res) => res.data)
+
+    if (!allowed) {
+      form.setFieldError(
+        'email',
+        'Usuário não autorizado. Por favor, contate o suporte: contato@vivatdah.com',
+      )
+      setIsLoading(false)
+      return
+    }
 
     await supabase.auth.signUp({
       email,

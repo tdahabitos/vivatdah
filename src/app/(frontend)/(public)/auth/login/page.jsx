@@ -1,9 +1,4 @@
 'use client'
-import getMetadata from '@/utils/metadata'
-
-export const metadata = getMetadata({
-  title: 'VivaTDAH - Login',
-})
 
 import {
   Anchor,
@@ -25,6 +20,7 @@ import { zodResolver } from 'mantine-form-zod-resolver'
 import GoogleAuthButton from '../_components/GoogleAuthButton'
 import { useUserStore } from '@/store/userStore'
 import { supabase } from '@/services/supabase/client'
+import axios from 'axios'
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false)
@@ -42,6 +38,19 @@ export default function Login() {
 
   async function handleSubmit({ email, password }) {
     setIsLoading(true)
+
+    const { allowed } = await axios
+      .post('/api/public/auth/private-mode-verify', { email })
+      .then((res) => res.data)
+
+    if (!allowed) {
+      form.setFieldError(
+        'email',
+        'Usuário incorreto ou não autorizado. Por favor, contate o suporte: contato@vivatdah.com',
+      )
+      setIsLoading(false)
+      return
+    }
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
