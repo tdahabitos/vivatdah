@@ -121,7 +121,7 @@ export default function Footer() {
 
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-3">
             {menu.map((item) => (
-              <div key={item.title}>
+              <div key={item.title + Math.random()}>
                 <p className="font-medium">{item.title}</p>
 
                 <ul className="mt-6 space-y-4 text-sm">

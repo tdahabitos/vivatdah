@@ -1,3 +1,6 @@
+import { Button } from '@mantine/core'
+import { IconArrowRight } from '@tabler/icons-react'
+
 export default function Banner() {
   return (
     <div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-[var(--mantine-color-body)] px-6 py-2.5 sm:px-3.5 sm:before:flex-1 z-[1000]">
@@ -27,18 +30,15 @@ export default function Banner() {
       </div>
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
         <p className="text-sm/6">
-          <strong className="font-semibold">GeneriCon 2023</strong>
+          <strong className="font-semibold">VivaWeek 2025</strong>
           <svg viewBox="0 0 2 2" aria-hidden="true" className="mx-2 inline size-0.5 fill-current">
             <circle r={1} cx={1} cy={1} />
           </svg>
-          Join us in Denver from June 7 – 9 to see what’s coming next.
+          Acesse aulas ao vivo + todas as trilhas! Oferta disponível por tempo limitado.
         </p>
-        <a
-          href="#"
-          className="flex-none rounded-full bg-[var(--mantine-color-body)] px-3.5 py-1 text-sm font-semibold shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
-        >
-          Register now <span aria-hidden="true">&rarr;</span>
-        </a>
+        <Button size="compact-sm" rightSection={<IconArrowRight size={16} />}>
+          Faça sua inscrição agora
+        </Button>
       </div>
       <div className="flex flex-1 justify-end">
         <button type="button" className="-m-3 p-3 focus-visible:outline-offset-[-4px]">
