@@ -1,4 +1,12 @@
-import { IconMenu2, IconStar, IconUserSquareRounded, IconX } from '@tabler/icons-react'
+import {
+  IconArrowBigRightFilled,
+  IconArrowRight,
+  IconMenu2,
+  IconStar,
+  IconStarFilled,
+  IconUserSquareRounded,
+  IconX,
+} from '@tabler/icons-react'
 import { ActionIcon, Box, Button, Divider, Drawer } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import Logo from '@/components/Logo'
@@ -65,7 +73,11 @@ export default function Header() {
             <div className="flex items-center gap-4">
               <div className="items-center flex gap-4">
                 <ThemeSwitcher />
-                <Button component={Link} href="/assinatura" leftSection={<IconStar size={18} />}>
+                <Button
+                  component={Link}
+                  href="/assinatura"
+                  rightSection={<IconArrowBigRightFilled size={18} />}
+                >
                   Assinar
                 </Button>
                 <Button

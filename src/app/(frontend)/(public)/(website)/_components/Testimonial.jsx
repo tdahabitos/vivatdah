@@ -1,4 +1,5 @@
 import { Card, Rating } from '@mantine/core'
+import { useMediaQuery } from '@mantine/hooks'
 import { Splide, SplideSlide } from '@splidejs/react-splide'
 
 const testimonials = [
@@ -61,6 +62,9 @@ const testimonials = [
 ]
 
 export default function Testimonial() {
+  const isTablet = useMediaQuery('(min-width: 768px)')
+  const isDesktop = useMediaQuery('(min-width: 1280px)')
+
   return (
     <section>
       <div className="mx-auto max-w-screen-2xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
@@ -76,7 +80,10 @@ export default function Testimonial() {
           </div>
         </div>
 
-        <Splide className="mt-8" options={{ perPage: 3, gap: '1rem', arrows: false }}>
+        <Splide
+          className="mt-8"
+          options={{ perPage: isDesktop ? 3 : isTablet ? 2 : 1, gap: '1rem', arrows: false }}
+        >
           {testimonials.map((item) => (
             <SplideSlide key={item.name}>
               <Card

@@ -28,7 +28,7 @@ export default function Banner() {
           className="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-30"
         />
       </div>
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+      <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
         <p className="text-sm/6">
           <strong className="font-semibold">VivaWeek 2025</strong>
           <svg viewBox="0 0 2 2" aria-hidden="true" className="mx-2 inline size-0.5 fill-current">
