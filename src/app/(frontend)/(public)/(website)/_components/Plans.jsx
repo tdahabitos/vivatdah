@@ -15,40 +15,44 @@ const plans = [
   {
     id: 1,
     name: 'Starter',
-    description: 'Aprenda o básico de TDAH e aprimore seus conhecimentos.',
+    description: 'Ideal para iniciantes que querem partipar da nossa comunidade',
     price: 'R$ 49,90',
     recomended: false,
     features: [
-      'Aprenda o básico de TDAH',
-      'Aprimore seus conhecimentos',
-      'Acesso ilimitado',
-      'Suporte 1x por semana',
+      'Introdução ao TDAH',
+      'Conteúdo introdutório e estruturado',
+      'Acesso ilimitado à plataforma',
+      'Suporte 1x por semana via e-mail',
+      'Exercícios práticos básicos',
     ],
   },
   {
     id: 2,
     name: 'Viva!',
-    description: 'Aprenda tudo sobre TDAH e aprimore seus conhecimentos.',
+    description: 'Perfeito para quem quer ir além e melhorar seu ritmo de aprendizado',
     price: 'R$ 99,90',
     recomended: true,
     features: [
-      'Aprenda tudo sobre TDAH',
-      'Aprimore seus conhecimentos',
-      'Acesso ilimitado',
-      'Suporte 1x por semana',
+      'Curso completo sobre TDAH',
+      'Acesso a vídeos e materiais extras',
+      'Acesso ilimitado à plataforma',
+      'Suporte 2x por semana via e-mail',
+      'Acompanhamento de progresso',
+      'Participação em comunidade exclusiva',
     ],
   },
   {
     id: 3,
     name: 'Premium',
-    description: 'Aprenda tudo sobre TDAH e aprimore seus conhecimentos.',
+    description: 'Para quem busca um acompanhamento intensivo e personalizado',
     price: 'R$ 149,90',
     recomended: false,
     features: [
-      'Aprenda tudo sobre TDAH',
-      'Aprimore seus conhecimentos',
-      'Acesso ilimitado',
-      'Suporte 1x por semana',
+      'Sessões ao vivo mensais com especialistas',
+      'Suporte prioritário',
+      'Plano de estudos personalizado',
+      'Certificado de conclusão avançado',
+      'Acesso antecipado a novos conteúdos',
     ],
   },
 ]
@@ -74,7 +78,7 @@ export default function Plans() {
                 <div className="p-6 sm:px-8">
                   <h2
                     className={cn(
-                      'text-lg font-medium text-gray-900',
+                      'text-lg font-medium ',
                       plan.recomended &&
                         'bg-viva-orange-500 text-bold rounded text-white p-1 mx-[20%]',
                     )}
@@ -88,15 +92,12 @@ export default function Plans() {
 
                   <Divider my="lg" />
 
-                  <p className="mt-2 text-gray-700">{plan.description}</p>
+                  <p className="mt-2 ">{plan.description}</p>
 
                   <p className="mt-2 sm:mt-4">
-                    <strong className="text-3xl font-bold text-gray-900 sm:text-4xl">
-                      {' '}
-                      {plan.price}{' '}
-                    </strong>
+                    <strong className="text-3xl font-bold  sm:text-4xl"> {plan.price} </strong>
 
-                    <span className="text-sm font-medium text-gray-700">/mês</span>
+                    <span className="text-sm font-medium ">/mês</span>
                   </p>
 
                   <Divider my="lg" />
@@ -111,12 +112,12 @@ export default function Plans() {
                 </div>
 
                 <div className="p-6 sm:px-8">
-                  <p className="text-lg font-medium text-gray-900 sm:text-xl">Benefícios:</p>
+                  <p className="text-lg font-medium  sm:text-xl">Benefícios:</p>
 
                   <ul className="mt-2 space-y-2 sm:mt-4">
                     {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-center gap-1">
-                        <IconCheck size={16} /> <span className="text-gray-700">{feature}</span>
+                      <li key={feature} className="flex items-center gap-2 text-left">
+                        <IconCheck size={16} /> <span>{feature}</span>
                       </li>
                     ))}
                   </ul>

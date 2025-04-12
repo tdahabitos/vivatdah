@@ -1,17 +1,23 @@
 'use client'
 
 import { Button } from '@mantine/core'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function CookieConsent() {
-  const [cookiesAllowed, setCookiesAllowed] = useState(
-    localStorage.getItem('cookieConsent') === 'true',
-  )
+  const [cookiesAllowed, setCookiesAllowed] = useState(true)
+
+  function getCookieData() {
+    setCookiesAllowed(localStorage.getItem('cookieConsent') === 'true')
+  }
 
   function acceptCookies() {
     localStorage.setItem('cookieConsent', 'true')
     setCookiesAllowed(true)
   }
+
+  useEffect(() => {
+    getCookieData()
+  }, [])
 
   if (cookiesAllowed) {
     return null

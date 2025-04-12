@@ -1,22 +1,21 @@
-import {
-  IconArrowBigRightFilled,
-  IconArrowRight,
-  IconMenu2,
-  IconStar,
-  IconStarFilled,
-  IconUserSquareRounded,
-  IconX,
-} from '@tabler/icons-react'
+import { IconArrowBigRightFilled, IconMenu2, IconUserSquareRounded } from '@tabler/icons-react'
 import { ActionIcon, Box, Button, Divider, Drawer } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import Logo from '@/components/Logo'
 import Link from 'next/link'
 import ThemeSwitcher from '@/components/ThemeSwitcher'
+import { usePathname } from 'next/navigation'
+import { cn } from '@/utils'
 
 export default function Header() {
   const [opened, { open, close }] = useDisclosure(false)
+  const pathname = usePathname()
 
   const menu = [
+    {
+      label: 'Home',
+      href: '/',
+    },
     {
       label: 'Sobre',
       href: '/sobre',
@@ -59,7 +58,11 @@ export default function Header() {
                 {menu.map((item) => (
                   <li key={item.href}>
                     <Link
-                      className="transition hover:text-gray-500/75"
+                      className={cn(
+                        'transition hover:underline',
+                        pathname === item.href &&
+                          ' text-viva-orange-600 hover:text-viva-orange-500 ',
+                      )}
                       href={item.href}
                       target={item.target}
                     >

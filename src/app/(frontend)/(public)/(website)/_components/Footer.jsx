@@ -5,19 +5,6 @@ import Link from 'next/link'
 export default function Footer() {
   const menu = [
     {
-      title: 'Links úteis',
-      items: [
-        {
-          label: 'Politica de Privacidade',
-          href: '/politica-de-privacidade',
-        },
-        {
-          label: 'Termos de Serviço',
-          href: '/termos-de-servico',
-        },
-      ],
-    },
-    {
       title: 'Institucional',
       items: [
         {
@@ -30,8 +17,57 @@ export default function Footer() {
         },
       ],
     },
+
+    {
+      title: 'Outros projetos',
+      items: [
+        {
+          label: 'Conin TDAH',
+          href: 'https://conintdah.com',
+        },
+        {
+          label: 'Analisamente',
+          href: 'https://analisamente.com',
+        },
+      ],
+    },
     {
       title: 'Links úteis',
+      items: [
+        {
+          label: 'Blog',
+          href: 'https://tdah.blog',
+        },
+      ],
+    },
+    {
+      title: 'Assinatura',
+      items: [
+        {
+          label: 'Assinatura',
+          href: '/assinatura',
+        },
+        {
+          label: 'Trilhas',
+          href: '/trilhas',
+        },
+      ],
+    },
+    {
+      title: 'Autenticação',
+      items: [
+        {
+          label: 'Login',
+          href: '/auth/login',
+        },
+        {
+          label: 'Cadastro',
+          href: '/auth/register',
+        },
+      ],
+    },
+    {
+      title: 'Uso da plataforma',
       items: [
         {
           label: 'Politica de Privacidade',
@@ -40,45 +76,6 @@ export default function Footer() {
         {
           label: 'Termos de Serviço',
           href: '/termos-de-servico',
-        },
-      ],
-    },
-    {
-      title: 'Institucional',
-      items: [
-        {
-          label: 'Sobre nós',
-          href: '/sobre',
-        },
-        {
-          label: 'Contato',
-          href: '/contato',
-        },
-      ],
-    },
-    {
-      title: 'Links úteis',
-      items: [
-        {
-          label: 'Politica de Privacidade',
-          href: '/politica-de-privacidade',
-        },
-        {
-          label: 'Termos de Serviço',
-          href: '/termos-de-servico',
-        },
-      ],
-    },
-    {
-      title: 'Institucional',
-      items: [
-        {
-          label: 'Sobre nós',
-          href: '/sobre',
-        },
-        {
-          label: 'Contato',
-          href: '/contato',
         },
       ],
     },
@@ -138,7 +135,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <p className="text-xs ">&copy; 2025. VivaTDAH. Todos os direitos reservados.</p>
+        <p className="text-xs ">&copy; 2025 VivaTDAH - Todos os direitos reservados</p>
       </div>
     </footer>
   )
