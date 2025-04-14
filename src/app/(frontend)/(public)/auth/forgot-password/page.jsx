@@ -1,11 +1,5 @@
 'use client'
 
-import getMetadata from '@/utils/metadata'
-
-export const metadata = getMetadata({
-  title: 'VivaTDAH - Redefinir Senha',
-})
-
 import { Anchor, Button, Divider, Group, Paper, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import Logo from '@/components/Logo'

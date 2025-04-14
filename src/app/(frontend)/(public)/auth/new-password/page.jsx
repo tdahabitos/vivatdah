@@ -8,11 +8,6 @@ import { z } from 'zod'
 import { zodResolver } from 'mantine-form-zod-resolver'
 import { supabase } from '@/services/supabase/client'
 import { useRouter } from 'next/navigation'
-import getMetadata from '@/utils/metadata'
-
-export const metadata = getMetadata({
-  title: 'VivaTDAH - Nova Senha',
-})
 
 export default function NewPassword() {
   const [isLoading, setIsLoading] = useState(false)
