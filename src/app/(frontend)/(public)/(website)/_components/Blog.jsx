@@ -31,7 +31,8 @@ export default function Blog() {
         {posts.map((post) => (
           <Link
             key={post.id}
-            href={`${process.env.NEXT_PUBLIC_BASE_URL}/${post.slug}`}
+            target="_blank"
+            href={`${process.env.NEXT_PUBLIC_BLOG_URL}/post/${post.slug}`}
             className="group relative flex h-48 flex-col overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-64 xl:h-96"
           >
             <Image

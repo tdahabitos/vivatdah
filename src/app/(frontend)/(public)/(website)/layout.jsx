@@ -1,5 +1,3 @@
-'use client'
-
 import Header from './_components/Header'
 import Footer from './_components/Footer'
 import Banner from './_components/Banner'

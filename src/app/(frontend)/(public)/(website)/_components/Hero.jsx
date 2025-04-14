@@ -1,5 +1,6 @@
 'use client'
 import { Button, useMantineColorScheme } from '@mantine/core'
+import Link from 'next/link'
 
 export default function Hero() {
   const { colorScheme } = useMantineColorScheme()
@@ -20,18 +21,28 @@ export default function Hero() {
           </p>
 
           <div className="mt-4 flex gap-4 sm:mt-6">
-            <Button size="xl" variant="outline" color={colorScheme === 'dark' ? 'white' : 'dark'}>
+            <Button
+              component={Link}
+              href="/o-que-esperar"
+              size="xl"
+              variant="outline"
+              color={colorScheme === 'dark' ? 'white' : 'dark'}
+            >
               Saiba mais
             </Button>
-            <Button size="xl">Começe agora</Button>
+            <Button size="xl" component={Link} href="/assinatura">
+              Começe agora
+            </Button>
           </div>
         </div>
 
-        {colorScheme === 'dark' ? (
-          <img src="/hero-cover-dark.svg" alt="Hero" />
-        ) : (
-          <img src="/hero-cover.svg" alt="Hero" />
-        )}
+        <div className="w-full py-8 md:py-0">
+          {colorScheme === 'dark' ? (
+            <img src="/hero-cover-dark.svg" alt="Hero" />
+          ) : (
+            <img src="/hero-cover.svg" alt="Hero" />
+          )}
+        </div>
       </div>
     </div>
   )

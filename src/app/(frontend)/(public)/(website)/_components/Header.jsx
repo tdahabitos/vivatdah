@@ -1,3 +1,5 @@
+'use client'
+
 import { IconArrowBigRightFilled, IconMenu2, IconUserSquareRounded } from '@tabler/icons-react'
 import { ActionIcon, Box, Button, Divider, Drawer } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'

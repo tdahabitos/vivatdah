@@ -1,3 +1,5 @@
+'use client'
+
 import Logo from '@/components/Logo'
 import { IconBrandFacebook, IconBrandInstagram, IconBrandX } from '@tabler/icons-react'
 import Link from 'next/link'

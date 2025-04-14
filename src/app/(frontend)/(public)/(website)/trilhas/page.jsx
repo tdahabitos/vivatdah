@@ -1,7 +1,7 @@
 'use client'
 
 import { apiFetcher } from '@/services/api'
-import { Badge, Button, Card, Group, Image, Text } from '@mantine/core'
+import { Button, Card, Group, Image, Text } from '@mantine/core'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
@@ -41,24 +41,31 @@ export default function TrilhasPage() {
       </p>
 
       <div className="grid grid-cols-4 gap-4 mt-8">
+        {categories.length === 0 &&
+          [1, 2, 3, 4].map((n) => (
+            <div
+              key={n}
+              className="max-w-sm space-y-4 p-2 border border-gray-200 rounded-2xl shadow-sm animate-pulse md:p-6 dark:border-zinc-700"
+            >
+              <div className="h-48 bg-gray-200 rounded-2xl dark:bg-zinc-700" />
+              <div className="h-12 bg-gray-200 rounded-2xl dark:bg-zinc-700" />
+              <div className="h-12 bg-gray-200 rounded-2xl dark:bg-zinc-700" />
+            </div>
+          ))}
+
         {categories.map((category) => (
           <Card key={category.id} shadow="sm" padding="lg" radius="md" withBorder>
-            {/* <Card.Section>
-              <Image
-                src="https://conintdah.com/wp-content/uploads/2025/01/brain-2-1536x1138.webp"
-                height={160}
-                alt="Conin 6"
-              />
-            </Card.Section> */}
+            <Card.Section>
+              <Image src={category.cover.url} height={160} alt={category.title} />
+            </Card.Section>
 
             <Group justify="space-between" mt="md" mb="xs">
               <Text fw={500}>{category.title} </Text>
             </Group>
 
-            {/* <Text size="sm" c="dimmed">
-              Um Evento Feito para Você: estratégias Simples, acolhimento e soluções baseadas em
-              Evidências Científicas para transformações reais.
-            </Text> */}
+            <Text size="sm" c="dimmed" mb="md">
+              {category.description}
+            </Text>
 
             <Button component={Link} href="/assinatura" fullWidth mt="auto" radius="md">
               Iniciar agora

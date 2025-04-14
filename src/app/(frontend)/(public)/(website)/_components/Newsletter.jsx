@@ -62,7 +62,7 @@ export default function Newsletter() {
               exclusivas sobre TDAH diretamente no seu e-mail.
             </p>
             <form onSubmit={form.onSubmit(handleSubmit)}>
-              <div className="w-full flex flex-wrap items-start gap-1 mt-6">
+              <div className="w-full flex flex-wrap items-start gap-2 mt-6">
                 <TextInput
                   className="w-full flex-1"
                   placeholder="Digite seu email"
