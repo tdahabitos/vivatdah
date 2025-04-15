@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export default function getMetadata({
-  title,
-  description,
+  title = "VivaTDAH",
+  description = "A melhor plataforma TDAH do Brasil",
 }: { title: string; description: string }) {
   return {
     title,

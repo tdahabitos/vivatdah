@@ -18,5 +18,26 @@ export const Categories: CollectionConfig = {
       label: "Título",
       type: "text",
     },
+    {
+      name: "description",
+      label: "Descrição",
+      type: "textarea",
+    },
+    {
+      name: "cover",
+      label: "Capa",
+      type: "upload",
+      relationTo: "media",
+      admin: {
+        position: "sidebar",
+      },
+    },
+    {
+      name: "included_plans",
+      label: "Planos inclusos",
+      type: "relationship",
+      relationTo: "plans",
+      hasMany: true,
+    },
   ],
 };

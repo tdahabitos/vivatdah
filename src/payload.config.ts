@@ -17,6 +17,7 @@ import { Posts } from "./collections/Posts";
 import { Videos } from "./collections/Videos";
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
+import { Plans } from "./collections/Plans";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -45,6 +46,7 @@ export default buildConfig({
           label: "Modo de manutenção",
           type: "checkbox",
         },
+        /*  */
         {
           name: "auth_private_mode",
           label:
@@ -56,6 +58,35 @@ export default buildConfig({
           label:
             "Usuários autorizados no modo de autenticação privada (e-mails separados por vírgula (,) - Exemplo: email1@email.com, email2@email.com...)",
           type: "textarea",
+        },
+      ],
+    },
+    {
+      slug: "banner",
+      label: "Banner",
+      access: {
+        read: () => true,
+      },
+      fields: [
+        {
+          name: "banner_active",
+          label: "Mostrar banner",
+          type: "checkbox",
+        },
+        {
+          name: "banner_title",
+          label: "Título do banner",
+          type: "text",
+        },
+        {
+          name: "banner_text",
+          label: "Texto do banner",
+          type: "text",
+        },
+        {
+          name: "banner_url",
+          label: "URL do banner",
+          type: "text",
         },
       ],
     },
@@ -72,7 +103,7 @@ export default buildConfig({
       },
     },
   },
-  collections: [Categories, PostCategories, Posts, Videos, Users, Media],
+  collections: [Categories, PostCategories, Posts, Videos, Users, Media, Plans],
   i18n: {
     supportedLanguages: { pt },
   },

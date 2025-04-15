@@ -1,58 +1,55 @@
-import {
-  IconMenu2,
-  IconStar,
-  IconUserSquareRounded,
-  IconX,
-} from "@tabler/icons-react";
-import { ActionIcon, Box, Button, Divider, Drawer } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import Logo from "@/components/Logo";
-import Link from "next/link";
-import ThemeSwitcher from "@/components/ThemeSwitcher";
+'use client'
+
+import { IconArrowBigRightFilled, IconMenu2, IconUserSquareRounded } from '@tabler/icons-react'
+import { ActionIcon, Box, Button, Divider, Drawer } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
+import Logo from '@/components/Logo'
+import Link from 'next/link'
+import ThemeSwitcher from '@/components/ThemeSwitcher'
+import { usePathname } from 'next/navigation'
+import { cn } from '@/utils'
 
 export default function Header() {
-  const [opened, { open, close }] = useDisclosure(false);
+  const [opened, { open, close }] = useDisclosure(false)
+  const pathname = usePathname()
 
   const menu = [
     {
-      label: "Sobre",
-      href: "/sobre",
+      label: 'Home',
+      href: '/',
     },
     {
-      label: "Trilhas",
-      href: "/trilhas",
+      label: 'Sobre',
+      href: '/sobre',
     },
     {
-      label: "O que esperar?",
-      href: "/o-que-esperar",
+      label: 'Trilhas',
+      href: '/trilhas',
     },
     {
-      label: "Assinatura",
-      href: "/assinatura",
+      label: 'O que esperar?',
+      href: '/o-que-esperar',
     },
     {
-      label: "Blog",
-      href: "https://tdah.blog",
-      target: "_blank",
+      label: 'Assinatura',
+      href: '/assinatura',
     },
-  ];
+    {
+      label: 'Blog',
+      href: 'https://tdah.blog',
+      target: '_blank',
+    },
+  ]
 
   return (
     <>
-      <Box className="sticky top-0 z-50 backdrop-blur border-b">
-        <div className="mx-auto flex flex-wrap min-h-24 max-w-screen-xl justify-center sm:justify-between items-center gap-8 px-4 sm:px-6 lg:px-8 py-2">
+      <Box className="sticky top-0 z-50 border-y dark:border-t-0 bg-[var(--mantine-color-body)] shadow-lg">
+        <div className="mx-auto flex flex-wrap min-h-24 max-w-screen-xl justify-center sm:justify-between items-center gap-8 px-4 sm:px-6 lg:px-8 pt-2 pb-4">
           <div className="flex items-center gap-4">
             <ActionIcon className="lg:hidden" variant="filled" onClick={open}>
               <IconMenu2 size={18} />
             </ActionIcon>
-            <Button
-              component={Link}
-              href="/"
-              variant="transparent"
-              h="auto"
-              p={0}
-              radius={0}
-            >
+            <Button component={Link} href="/" variant="transparent" h="auto" p={0} radius={0}>
               <Logo className="h-20 w-auto" />
             </Button>
           </div>
@@ -63,7 +60,11 @@ export default function Header() {
                 {menu.map((item) => (
                   <li key={item.href}>
                     <Link
-                      className="transition hover:text-gray-500/75"
+                      className={cn(
+                        'transition hover:underline',
+                        pathname === item.href &&
+                          ' text-viva-orange-600 hover:text-viva-orange-500 ',
+                      )}
                       href={item.href}
                       target={item.target}
                     >
@@ -80,7 +81,7 @@ export default function Header() {
                 <Button
                   component={Link}
                   href="/assinatura"
-                  leftSection={<IconStar size={18} />}
+                  rightSection={<IconArrowBigRightFilled size={18} />}
                 >
                   Assinar
                 </Button>
@@ -97,11 +98,7 @@ export default function Header() {
           </div>
         </div>
       </Box>
-      <Drawer
-        opened={opened}
-        onClose={close}
-        title={<Logo className={"h-20 w-auto"} />}
-      >
+      <Drawer opened={opened} onClose={close} title={<Logo className={'h-20 w-auto'} />}>
         <Divider my="sm" />
         <ul className="flex flex-col gap-6">
           {menu.map((item) => (
@@ -119,5 +116,5 @@ export default function Header() {
         </ul>
       </Drawer>
     </>
-  );
+  )
 }

@@ -1,14 +1,14 @@
-import { redirect } from "next/navigation";
-import { createClient } from "@/services/supabase/server";
+import { redirect } from 'next/navigation'
+import { createClient } from '@/services/supabase/server'
 
 export default async function AuthLayout({ children }) {
-  const supabase = await createClient();
+  const supabase = await createClient()
 
-  const { data } = await supabase.auth.getUser();
+  const { error } = await supabase.auth.getUser()
 
-  if (data?.user) {
-    redirect("/dashboard");
+  if (!error) {
+    redirect('/dashboard')
   }
 
-  return children;
+  return children
 }

@@ -17,6 +17,7 @@ export interface Config {
     videos: Video;
     users: User;
     media: Media;
+    plans: Plan;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -29,6 +30,7 @@ export interface Config {
     videos: VideosSelect<false> | VideosSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    plans: PlansSelect<false> | PlansSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -38,9 +40,11 @@ export interface Config {
   };
   globals: {
     administration: Administration;
+    banner: Banner;
   };
   globalsSelect: {
     administration: AdministrationSelect<false> | AdministrationSelect<true>;
+    banner: BannerSelect<false> | BannerSelect<true>;
   };
   locale: null;
   user: User & {
@@ -76,6 +80,44 @@ export interface UserAuthOperations {
 export interface Category {
   id: string;
   title?: string | null;
+  description?: string | null;
+  cover?: (string | null) | Media;
+  included_plans?: (string | Plan)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: string;
+  title: string;
+  categories?: (string | Category)[] | null;
+  prefix?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "plans".
+ */
+export interface Plan {
+  id: string;
+  title?: string | null;
+  description?: string | null;
+  price?: number | null;
+  features?: string | null;
+  recomended?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -120,27 +162,6 @@ export interface Post {
   } | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: string;
-  title: string;
-  categories?: (string | Category)[] | null;
-  prefix?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -227,6 +248,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'plans';
+        value: string | Plan;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -276,6 +301,9 @@ export interface PayloadMigration {
  */
 export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
+  description?: T;
+  cover?: T;
+  included_plans?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -365,6 +393,19 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "plans_select".
+ */
+export interface PlansSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  price?: T;
+  features?: T;
+  recomended?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
@@ -409,12 +450,38 @@ export interface Administration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "banner".
+ */
+export interface Banner {
+  id: string;
+  banner_active?: boolean | null;
+  banner_title?: string | null;
+  banner_text?: string | null;
+  banner_url?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "administration_select".
  */
 export interface AdministrationSelect<T extends boolean = true> {
   maintenance_mode?: T;
   auth_private_mode?: T;
   auth_allowed_user_emails?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "banner_select".
+ */
+export interface BannerSelect<T extends boolean = true> {
+  banner_active?: T;
+  banner_title?: T;
+  banner_text?: T;
+  banner_url?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

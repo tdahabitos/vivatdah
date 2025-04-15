@@ -1,45 +1,36 @@
-"use client";
+'use client'
 
-import {
-  Anchor,
-  Button,
-  Divider,
-  Group,
-  Paper,
-  TextInput,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import Logo from "@/components/Logo";
-import { useState } from "react";
-import Link from "next/link";
-import { z } from "zod";
-import { zodResolver } from "mantine-form-zod-resolver";
-import { IconArrowLeft, IconMail } from "@tabler/icons-react";
-import { supabase } from "@/services/supabase/client";
+import { Anchor, Button, Divider, Group, Paper, TextInput } from '@mantine/core'
+import { useForm } from '@mantine/form'
+import Logo from '@/components/Logo'
+import { useState } from 'react'
+import Link from 'next/link'
+import { z } from 'zod'
+import { zodResolver } from 'mantine-form-zod-resolver'
+import { IconArrowLeft, IconMail } from '@tabler/icons-react'
+import { supabase } from '@/services/supabase/client'
 
 export default function ForgotPassword() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [sent, setSent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
+  const [sent, setSent] = useState(false)
 
   const validationSchema = z.object({
-    email: z
-      .string({ message: "O campo é obrigatorio" })
-      .email({ message: "E-mail inválido" }),
-  });
+    email: z.string({ message: 'O campo é obrigatorio' }).email({ message: 'E-mail inválido' }),
+  })
 
   const form = useForm({
     validate: zodResolver(validationSchema),
-  });
+  })
 
   async function handleSubmit(data) {
-    setIsLoading(true);
+    setIsLoading(true)
 
     await supabase.auth
       .resetPasswordForEmail(data.email, {
-        redirectTo: "http://localhost:3000/auth/new-password",
+        redirectTo: 'http://localhost:3000/auth/new-password',
       })
       .then(() => setSent(true))
-      .finally(() => setIsLoading(false));
+      .finally(() => setIsLoading(false))
   }
 
   return (
@@ -54,8 +45,7 @@ export default function ForgotPassword() {
             <IconMail size={48} />
             <Divider />
             <span className="text-center">
-              Confira o seu e-mail e siga as instruções para redefinir sua
-              senha.
+              Confira o seu e-mail e siga as instruções para redefinir sua senha.
             </span>
           </div>
         ) : (
@@ -64,7 +54,7 @@ export default function ForgotPassword() {
               label="E-mail"
               placeholder="meu-melhor@email.com"
               disabled={isLoading}
-              {...form.getInputProps("email")}
+              {...form.getInputProps('email')}
             />
 
             <Group justify="space-between" mt="xl">
@@ -88,5 +78,5 @@ export default function ForgotPassword() {
         )}
       </Paper>
     </div>
-  );
+  )
 }

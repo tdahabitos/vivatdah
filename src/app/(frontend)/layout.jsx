@@ -1,6 +1,7 @@
+import '@/globals.css'
 import '@mantine/core/styles.css'
 import '@mantine/notifications/styles.css'
-import '@/globals.css'
+import '@splidejs/react-splide/css'
 
 import { Notifications } from '@mantine/notifications'
 
