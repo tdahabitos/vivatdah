@@ -14,6 +14,16 @@ export const Plans: CollectionConfig = {
   },
   fields: [
     {
+      name: "recomended",
+      label: "Recomendado",
+      type: "checkbox",
+    },
+    {
+      name: "showAtHome",
+      label: "Mostrar na página inicial",
+      type: "checkbox",
+    },
+    {
       name: "title",
       label: "Título",
       type: "text",
@@ -33,11 +43,6 @@ export const Plans: CollectionConfig = {
       label:
         "Destaques deste plano (lista separada por vírgulas (,) - Exemplo: a, b, c...)",
       type: "textarea",
-    },
-    {
-      name: "recomended",
-      label: "Recomendado",
-      type: "checkbox",
     },
   ],
 };

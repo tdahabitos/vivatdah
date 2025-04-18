@@ -18,6 +18,7 @@ export interface Config {
     users: User;
     media: Media;
     plans: Plan;
+    access: Access;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -31,6 +32,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     plans: PlansSelect<false> | PlansSelect<true>;
+    access: AccessSelect<false> | AccessSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -40,10 +42,12 @@ export interface Config {
   };
   globals: {
     administration: Administration;
+    authentication: Authentication;
     banner: Banner;
   };
   globalsSelect: {
     administration: AdministrationSelect<false> | AdministrationSelect<true>;
+    authentication: AuthenticationSelect<false> | AuthenticationSelect<true>;
     banner: BannerSelect<false> | BannerSelect<true>;
   };
   locale: null;
@@ -113,11 +117,12 @@ export interface Media {
  */
 export interface Plan {
   id: string;
+  recomended?: boolean | null;
+  showAtHome?: boolean | null;
   title?: string | null;
   description?: string | null;
   price?: number | null;
   features?: string | null;
-  recomended?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -139,6 +144,7 @@ export interface PostCategory {
  */
 export interface Post {
   id: string;
+  show_at_home?: boolean | null;
   status?: ('draft' | 'published') | null;
   categories: (string | PostCategory)[];
   cover?: (string | null) | Media;
@@ -220,6 +226,17 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "access".
+ */
+export interface Access {
+  id: string;
+  email?: string | null;
+  allowed_categories?: (string | Category)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -252,6 +269,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'plans';
         value: string | Plan;
+      } | null)
+    | ({
+        relationTo: 'access';
+        value: string | Access;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -323,6 +344,7 @@ export interface PostCategoriesSelect<T extends boolean = true> {
  * via the `definition` "posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
+  show_at_home?: T;
   status?: T;
   categories?: T;
   cover?: T;
@@ -396,11 +418,22 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "plans_select".
  */
 export interface PlansSelect<T extends boolean = true> {
+  recomended?: T;
+  showAtHome?: T;
   title?: T;
   description?: T;
   price?: T;
   features?: T;
-  recomended?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "access_select".
+ */
+export interface AccessSelect<T extends boolean = true> {
+  email?: T;
+  allowed_categories?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -443,6 +476,15 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface Administration {
   id: string;
   maintenance_mode?: boolean | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "authentication".
+ */
+export interface Authentication {
+  id: string;
   auth_private_mode?: boolean | null;
   auth_allowed_user_emails?: string | null;
   updatedAt?: string | null;
@@ -467,6 +509,15 @@ export interface Banner {
  */
 export interface AdministrationSelect<T extends boolean = true> {
   maintenance_mode?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "authentication_select".
+ */
+export interface AuthenticationSelect<T extends boolean = true> {
   auth_private_mode?: T;
   auth_allowed_user_emails?: T;
   updatedAt?: T;

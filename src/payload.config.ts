@@ -18,6 +18,7 @@ import { Videos } from "./collections/Videos";
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
 import { Plans } from "./collections/Plans";
+import { Access } from "./collections/Access";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -43,27 +44,35 @@ export default buildConfig({
       fields: [
         {
           name: "maintenance_mode",
-          label: "Modo de manutenção",
+          label: "Ativar modo de manutenção",
           type: "checkbox",
         },
-        /*  */
+      ],
+    },
+    {
+      slug: "authentication",
+      label: "Controle de autenticação",
+      access: {
+        read: () => true,
+      },
+      fields: [
         {
           name: "auth_private_mode",
           label:
-            "Modo de autenticação privada (autenticação exclusiva para usuarios autorizados)",
+            "Ativar modo de autenticação privada (exclusiva para usuários autorizados abaixo)",
           type: "checkbox",
         },
         {
           name: "auth_allowed_user_emails",
           label:
-            "Usuários autorizados no modo de autenticação privada (e-mails separados por vírgula (,) - Exemplo: email1@email.com, email2@email.com...)",
+            "Usuários autorizados (e-mails separados por vírgula [,] - Exemplo: email1@email.com, email2@email.com...)",
           type: "textarea",
         },
       ],
     },
     {
       slug: "banner",
-      label: "Banner",
+      label: "Banner promocional",
       access: {
         read: () => true,
       },
@@ -103,7 +112,16 @@ export default buildConfig({
       },
     },
   },
-  collections: [Categories, PostCategories, Posts, Videos, Users, Media, Plans],
+  collections: [
+    Categories,
+    PostCategories,
+    Posts,
+    Videos,
+    Users,
+    Media,
+    Plans,
+    Access,
+  ],
   i18n: {
     supportedLanguages: { pt },
   },

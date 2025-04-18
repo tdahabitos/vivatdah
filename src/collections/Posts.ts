@@ -14,6 +14,15 @@ export const Posts: CollectionConfig = {
   },
   fields: [
     {
+      name: "show_at_home",
+      label: "Mostrar na página inicial",
+      type: "checkbox",
+      defaultValue: false,
+      admin: {
+        position: "sidebar",
+      },
+    },
+    {
       name: "status",
       label: "Status",
       defaultValue: "published",
@@ -71,7 +80,10 @@ export const Posts: CollectionConfig = {
         beforeValidate: [
           ({ data }) => {
             if (data?.slug) {
-              return data.slug.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');;
+              return data.slug
+                .toLowerCase()
+                .replace(/\s+/g, "-")
+                .replace(/[^\w-]+/g, "");
             }
           },
         ],

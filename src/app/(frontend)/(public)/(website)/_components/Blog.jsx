@@ -8,7 +8,11 @@ export default function Blog() {
   const [posts, setPosts] = useState([])
 
   async function getPosts() {
-    setPosts(await apiFetcher('/posts?limit=4'))
+    setPosts(
+      await apiFetcher(
+        '/posts/?where[status][equals]=published&where[show_at_home][equals]=true&limit=4',
+      ),
+    )
   }
 
   useEffect(() => {
@@ -28,6 +32,17 @@ export default function Blog() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-8">
+        {posts.length === 0 &&
+          [1, 2, 3, 4].map((n) => (
+            <div
+              key={n}
+              className="max-w-sm space-y-4 p-2 border border-gray-200 rounded-2xl shadow-sm animate-pulse md:p-6 dark:border-zinc-700"
+            >
+              <div className="h-48 bg-gray-200 rounded-2xl dark:bg-zinc-700" />
+              <div className="h-12 bg-gray-200 rounded-2xl dark:bg-zinc-700" />
+              <div className="h-12 bg-gray-200 rounded-2xl dark:bg-zinc-700" />
+            </div>
+          ))}
         {posts.map((post) => (
           <Link
             key={post.id}

@@ -12,7 +12,7 @@ export default function Plans() {
   async function getPlans() {
     const plans = await apiFetcher('/plans')
 
-    setPlans(plans.sort((a, b) => a.price - b.price))
+    setPlans(plans.filter((plan) => plan.showAtHome).sort((a, b) => b.price - a.price))
   }
 
   useEffect(() => {
