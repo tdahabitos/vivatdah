@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-mantine-color-scheme="dark"], [data-mantine-color-scheme="dark"] *));
+
+@theme {
+	--font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
+		"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+	--color-viva-orange-100: #fff6e0;
+	--color-viva-orange-200: #ffebca;
+	--color-viva-orange-300: #ffd699;
+	--color-viva-orange-400: #ffbf63;
+	--color-viva-orange-500: #ffac36;
+	--color-viva-orange-600: #ffa018;
+	--color-viva-orange-700: #ff9904;
+	--color-viva-orange-800: #e48500;
+	--color-viva-orange-900: #cb7500;
+	--color-viva-orange-950: #b16400;
+}
