@@ -113,7 +113,7 @@ export default function Settings() {
   }, [user]);
 
   if (isLoading) {
-    return "loading...";
+    return null;
   }
 
   return (

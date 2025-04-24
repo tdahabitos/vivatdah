@@ -9,21 +9,35 @@ import Sidebar from "./components/sidebar";
 import AuthGuard from "~/components/auth-guard";
 import AccountButton from "./components/account-button";
 import CtaButton from "./components/cta-button";
-import api from "~/lib/api";
+import api, { globalApi } from "~/lib/api";
 import Search from "~/components/search";
+import { useAuthConfig } from "~/store/auth-config-store";
+import { useEffect } from "react";
 
 export async function loader() {
+  const { auth_private_mode: isPrivateAuthMode } = await globalApi({
+    slug: "authentication",
+    select: {
+      auth_private_mode: true,
+    },
+  });
+
   const categories = await api({
     collection: "categories",
     sort: ["title"],
   });
 
-  return { categories };
+  return { isPrivateAuthMode, categories };
 }
 
 export default function DashboardLayout({ loaderData }: Route.ComponentProps) {
-  const { categories } = loaderData;
+  const { isPrivateAuthMode, categories } = loaderData;
   const [opened, { close, toggle }] = useDisclosure();
+  const { setIsPrivateAuthMode } = useAuthConfig();
+
+  useEffect(() => {
+    setIsPrivateAuthMode(isPrivateAuthMode);
+  }, []);
 
   return (
     <AuthGuard>

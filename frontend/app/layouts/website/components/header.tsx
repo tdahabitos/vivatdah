@@ -10,9 +10,11 @@ import { Link, useLocation } from "react-router";
 import Logo from "~/components/logo";
 import ThemeSwitcher from "~/components/theme-switcher";
 import type { MenuItem } from "~/types";
+import { useAuth } from "~/hooks/use-auth";
 
 export default function Header({ menu }: { menu: MenuItem[] }) {
   const [opened, { open, close }] = useDisclosure(false);
+  const { user } = useAuth();
   const { pathname } = useLocation();
 
   const addonMenu = [
@@ -74,20 +76,22 @@ export default function Header({ menu }: { menu: MenuItem[] }) {
             <div className="flex items-center gap-4">
               <div className="items-center flex gap-4">
                 <ThemeSwitcher />
-                <Button
-                  component={Link}
-                  to="/assinatura"
-                  rightSection={<IconArrowBigRightFilled size={18} />}
-                >
-                  Assinar
-                </Button>
+                {!user && (
+                  <Button
+                    component={Link}
+                    to="/assinatura"
+                    rightSection={<IconArrowBigRightFilled size={18} />}
+                  >
+                    Assinar
+                  </Button>
+                )}
                 <Button
                   variant="light"
                   leftSection={<IconUserSquareRounded size={18} />}
                   component={Link}
                   to="/dashboard"
                 >
-                  Login
+                  {user ? "Dashboard" : "Login"}
                 </Button>
               </div>
             </div>

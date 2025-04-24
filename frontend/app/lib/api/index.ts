@@ -1,11 +1,12 @@
 import axios from "axios";
 import type { FindArgs, FindGlobalArgs } from "payload";
 
-export { getPublicUser } from "./others";
+export { getPublicUser, privateAuthCheck } from "./public";
 export { addView, getViews } from "./views";
 export { getComments, sendComment, deleteComment } from "./comments";
 export { getFeedback, sendFeedback } from "./feedback";
 export { getSaved, sendSaved } from "./saved";
+export { getUserAllowedCategories } from "./access";
 
 export default async function api(args: FindArgs) {
   return await axios
@@ -13,7 +14,7 @@ export default async function api(args: FindArgs) {
     .then((res) => res?.data?.result?.docs);
 }
 
-export async function globalCollectionApi(args: FindGlobalArgs) {
+export async function globalApi(args: FindGlobalArgs) {
   return await axios
     .post(`${import.meta.env.VITE_API_URL}/global`, args)
     .then((res) => res?.data?.result);

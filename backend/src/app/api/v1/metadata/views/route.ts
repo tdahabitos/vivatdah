@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
         },
       },
     })
-    .then((res) => res.docs[0].views);
+    .then((res) => res.docs?.[0]?.views || 0);
 
   return Response.json(views, cors(200));
 }

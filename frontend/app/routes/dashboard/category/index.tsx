@@ -6,6 +6,9 @@ import type { PandaVideo } from "~/types";
 import type { Route } from "./+types";
 import { getFolderVideos } from "~/lib/panda-videos";
 import FileList from "./components/file-list";
+import { useUser } from "~/store/user-store";
+import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const { id } = params;
@@ -39,6 +42,26 @@ export async function loader({ params }: Route.LoaderArgs) {
 
 export default function Category({ loaderData }: Route.ComponentProps) {
   const { category, videos, files } = loaderData;
+  const { allowedCategories } = useUser();
+  const [hasAccess, setHasAccess] = useState(false);
+  const navigate = useNavigate();
+
+  function checkAccess() {
+    if (!allowedCategories) return;
+
+    if (allowedCategories.includes(category.id)) {
+      setHasAccess(true);
+      return;
+    }
+
+    navigate(`/${import.meta.env.VITE_PLANS_PAGE_PATH}`);
+  }
+
+  useEffect(() => {
+    checkAccess();
+  }, [allowedCategories]);
+
+  if (!hasAccess) return null;
 
   return (
     <div className="flex flex-col gap-6">

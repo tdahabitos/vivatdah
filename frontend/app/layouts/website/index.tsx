@@ -2,7 +2,7 @@ import { Outlet } from "react-router";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import type { Route } from "./+types";
-import api, { globalCollectionApi } from "~/lib/api";
+import api, { globalApi } from "~/lib/api";
 import type { Banner } from "~/types";
 import PromoBanner from "./components/promo-banner";
 
@@ -23,7 +23,7 @@ export async function loader() {
     },
   });
 
-  const banner = await globalCollectionApi({
+  const banner = await globalApi({
     slug: "banner",
   });
 

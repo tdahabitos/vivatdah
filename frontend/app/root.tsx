@@ -23,7 +23,7 @@ import {
 
 import type { Route } from "./+types/root";
 import { IconBubbleX } from "@tabler/icons-react";
-import { globalCollectionApi } from "./lib/api";
+import { globalApi } from "./lib/api";
 import ThemeSwitcher from "./components/theme-switcher";
 
 export const links: Route.LinksFunction = () => [
@@ -60,7 +60,7 @@ const theme = createTheme({
 });
 
 export async function loader() {
-  const administration = await globalCollectionApi({
+  const administration = await globalApi({
     slug: "administration",
   });
 

@@ -2,7 +2,7 @@ import cors from "@/utils/cors";
 import { createClient } from "@supabase/supabase-js";
 
 export async function GET(
-  request,
+  request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
   const supabaseAdmin = createClient(
