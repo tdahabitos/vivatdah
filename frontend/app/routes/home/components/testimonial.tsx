@@ -1,6 +1,5 @@
 import { Card, Rating } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { Splide, SplideSlide } from "@splidejs/react-splide";
 
 const testimonials = [
   {
@@ -45,6 +44,7 @@ const testimonials = [
     testimonial:
       "Antes, era tudo caos. Agora, com os checklists e metas pequenas, consigo ver meu avanço sem me sobrecarregar.",
   },
+  /* 
   {
     title: "Aprender ficou mais leve.",
     avaliation: 5,
@@ -58,7 +58,7 @@ const testimonials = [
     name: "Letícia Souza",
     testimonial:
       "Os pontos, conquistas e mensagens de incentivo realmente me empolgam. Parece bobo, mas me mantém firme.",
-  },
+  }, */
 ];
 
 export default function Testimonial() {
@@ -80,39 +80,31 @@ export default function Testimonial() {
         </div>
       </div>
 
-      <Splide
-        className="mt-8"
-        options={{
-          perPage: isDesktop ? 3 : isTablet ? 2 : 1,
-          gap: "1rem",
-          arrows: false,
-        }}
-      >
+      <div className="mt-12 grid grid-cols-1 gap-8 md:mt-16 md:grid-cols-2 lg:grid-cols-3">
         {testimonials.map((item) => (
-          <SplideSlide key={item.name}>
-            <Card
-              withBorder
-              className="flex h-full flex-col justify-between p-6 shadow-sm sm:p-8"
-            >
-              <div>
-                <Rating defaultValue={item.avaliation} readOnly />
+          <Card
+            key={item.name}
+            withBorder
+            className="flex h-full flex-col justify-between p-6 shadow-sm sm:p-8"
+          >
+            <div>
+              <Rating defaultValue={item.avaliation} readOnly />
 
-                <div className="mt-4">
-                  <p className="text-2xl font-bold sm:text-2xl">{item.title}</p>
+              <div className="mt-4">
+                <p className="text-2xl font-bold sm:text-2xl">{item.title}</p>
 
-                  <p className="mt-4 leading-relaxed ">
-                    <q>{item.testimonial}</q>
-                  </p>
-                </div>
+                <p className="mt-4 leading-relaxed ">
+                  <q>{item.testimonial}</q>
+                </p>
               </div>
+            </div>
 
-              <footer className="mt-4 text-sm font-medium sm:mt-6">
-                - {item.name}
-              </footer>
-            </Card>
-          </SplideSlide>
+            <footer className="mt-4 text-sm font-medium sm:mt-6">
+              - {item.name}
+            </footer>
+          </Card>
         ))}
-      </Splide>
+      </div>
     </section>
   );
 }
