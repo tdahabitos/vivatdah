@@ -1,82 +1,81 @@
-import type { CollectionConfig } from "payload";
-import { slugValidate } from "../utils";
+import type { CollectionConfig } from 'payload'
+import { slugValidate } from '../utils'
 
 export const Pages: CollectionConfig = {
-  slug: "pages",
+  slug: 'pages',
   labels: {
-    singular: "Página",
-    plural: "Páginas",
+    singular: 'Página',
+    plural: 'Páginas',
   },
   access: {
     read: () => true,
   },
   admin: {
-    useAsTitle: "title",
+    useAsTitle: 'title',
   },
   fields: [
     {
-      name: "status",
-      label: "Status",
-      defaultValue: "published",
-      type: "select",
+      name: 'status',
+      label: 'Status',
+      defaultValue: 'published',
+      type: 'select',
       options: [
         {
-          label: "Rascunho",
-          value: "draft",
+          label: 'Rascunho',
+          value: 'draft',
         },
         {
-          label: "Publicado",
-          value: "published",
+          label: 'Publicado',
+          value: 'published',
         },
       ],
       admin: {
-        position: "sidebar",
+        position: 'sidebar',
       },
     },
     {
-      name: "order",
-      label: "Ordem de exibição",
-      type: "number",
+      name: 'order',
+      label: 'Ordem de exibição',
+      type: 'number',
       unique: true,
       admin: {
-        position: "sidebar",
+        position: 'sidebar',
       },
     },
     {
-      name: "show_at_menu",
-      label: "Mostrar no menu principal",
-      type: "checkbox",
+      name: 'show_at_menu',
+      label: 'Mostrar no menu principal',
+      type: 'checkbox',
       defaultValue: false,
       admin: {
-        position: "sidebar",
+        position: 'sidebar',
       },
     },
     {
-      name: "shortcode",
-      label: "Shortcode",
-      type: "text",
+      name: 'shortcode',
+      label: 'Shortcode',
+      type: 'text',
       admin: {
-        position: "sidebar",
+        position: 'sidebar',
       },
     },
     {
-      name: "title",
-      label: "Título",
-      type: "text",
+      name: 'title',
+      label: 'Título',
+      type: 'text',
       required: true,
     },
     {
-      name: "slug",
-      label: "Slug",
-      type: "text",
+      name: 'slug',
+      label: 'Slug',
+      type: 'text',
       unique: true,
       required: true,
-      validate: slugValidate,
     },
     {
-      name: "content",
-      label: "Conteúdo",
-      type: "richText",
+      name: 'content',
+      label: 'Conteúdo',
+      type: 'richText',
     },
   ],
-};
+}
