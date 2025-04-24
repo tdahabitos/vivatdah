@@ -7,6 +7,10 @@ import dayjs from "~/lib/dayjs";
 import FeedbackRow from "./components/feedback-row";
 import Comments from "./components/comments";
 import SaveButton from "./components/save-button";
+import { getPageMeta } from "~/utils";
+
+export const meta = ({ data }: Route.MetaArgs) =>
+  getPageMeta({ pageTitle: data.video.title });
 
 export async function loader({ params }: Route.LoaderArgs) {
   const { id } = params;

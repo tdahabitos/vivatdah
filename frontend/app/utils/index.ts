@@ -10,12 +10,12 @@ export function uuid() {
   return crypto.randomUUID();
 }
 
-export function getApiDocs(res: AxiosResponse, unique?: boolean) {
-  const docs = res?.data?.result?.docs;
-
-  if (unique) {
-    return docs[0];
-  }
-
-  return docs;
+export function getPageMeta({ pageTitle }: { pageTitle?: string }) {
+  return [
+    { title: pageTitle ? `VivaTDAH - ${pageTitle}` : "VivaTDAH" },
+    {
+      name: "description",
+      content: "Entenda seu ritmo e aprenda de forma leve",
+    },
+  ];
 }

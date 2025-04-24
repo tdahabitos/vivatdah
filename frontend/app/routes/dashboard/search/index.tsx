@@ -7,7 +7,10 @@ import type { Media } from "~/types";
 import api from "~/lib/api";
 import { searchVideos } from "~/lib/panda-videos";
 import { Divider } from "@mantine/core";
-import { cn } from "~/utils";
+import { cn, getPageMeta } from "~/utils";
+
+export const meta = ({ data }: Route.MetaArgs) =>
+  getPageMeta({ pageTitle: `Pesquisa | "${data.value}"` });
 
 export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);

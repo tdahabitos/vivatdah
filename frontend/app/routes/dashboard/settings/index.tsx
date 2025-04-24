@@ -18,7 +18,9 @@ import { z } from "zod";
 import { useAuth } from "~/hooks/use-auth";
 import { supabase } from "~/lib/supabase";
 import type { FormData } from "~/types";
-import { cn, uuid } from "~/utils";
+import { cn, getPageMeta, uuid } from "~/utils";
+
+export const meta = () => getPageMeta({ pageTitle: "Configurações" });
 
 export default function Settings() {
   const [isLoading, setIsLoading] = useState(true);

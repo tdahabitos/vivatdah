@@ -1,17 +1,12 @@
-import axios from "axios";
 import type { Route } from "./+types";
-import { getApiDocs } from "~/utils";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import Categories from "~/components/categories";
 import Plans from "~/components/plans";
 import api from "~/lib/api";
+import { getPageMeta } from "~/utils";
 
-export function meta() {
-  return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
-  ];
-}
+export const meta = ({ data }: Route.MetaArgs) =>
+  getPageMeta({ pageTitle: data.page.title });
 
 export async function loader({ params }: Route.LoaderArgs) {
   const page = await api({

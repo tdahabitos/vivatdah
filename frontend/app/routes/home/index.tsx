@@ -6,17 +6,11 @@ import Blog from "./components/blog";
 import Newsletter from "./components/newsletter";
 import CookieConsent from "./components/cookie-consent";
 import type { Route } from "./+types";
-import axios from "axios";
-import { getApiDocs } from "~/utils";
 import Plans from "~/components/plans";
 import api from "~/lib/api";
+import { getPageMeta } from "~/utils";
 
-export function meta() {
-  return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
-  ];
-}
+export const meta = () => getPageMeta({ pageTitle: "Home" });
 
 export async function loader() {
   const posts = await api({

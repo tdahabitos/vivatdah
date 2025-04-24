@@ -9,6 +9,10 @@ import FileList from "./components/file-list";
 import { useUser } from "~/store/user-store";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
+import { getPageMeta } from "~/utils";
+
+export const meta = ({ data }: Route.MetaArgs) =>
+  getPageMeta({ pageTitle: data.category.title });
 
 export async function loader({ params }: Route.LoaderArgs) {
   const { id } = params;

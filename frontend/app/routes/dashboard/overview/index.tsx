@@ -3,13 +3,9 @@ import type { Route } from "./+types";
 import type { PandaVideo, View } from "~/types";
 import { getVideos, getVideo } from "~/lib/panda-videos";
 import VideoCard from "~/components/video-card";
+import { getPageMeta } from "~/utils";
 
-export function meta() {
-  return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
-  ];
-}
+export const meta = () => getPageMeta({ pageTitle: "Home" });
 
 export async function loader({ params }: Route.LoaderArgs) {
   const newVideos = await getVideos(null, 1, 2);

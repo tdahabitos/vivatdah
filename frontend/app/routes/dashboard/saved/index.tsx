@@ -5,6 +5,9 @@ import api from "~/lib/api";
 import type { PandaVideo, View } from "~/types";
 import type { Route } from "./+types";
 import { getVideo } from "~/lib/panda-videos";
+import { getPageMeta } from "~/utils";
+
+export const meta = () => getPageMeta({ pageTitle: "Salvos" });
 
 export async function loader({ params }: Route.LoaderArgs) {
   const savedList = await api({

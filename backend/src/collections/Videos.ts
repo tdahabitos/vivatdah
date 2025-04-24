@@ -1,100 +1,101 @@
-import type { CollectionConfig } from "payload";
+import type { CollectionConfig } from 'payload'
 
 export const Videos: CollectionConfig = {
-  slug: "videos",
+  slug: 'videos',
   labels: {
-    singular: "Vídeo",
-    plural: "Vídeos",
+    singular: 'Vídeo',
+    plural: 'Vídeos',
   },
   access: {
     read: () => true,
     create: () => true,
   },
   admin: {
-    useAsTitle: "title",
+    useAsTitle: 'title',
+    hidden: true,
   },
   fields: [
     {
-      name: "status",
-      defaultValue: "published",
+      name: 'status',
+      defaultValue: 'published',
       required: true,
-      type: "select",
+      type: 'select',
       options: [
         {
-          label: "Publicado",
-          value: "published",
+          label: 'Publicado',
+          value: 'published',
         },
         {
-          label: "Live",
-          value: "live",
+          label: 'Live',
+          value: 'live',
         },
         {
-          label: "Em breve",
-          value: "soon",
+          label: 'Em breve',
+          value: 'soon',
         },
       ],
       admin: {
-        position: "sidebar",
+        position: 'sidebar',
       },
     },
     {
-      name: "platform",
-      label: "Plataforma",
-      defaultValue: "panda",
-      type: "select",
+      name: 'platform',
+      label: 'Plataforma',
+      defaultValue: 'panda',
+      type: 'select',
       options: [
         {
-          label: "Panda",
-          value: "panda",
+          label: 'Panda',
+          value: 'panda',
         },
         {
-          label: "Youtube",
-          value: "youtube",
+          label: 'Youtube',
+          value: 'youtube',
         },
       ],
       admin: {
-        position: "sidebar",
+        position: 'sidebar',
       },
     },
     {
-      name: "creator",
-      type: "relationship",
-      relationTo: "users",
+      name: 'creator',
+      type: 'relationship',
+      relationTo: 'users',
       required: true,
       admin: {
-        position: "sidebar",
+        position: 'sidebar',
       },
     },
     {
-      name: "url",
-      label: "URL",
-      type: "text",
+      name: 'url',
+      label: 'URL',
+      type: 'text',
       required: true,
     },
     {
-      name: "title",
-      label: "Título",
-      type: "text",
+      name: 'title',
+      label: 'Título',
+      type: 'text',
     },
     {
-      name: "description",
-      label: "Descrição",
-      type: "richText",
+      name: 'description',
+      label: 'Descrição',
+      type: 'richText',
     },
     {
-      name: "categories",
-      label: "Categorias",
-      type: "relationship",
-      relationTo: "categories",
+      name: 'categories',
+      label: 'Categorias',
+      type: 'relationship',
+      relationTo: 'categories',
       required: true,
       hasMany: true,
     },
     {
-      name: "files",
-      label: "Arquivos anexados",
-      type: "relationship",
-      relationTo: "media",
+      name: 'files',
+      label: 'Arquivos anexados',
+      type: 'relationship',
+      relationTo: 'media',
       hasMany: true,
     },
   ],
-};
+}
