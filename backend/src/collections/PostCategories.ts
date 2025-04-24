@@ -4,8 +4,8 @@ import type { CollectionConfig } from 'payload'
 export const PostCategories: CollectionConfig = {
   slug: 'post-categories',
   labels: {
-    singular: 'Categoria (post)',
-    plural: 'Categorias (post)',
+    singular: 'Categoria (Posts)',
+    plural: 'Categorias (Posts)',
   },
   access: {
     read: () => true,
