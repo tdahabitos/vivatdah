@@ -1,0 +1,50 @@
+import type { I18nVariables } from "@supabase/auth-ui-shared";
+
+export const ptBR: I18nVariables = {
+  sign_in: {
+    email_label: "E-mail",
+    password_label: "Senha",
+    email_input_placeholder: "Seu e-mail",
+    password_input_placeholder: "Sua senha",
+    button_label: "Entrar",
+    loading_button_label: "Entrando...",
+    link_text: "Já tem uma conta? Entre",
+    social_provider_text: "Entrar com {{provider}}",
+  },
+  sign_up: {
+    email_label: "E-mail",
+    password_label: "Senha",
+    email_input_placeholder: "Seu e-mail",
+    password_input_placeholder: "Crie uma senha",
+    button_label: "Cadastrar",
+    loading_button_label: "Cadastrando...",
+    link_text: "Não tem uma conta? Cadastre-se",
+    social_provider_text: "Cadastrar com {{provider}}",
+    confirmation_text: "Confira seu e-mail para o link de confirmação",
+  },
+  forgotten_password: {
+    email_label: "E-mail",
+    password_label: "Senha",
+    email_input_placeholder: "Seu e-mail",
+    button_label: "Enviar link de recuperação",
+    loading_button_label: "Enviando...",
+    link_text: "Esqueceu a senha?",
+    confirmation_text: "Confira seu e-mail para o link de recuperação",
+  },
+  update_password: {
+    password_label: "Senha",
+    password_input_placeholder: "Crie uma senha",
+    button_label: "Alterar senha",
+    loading_button_label: "Alterando...",
+    confirmation_text: "Confira seu e-mail para o link de recuperação",
+  },
+  magic_link: {
+    email_input_label: "E-mail",
+    email_input_placeholder: "Seu e-mail",
+    button_label: "Enviar link mágico",
+    loading_button_label: "Enviando...",
+    link_text: "Entrar com link mágico",
+    confirmation_text: "Verifique seu e-mail para o link mágico",
+    empty_email_address: "Por favor, insira um endereço de e-mail",
+  },
+};

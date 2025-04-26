@@ -9,35 +9,40 @@ import Sidebar from "./components/sidebar";
 import AuthGuard from "~/components/auth-guard";
 import AccountButton from "./components/account-button";
 import CtaButton from "./components/cta-button";
-import api, { globalApi } from "~/lib/api";
+import api, { getUserAllowedCategories } from "~/lib/api";
 import Search from "~/components/search";
-import { useAuthConfig } from "~/store/auth-config-store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useAuth } from "~/hooks/use-auth";
 
 export async function loader() {
-  const { auth_private_mode: isPrivateAuthMode } = await globalApi({
-    slug: "authentication",
-    select: {
-      auth_private_mode: true,
-    },
-  });
-
   const categories = await api({
     collection: "categories",
+    where: {
+      free_content: { equals: false },
+    },
     sort: ["title"],
   });
 
-  return { isPrivateAuthMode, categories };
+  return { categories };
 }
 
 export default function DashboardLayout({ loaderData }: Route.ComponentProps) {
-  const { isPrivateAuthMode, categories } = loaderData;
+  const { categories } = loaderData;
   const [opened, { close, toggle }] = useDisclosure();
-  const { setIsPrivateAuthMode } = useAuthConfig();
+  const { user } = useAuth();
+  const [allowedCategories, setAllowedCategories] = useState<string[]>([]);
+
+  async function getAllowedCategories() {
+    if (!user) return;
+
+    await getUserAllowedCategories(user.email).then((res) =>
+      setAllowedCategories(res.map((c) => c.id))
+    );
+  }
 
   useEffect(() => {
-    setIsPrivateAuthMode(isPrivateAuthMode);
-  }, []);
+    getAllowedCategories();
+  }, [user]);
 
   return (
     <AuthGuard>
@@ -86,7 +91,11 @@ export default function DashboardLayout({ loaderData }: Route.ComponentProps) {
 
         <AppShell.Navbar>
           <ScrollArea p="md">
-            <Sidebar categories={categories} close={close} />
+            <Sidebar
+              categories={categories}
+              allowedCategories={allowedCategories}
+              close={close}
+            />
           </ScrollArea>
         </AppShell.Navbar>
 

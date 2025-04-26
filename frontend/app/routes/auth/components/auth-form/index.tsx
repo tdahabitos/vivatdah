@@ -1,15 +1,21 @@
 import { useMantineColorScheme } from "@mantine/core";
 import { Auth } from "@supabase/auth-ui-react";
-import { ThemeSupa } from "@supabase/auth-ui-shared";
+import { ThemeSupa, type ViewType } from "@supabase/auth-ui-shared";
 import { supabase } from "~/lib/supabase";
-import ptBR from "./pt-br.json";
+import { ptBR } from "./translations";
+import { useMounted } from "@mantine/hooks";
 
 export default function AuthForm({
   isPrivateAuthMode,
+  type,
 }: {
-  isPrivateAuthMode: boolean;
+  isPrivateAuthMode?: boolean;
+  type?: ViewType;
 }) {
   const { colorScheme } = useMantineColorScheme();
+  const mounted = useMounted();
+
+  if (!mounted) return null;
 
   return (
     <Auth
@@ -25,10 +31,11 @@ export default function AuthForm({
           },
         },
       }}
+      view={type}
       theme={colorScheme}
+      localization={{ variables: { ...ptBR } }}
       showLinks={!isPrivateAuthMode}
       providers={isPrivateAuthMode ? [] : ["google"]}
-      localization={{ variables: { ...ptBR } }}
     />
   );
 }

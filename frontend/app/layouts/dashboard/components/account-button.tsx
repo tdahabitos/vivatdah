@@ -21,7 +21,7 @@ export default function AccountButton() {
       <Menu.Dropdown>
         <Menu.Item
           component={Link}
-          to="/dashboard/settings"
+          to="/dashboard/account"
           leftSection={<IconUser style={{ width: rem(14), height: rem(14) }} />}
         >
           Perfil e configurações

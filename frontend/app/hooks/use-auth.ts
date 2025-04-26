@@ -23,7 +23,10 @@ export function useAuth() {
   return {
     isLoading,
     user,
-    logout: () => supabase.auth.signOut(),
+    isAuthenticated: user !== null,
+    logout: () => {
+      supabase.auth.signOut(), setUser(null);
+    },
     revalidate: getUser,
   };
 }

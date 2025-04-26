@@ -2,32 +2,44 @@ import {
   ActionIcon,
   Avatar,
   Button,
+  Card,
   Divider,
   Group,
   Loader,
   Select,
-  Skeleton,
   Text,
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { IconPencil } from "@tabler/icons-react";
+import { IconKey, IconLock, IconMail, IconPencil } from "@tabler/icons-react";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
 import { z } from "zod";
 import { useAuth } from "~/hooks/use-auth";
 import { supabase } from "~/lib/supabase";
 import type { FormData } from "~/types";
 import { cn, getPageMeta, uuid } from "~/utils";
+import type { Route } from "./+types";
 
 export const meta = () => getPageMeta({ pageTitle: "Configurações" });
 
-export default function Settings() {
+export async function loader({ request }: Route.LoaderArgs) {
+  const url = new URL(request.url);
+  const emailConfirmation = url.searchParams.get("emailConfirmation");
+
+  return { emailConfirmation };
+}
+
+export default function Settings({ loaderData }: Route.ComponentProps) {
+  const { emailConfirmation } = loaderData;
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isAvatarUploading, setIsAvatarUploading] = useState(false);
   const [avatarUploadingError, setAvatarUploadingError] = useState(false);
   const { user, revalidate } = useAuth();
+  const [showEmailConfirmationMessage, setShowEmailConfirmationMessage] =
+    useState(emailConfirmation === "true");
 
   const validationSchema = z.object({
     name: z
@@ -112,6 +124,10 @@ export default function Settings() {
 
       setIsLoading(false);
     }
+
+    if (showEmailConfirmationMessage) {
+      setTimeout(() => setShowEmailConfirmationMessage(false), 10000);
+    }
   }, [user]);
 
   if (isLoading) {
@@ -120,57 +136,76 @@ export default function Settings() {
 
   return (
     <div className="flex flex-col gap-6">
+      {showEmailConfirmationMessage && (
+        <Card withBorder className="flex justify-center items-center gap-2mb-4">
+          <IconMail size={36} />
+          <span className="font-bold mb-4">E-mail confirmado</span>
+          <span className="text-sm">
+            Por favor, defina seus dados e preferências
+          </span>
+        </Card>
+      )}
       <h2 className="text-2xl font-semibold">Minha conta</h2>
-      <Group wrap="nowrap">
-        <div className="relative">
-          <Avatar src={user?.user_metadata?.avatar} size={94} />
+      <div className="w-full flex justify-between">
+        <Group wrap="nowrap">
+          <div className="relative">
+            <Avatar src={user?.user_metadata?.avatar} size={94} />
 
-          <input
-            id="avatar-upload"
-            type="file"
-            accept="image/*"
-            className="hidden"
-            multiple={false}
-            onChange={(e) => {
-              if (e.target.files) {
-                handleAvatarUpload(e.target.files[0]);
-              }
-            }}
-          />
+            <input
+              id="avatar-upload"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              multiple={false}
+              onChange={(e) => {
+                if (e.target.files) {
+                  handleAvatarUpload(e.target.files[0]);
+                }
+              }}
+            />
 
-          <div
-            className={cn(
-              !isAvatarUploading && "hidden",
-              "absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2"
+            <div
+              className={cn(
+                !isAvatarUploading && "hidden",
+                "absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2"
+              )}
+            >
+              <Loader />
+            </div>
+
+            <div className="absolute bottom-0 right-0">
+              <ActionIcon radius="xl" component="label" htmlFor="avatar-upload">
+                <IconPencil size={16} />
+              </ActionIcon>
+            </div>
+          </div>
+
+          <div>
+            <Text fz="lg" fw={500}>
+              {user?.user_metadata?.full_name}
+            </Text>
+
+            <Text fz="xs" c="dimmed" mb="sm">
+              {user?.email}
+            </Text>
+
+            {avatarUploadingError && (
+              <p className="text-sm text-red-400">
+                O Arquivo é muito grande. Por favor, envie uma imagem de até{" "}
+                <span className="font-bold">1MB</span>.
+              </p>
             )}
-          >
-            <Loader />
           </div>
+        </Group>
 
-          <div className="absolute bottom-0 right-0">
-            <ActionIcon radius="xl" component="label" htmlFor="avatar-upload">
-              <IconPencil size={16} />
-            </ActionIcon>
-          </div>
-        </div>
-
-        <div>
-          <Text fz="lg" fw={500}>
-            {user?.user_metadata?.full_name}
-          </Text>
-
-          <Text fz="xs" c="dimmed" mb="sm">
-            {user?.email}
-          </Text>
-
-          {avatarUploadingError && (
-            <p className="text-sm text-red-400">
-              O Arquivo é muito grande. Por favor, envie uma imagem de até{" "}
-              <span className="font-bold">1MB</span>.
-            </p>
-          )}
-        </div>
-      </Group>
+        <Button
+          component={Link}
+          to="/dashboard/password-reset"
+          leftSection={<IconKey size={18} />}
+        >
+          Alterar senha
+        </Button>
+      </div>
 
       <form
         className="flex flex-col gap-6"
@@ -178,8 +213,8 @@ export default function Settings() {
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <TextInput
-            placeholder="Name"
-            label="Name"
+            placeholder="Nome"
+            label="Nome"
             disabled={isSubmitting}
             {...form.getInputProps("name")}
           />

@@ -171,6 +171,7 @@ export interface Media {
 export interface Category {
   id: string;
   cover?: (string | null) | Media;
+  free_content?: boolean | null;
   panda_folder_id: string;
   title?: string | null;
   description?: string | null;
@@ -447,6 +448,7 @@ export interface VideosSelect<T extends boolean = true> {
  */
 export interface CategoriesSelect<T extends boolean = true> {
   cover?: T;
+  free_content?: T;
   panda_folder_id?: T;
   title?: T;
   description?: T;

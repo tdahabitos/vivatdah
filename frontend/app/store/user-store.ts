@@ -3,14 +3,10 @@ import { create } from "zustand";
 
 type UserStore = {
   user: User | null;
-  setUser: (user: User) => void;
-  allowedCategories: string[] | null;
-  setAllowedCategories: (categories: string[]) => void;
+  setUser: (user: User | null) => void;
 };
 
 export const useUser = create<UserStore>()((set) => ({
   user: null,
   setUser: (user) => set({ user }),
-  allowedCategories: null,
-  setAllowedCategories: (categories) => set({ allowedCategories: categories }),
 }));

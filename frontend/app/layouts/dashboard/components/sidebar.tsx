@@ -3,14 +3,14 @@ import {
   IconBookmark,
   IconHome,
   IconLock,
-  IconCrown,
   IconTrophyFilled,
+  IconStar,
+  IconStarFilled,
 } from "@tabler/icons-react";
 import { Divider, NavLink } from "@mantine/core";
 import type { Category } from "~/types";
 import { Link, useLocation } from "react-router";
 import Search from "~/components/search";
-import { useUser } from "~/store/user-store";
 import { useEffect, useState } from "react";
 
 const mainMenu = [
@@ -36,18 +36,17 @@ const mainMenu = [
 
 export default function Sidebar({
   categories,
+  allowedCategories,
   close,
 }: {
   categories: Category[];
+  allowedCategories: string[];
   close: () => void;
 }) {
   const { pathname } = useLocation();
-  const { allowedCategories } = useUser();
   const [upgradeAllowed, setUpgradeAllowed] = useState(false);
 
   function checkUpgrade() {
-    if (!allowedCategories) return;
-
     if (allowedCategories.length !== categories.length) {
       setUpgradeAllowed(true);
     }
@@ -55,7 +54,7 @@ export default function Sidebar({
 
   useEffect(() => {
     checkUpgrade();
-  }, [allowedCategories]);
+  }, []);
 
   return (
     <div className="flex flex-col gap-6 text-sm">
@@ -96,6 +95,15 @@ export default function Sidebar({
         Categorias
       </span>
       <div className="flex flex-col gap-4">
+        <NavLink
+          className="rounded-lg"
+          leftSection={<IconStarFilled color="orange" size={18} />}
+          component={Link}
+          to="/dashboard/free-content"
+          active={pathname === `/dashboard/free-content`}
+          label="Conteúdo livre"
+        />
+
         {categories.map((category) => {
           const hasAccess = allowedCategories?.includes(category.id);
 

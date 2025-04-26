@@ -7,13 +7,13 @@ import { getPageMeta } from "~/utils";
 
 export const meta = () => getPageMeta({ pageTitle: "Home" });
 
-export async function loader({ params }: Route.LoaderArgs) {
+export async function loader() {
   const newVideos = await getVideos(null, 1, 2);
 
   const trendingList = await api({
     collection: "views",
     sort: "-views",
-    limit: 16,
+    limit: 4,
   });
 
   const trendingVideos = await Promise.all(
