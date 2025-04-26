@@ -71,6 +71,7 @@ export const Pages: CollectionConfig = {
       type: 'text',
       unique: true,
       required: true,
+      validate: slugValidate,
     },
     {
       name: 'content',

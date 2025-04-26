@@ -26,6 +26,7 @@ export const PostCategories: CollectionConfig = {
       type: 'text',
       unique: true,
       required: true,
+      validate: slugValidate,
     },
     {
       name: 'description',

@@ -78,7 +78,7 @@ export const Posts: CollectionConfig = {
       type: 'text',
       unique: true,
       required: true,
-      //TODO: validate slug
+      validate: slugValidate,
     },
     {
       name: 'description',

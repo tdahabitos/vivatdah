@@ -34,7 +34,7 @@ export const Categories: CollectionConfig = {
     },
     {
       name: 'panda_folder_id',
-      label: 'Panda Folder ID',
+      label: 'ID da pasta no Panda',
       type: 'text',
       required: true,
       admin: {
