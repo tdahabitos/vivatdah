@@ -9,9 +9,8 @@ import Sidebar from "./components/sidebar";
 import AuthGuard from "~/components/auth-guard";
 import AccountButton from "./components/account-button";
 import CtaButton from "./components/cta-button";
-import api, { getUserAllowedCategories } from "~/lib/api";
+import api from "~/lib/api";
 import Search from "~/components/search";
-import { useEffect, useState } from "react";
 import { useAuth } from "~/hooks/use-auth";
 
 export async function loader() {
@@ -29,20 +28,7 @@ export async function loader() {
 export default function DashboardLayout({ loaderData }: Route.ComponentProps) {
   const { categories } = loaderData;
   const [opened, { close, toggle }] = useDisclosure();
-  const { user } = useAuth();
-  const [allowedCategories, setAllowedCategories] = useState<string[]>([]);
-
-  async function getAllowedCategories() {
-    if (!user) return;
-
-    await getUserAllowedCategories(user.email).then((res) =>
-      setAllowedCategories(res.map((c) => c.id))
-    );
-  }
-
-  useEffect(() => {
-    getAllowedCategories();
-  }, [user]);
+  const { allowedCategories } = useAuth();
 
   return (
     <AuthGuard>

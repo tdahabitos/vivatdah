@@ -8,7 +8,7 @@ export async function getFeedback(video_id: string, user_id: string) {
         import.meta.env.VITE_API_URL
       }/metadata/feedback?video_id=${video_id}&user_id=${user_id}`
     )
-    .then((res) => res?.data);
+    .then((res) => res.data);
 }
 
 export async function sendFeedback(
@@ -22,5 +22,5 @@ export async function sendFeedback(
       user_id,
       type,
     })
-    .then((res) => res?.data);
+    .then((res) => res.data);
 }

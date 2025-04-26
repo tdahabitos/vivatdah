@@ -18,6 +18,7 @@ export const Categories: CollectionConfig = {
       label: 'Capa',
       type: 'upload',
       relationTo: 'media',
+      required: true,
       admin: {
         position: 'sidebar',
       },
@@ -43,11 +44,13 @@ export const Categories: CollectionConfig = {
     {
       name: 'title',
       label: 'Título',
+      required: true,
       type: 'text',
     },
     {
       name: 'description',
       label: 'Descrição',
+      required: true,
       type: 'textarea',
     },
     {

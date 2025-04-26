@@ -11,11 +11,11 @@ export { getUserAllowedCategories } from "./access";
 export default async function api(args: FindArgs) {
   return await axios
     .post(import.meta.env.VITE_API_URL, args)
-    .then((res) => res?.data?.result?.docs);
+    .then((res) => res.data);
 }
 
 export async function globalApi(args: FindGlobalArgs) {
   return await axios
     .post(`${import.meta.env.VITE_API_URL}/global`, args)
-    .then((res) => res?.data?.result);
+    .then((res) => res.data);
 }

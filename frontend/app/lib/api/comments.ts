@@ -6,7 +6,7 @@ export async function getComments(video_id: string): Promise<Comment[]> {
     .get(
       `${import.meta.env.VITE_API_URL}/metadata/comments?video_id=${video_id}`
     )
-    .then((res) => res?.data);
+    .then((res) => res.data);
 }
 
 export async function sendComment(
@@ -20,11 +20,11 @@ export async function sendComment(
       user_id,
       comment,
     })
-    .then((res) => res?.data);
+    .then((res) => res.data);
 }
 
 export async function deleteComment(id: string) {
   return await axios
     .delete(`${import.meta.env.VITE_API_URL}/metadata/comments?id=${id}`)
-    .then((res) => res?.data);
+    .then((res) => res.data);
 }

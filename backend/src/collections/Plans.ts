@@ -1,73 +1,76 @@
-import type { CollectionConfig } from "payload";
+import type { CollectionConfig } from 'payload'
 
 export const Plans: CollectionConfig = {
-  slug: "plans",
+  slug: 'plans',
   labels: {
-    singular: "Plano",
-    plural: "Planos",
+    singular: 'Plano',
+    plural: 'Planos',
   },
   access: {
     read: () => true,
   },
   admin: {
-    useAsTitle: "title",
+    useAsTitle: 'title',
   },
   fields: [
     {
-      name: "status",
-      label: "Status",
-      defaultValue: "published",
-      type: "select",
+      name: 'status',
+      label: 'Status',
+      defaultValue: 'published',
+      type: 'select',
       options: [
         {
-          label: "Rascunho",
-          value: "draft",
+          label: 'Rascunho',
+          value: 'draft',
         },
         {
-          label: "Publicado",
-          value: "published",
+          label: 'Publicado',
+          value: 'published',
         },
       ],
       admin: {
-        position: "sidebar",
+        position: 'sidebar',
       },
     },
     {
-      name: "recomended",
-      label: "Recomendado",
-      type: "checkbox",
+      name: 'recomended',
+      label: 'Recomendado',
+      type: 'checkbox',
       admin: {
-        position: "sidebar",
+        position: 'sidebar',
       },
     },
     {
-      name: "show_at_home",
-      label: "Mostrar na página inicial",
-      type: "checkbox",
+      name: 'show_at_home',
+      label: 'Mostrar na página inicial',
+      type: 'checkbox',
       admin: {
-        position: "sidebar",
+        position: 'sidebar',
       },
     },
     {
-      name: "title",
-      label: "Título",
-      type: "text",
+      name: 'title',
+      label: 'Título',
+      type: 'text',
+      required: true,
     },
     {
-      name: "description",
-      label: "Descrição",
-      type: "textarea",
+      name: 'description',
+      label: 'Descrição',
+      type: 'textarea',
+      required: true,
     },
     {
-      name: "price",
-      label: "Preço",
-      type: "number",
+      name: 'price',
+      label: 'Preço',
+      type: 'number',
+      required: true,
     },
     {
-      name: "features",
-      label:
-        "Destaques deste plano (lista separada por vírgulas (,) - Exemplo: a, b, c...)",
-      type: "textarea",
+      name: 'features',
+      label: 'Destaques deste plano (lista separada por vírgulas (,) - Exemplo: a, b, c...)',
+      type: 'textarea',
+      required: true,
     },
   ],
-};
+}

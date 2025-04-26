@@ -7,7 +7,7 @@ export async function getSaved(video_id: string, user_id: string) {
         import.meta.env.VITE_API_URL
       }/metadata/saved?video_id=${video_id}&user_id=${user_id}`
     )
-    .then((res) => res?.data);
+    .then((res) => res.data);
 }
 
 export async function sendSaved(
@@ -21,5 +21,5 @@ export async function sendSaved(
       user_id,
       action,
     })
-    .then((res) => res?.data);
+    .then((res) => res.data);
 }

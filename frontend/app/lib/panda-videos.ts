@@ -66,6 +66,8 @@ export async function getFolderVideos(folderId: string): Promise<PandaVideo[]> {
 
   const videos = await Promise.all(videosPromises);
 
+  await getVideos(folderId).then((res) => videos.push(res));
+
   return videos.flat();
 }
 

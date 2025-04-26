@@ -7,8 +7,7 @@ import type { Route } from "./+types";
 import { getFolderVideos } from "~/lib/panda-videos";
 import { getPageMeta } from "~/utils";
 
-export const meta = ({ data }: Route.MetaArgs) =>
-  getPageMeta({ pageTitle: "Conteúdo livre" });
+export const meta = () => getPageMeta({ pageTitle: "Conteúdo livre" });
 
 export async function loader() {
   let videos: PandaVideo[] = [];

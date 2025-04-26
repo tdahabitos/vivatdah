@@ -1,30 +1,31 @@
-import type { CollectionConfig } from "payload";
+import type { CollectionConfig } from 'payload'
 
 export const Access: CollectionConfig = {
-  slug: "access",
+  slug: 'access',
   labels: {
-    singular: "Controle de acesso manual",
-    plural: "Controle de acesso manual",
+    singular: 'Controle de acesso manual',
+    plural: 'Controle de acesso manual',
   },
   access: {
     read: () => true,
   },
   admin: {
-    useAsTitle: "email",
+    useAsTitle: 'email',
   },
   fields: [
     {
-      name: "email",
-      label: "E-mail",
+      name: 'email',
+      label: 'E-mail',
       unique: true,
-      type: "text",
+      required: true,
+      type: 'text',
     },
     {
-      name: "allowed_categories",
-      label: "Categorias permitidas",
-      type: "relationship",
-      relationTo: "categories",
+      name: 'allowed_categories',
+      label: 'Categorias permitidas',
+      type: 'relationship',
+      relationTo: 'categories',
       hasMany: true,
     },
   ],
-};
+}

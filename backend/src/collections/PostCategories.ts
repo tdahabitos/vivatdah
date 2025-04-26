@@ -32,6 +32,7 @@ export const PostCategories: CollectionConfig = {
       label: 'Descrição curta',
       type: 'textarea',
       maxLength: 200,
+      required: true,
     },
   ],
 }

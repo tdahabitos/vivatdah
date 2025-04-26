@@ -8,5 +8,5 @@ export async function getUserAllowedCategories(
 
   return await axios
     .get(`${import.meta.env.VITE_API_URL}/metadata/access?email=${email}`)
-    .then((res) => res?.data);
+    .then((res) => res.data);
 }

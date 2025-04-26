@@ -64,6 +64,7 @@ export const Posts: CollectionConfig = {
       admin: {
         position: 'sidebar',
       },
+      required: true,
     },
     {
       name: 'title',
@@ -77,6 +78,7 @@ export const Posts: CollectionConfig = {
       type: 'text',
       unique: true,
       required: true,
+      //TODO: validate slug
     },
     {
       name: 'description',

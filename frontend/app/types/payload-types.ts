@@ -131,9 +131,7 @@ export interface Video {
 export interface User {
   id: string;
   avatar?: (string | null) | Media;
-  name?: string | null;
-  role?: string | null;
-  bio?: string | null;
+  name: string;
   updatedAt: string;
   createdAt: string;
   enableAPIKey?: boolean | null;
@@ -176,11 +174,11 @@ export interface Media {
  */
 export interface Category {
   id: string;
-  cover?: (string | null) | Media;
+  cover: string | Media;
   free_content?: boolean | null;
   panda_folder_id: string;
-  title?: string | null;
-  description?: string | null;
+  title: string;
+  description: string;
   included_plans?: (string | Plan)[] | null;
   updatedAt: string;
   createdAt: string;
@@ -194,10 +192,10 @@ export interface Plan {
   status?: ("draft" | "published") | null;
   recomended?: boolean | null;
   show_at_home?: boolean | null;
-  title?: string | null;
-  description?: string | null;
-  price?: number | null;
-  features?: string | null;
+  title: string;
+  description: string;
+  price: number;
+  features: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -209,7 +207,7 @@ export interface PostCategory {
   id: string;
   title: string;
   slug: string;
-  description?: string | null;
+  description: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -222,7 +220,7 @@ export interface Post {
   show_at_home?: boolean | null;
   status?: ("draft" | "published") | null;
   categories: (string | PostCategory)[];
-  cover?: (string | null) | Media;
+  cover: string | Media;
   title: string;
   slug: string;
   description: string;
@@ -250,7 +248,7 @@ export interface Post {
  */
 export interface Access {
   id: string;
-  email?: string | null;
+  email: string;
   allowed_categories?: (string | Category)[] | null;
   updatedAt: string;
   createdAt: string;
@@ -496,8 +494,6 @@ export interface PostsSelect<T extends boolean = true> {
 export interface UsersSelect<T extends boolean = true> {
   avatar?: T;
   name?: T;
-  role?: T;
-  bio?: T;
   updatedAt?: T;
   createdAt?: T;
   enableAPIKey?: T;
