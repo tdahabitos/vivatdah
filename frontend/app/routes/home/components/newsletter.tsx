@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
 import type { FormData } from "~/types";
+import { sendContact } from "~/lib/api/active-campaign";
 
 export default function Newsletter() {
   const [sent, setSent] = useState(false);
@@ -27,8 +28,12 @@ export default function Newsletter() {
 
   async function handleSubmit({ email }: FormData) {
     setIsLoading(true);
-    setSent(true);
-    setIsLoading(false);
+    await sendContact(email)
+      .then(() => {
+        setSent(true);
+      })
+      .catch(() => setError(true))
+      .finally(() => setIsLoading(false));
   }
 
   if (sent) {
@@ -40,9 +45,12 @@ export default function Newsletter() {
         >
           <div className="flex justify-center items-center gap-2">
             <IconCircleCheck color="green" size={64} />
-            <h2 className="text-2xl tracking-tight font-bold">
-              Inscrição realizada com sucesso!
-            </h2>
+            <div>
+              <span>Obrigado!</span>
+              <h2 className="text-2xl tracking-tight font-bold">
+                Inscrição realizada com sucesso!
+              </h2>
+            </div>
           </div>
         </Card>
       </section>
