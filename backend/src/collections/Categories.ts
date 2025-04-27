@@ -34,7 +34,7 @@ export const Categories: CollectionConfig = {
     },
     {
       name: 'panda_folder_id',
-      label: 'ID da pasta no Panda',
+      label: 'ID da pasta no Panda Video',
       type: 'text',
       required: true,
       admin: {
