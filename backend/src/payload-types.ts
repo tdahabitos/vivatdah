@@ -11,7 +11,6 @@ export interface Config {
     users: UserAuthOperations;
   };
   collections: {
-    videos: Video;
     categories: Category;
     'post-categories': PostCategory;
     posts: Post;
@@ -30,7 +29,6 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    videos: VideosSelect<false> | VideosSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     'post-categories': PostCategoriesSelect<false> | PostCategoriesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
@@ -89,56 +87,18 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "videos".
+ * via the `definition` "categories".
  */
-export interface Video {
+export interface Category {
   id: string;
-  status: 'published' | 'live' | 'soon';
-  platform?: ('panda' | 'youtube') | null;
-  creator: string | User;
-  url: string;
-  title?: string | null;
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  categories: (string | Category)[];
-  files?: (string | Media)[] | null;
+  cover: string | Media;
+  free_content?: boolean | null;
+  panda_folder_id: string;
+  title: string;
+  description: string;
+  included_plans?: (string | Plan)[] | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: string;
-  avatar?: (string | null) | Media;
-  name: string;
-  updatedAt: string;
-  createdAt: string;
-  enableAPIKey?: boolean | null;
-  apiKey?: string | null;
-  apiKeyIndex?: string | null;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -161,21 +121,6 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories".
- */
-export interface Category {
-  id: string;
-  cover: string | Media;
-  free_content?: boolean | null;
-  panda_folder_id: string;
-  title: string;
-  description: string;
-  included_plans?: (string | Plan)[] | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -235,6 +180,28 @@ export interface Post {
   } | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: string;
+  avatar?: (string | null) | Media;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -331,10 +298,6 @@ export interface PayloadLockedDocument {
   id: string;
   document?:
     | ({
-        relationTo: 'videos';
-        value: string | Video;
-      } | null)
-    | ({
         relationTo: 'categories';
         value: string | Category;
       } | null)
@@ -423,22 +386,6 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "videos_select".
- */
-export interface VideosSelect<T extends boolean = true> {
-  status?: T;
-  platform?: T;
-  creator?: T;
-  url?: T;
-  title?: T;
-  description?: T;
-  categories?: T;
-  files?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

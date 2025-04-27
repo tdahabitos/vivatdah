@@ -14,7 +14,6 @@ import Icon from './components/admin/Icon'
 import { Categories } from './collections/Categories'
 import { PostCategories } from './collections/PostCategories'
 import { Posts } from './collections/Posts'
-import { Videos } from './collections/Videos'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Plans } from './collections/Plans'
@@ -122,7 +121,6 @@ export default buildConfig({
     },
   },
   collections: [
-    Videos, //TODO: Delete videos
     Categories,
     PostCategories,
     Posts,
@@ -141,14 +139,14 @@ export default buildConfig({
     fallbackLanguage: 'pt',
   },
   editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || '',
+  secret: process.env.PAYLOAD_SECRET!,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: postgresAdapter({
     idType: 'uuid',
     pool: {
-      connectionString: process.env.DATABASE_URI || '',
+      connectionString: process.env.DATABASE_URI!,
     },
   }),
   sharp,
@@ -164,15 +162,15 @@ export default buildConfig({
           prefix: 'media',
         },
       },
-      bucket: process.env.S3_BUCKET || '',
+      bucket: process.env.S3_BUCKET!,
       config: {
         forcePathStyle: true,
         credentials: {
-          accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
-          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || '',
+          accessKeyId: process.env.S3_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!,
         },
-        region: process.env.S3_REGION || '',
-        endpoint: process.env.S3_ENDPOINT || '',
+        region: process.env.S3_REGION!,
+        endpoint: process.env.S3_ENDPOINT!,
       },
     }),
   ],
