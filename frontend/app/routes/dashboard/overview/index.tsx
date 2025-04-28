@@ -1,14 +1,15 @@
-import api from "~/lib/api";
+import api, { apiFetcher } from "~/lib/api";
 import type { Route } from "./+types";
 import type { PandaVideo, View } from "~/types";
 import { getVideos, getVideo } from "~/lib/panda-videos";
 import VideoCard from "~/components/video-card";
 import { getPageMeta } from "~/utils";
+import axios from "axios";
 
 export const meta = () => getPageMeta({ pageTitle: "Home" });
 
 export async function loader() {
-  const newVideos = await getVideos(null, 1, 2);
+  const newVideos = await apiFetcher(`/videos?page=1&limit=2`);
 
   const trendingList = await api({
     collection: "views",
@@ -17,7 +18,7 @@ export async function loader() {
   });
 
   const trendingVideos = await Promise.all(
-    trendingList.map((video: View) => getVideo(video.video_id))
+    trendingList.map((video: View) => apiFetcher(`/videos/${video.video_id}`))
   );
 
   return {

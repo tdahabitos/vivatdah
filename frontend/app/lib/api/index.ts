@@ -19,3 +19,6 @@ export async function globalApi(args: FindGlobalArgs) {
     .post(`${import.meta.env.VITE_API_URL}/global`, args)
     .then((res) => res.data);
 }
+
+export const apiFetcher = (url: string) =>
+  axios.get(`${import.meta.env.VITE_API_2_URL}${url}`).then((res) => res.data);
