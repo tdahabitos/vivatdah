@@ -1,10 +1,9 @@
 import { IconArrowLeftFromArc } from "@tabler/icons-react";
 import Empty from "~/components/empty";
 import VideoCard from "~/components/video-card";
-import api from "~/lib/api";
+import { apiFetcher } from "~/lib/api";
 import type { PandaVideo } from "~/types";
 import type { Route } from "./+types";
-import { getFolderVideos } from "~/lib/panda-videos";
 import FileList from "./components/file-list";
 import { useUser } from "~/store/user-store";
 import { useNavigate } from "react-router";
@@ -17,30 +16,23 @@ export const meta = ({ data }: Route.MetaArgs) =>
 export async function loader({ params }: Route.LoaderArgs) {
   const { id } = params;
 
-  const category = await api({
-    collection: "categories",
-    where: {
-      id: {
-        equals: id,
-      },
-    },
-  }).then((res) => res[0]);
+  const category = await apiFetcher(`/categories/${id}`);
+  const videos = await apiFetcher(`/videos?folder_id=${id}`);
 
-  const videos = await getFolderVideos(category.panda_folder_id);
-
-  const files = await api({
+  /* const files = await api({
     collection: "media",
     where: {
       categories: {
         contains: id,
       },
     },
-  });
+  }); */
+  // TODO: Add files
 
   return {
     category,
     videos,
-    files,
+    files: [],
   };
 }
 

@@ -9,18 +9,20 @@ import Sidebar from "./components/sidebar";
 import AuthGuard from "~/components/auth-guard";
 import AccountButton from "./components/account-button";
 import CtaButton from "./components/cta-button";
-import api from "~/lib/api";
+import { apiFetcher } from "~/lib/api";
 import Search from "~/components/search";
 import { useAuth } from "~/hooks/use-auth";
 
 export async function loader() {
-  const categories = await api({
+  const categories = await apiFetcher("/categories");
+
+  /* api({
     collection: "categories",
     where: {
       free_content: { equals: false },
     },
     sort: ["title"],
-  });
+  }); */
 
   return { categories };
 }

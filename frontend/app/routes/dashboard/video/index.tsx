@@ -1,13 +1,13 @@
 import { Card, Divider, Spoiler, Text } from "@mantine/core";
 import type { Route } from "./+types";
-import { getVideos, getVideo } from "~/lib/panda-videos";
 import VideoCard from "~/components/video-card";
-import { addView } from "~/lib/api";
+import { apiFetcher } from "~/lib/api";
 import dayjs from "~/lib/dayjs";
 import FeedbackRow from "./components/feedback-row";
 import Comments from "./components/comments";
 import SaveButton from "./components/save-button";
 import { getPageMeta } from "~/utils";
+import type { PandaVideo } from "~/types";
 
 export const meta = ({ data }: Route.MetaArgs) =>
   getPageMeta({ pageTitle: data.video.title });
@@ -15,12 +15,12 @@ export const meta = ({ data }: Route.MetaArgs) =>
 export async function loader({ params }: Route.LoaderArgs) {
   const { id } = params;
 
-  const video = await getVideo(id);
-  const views = await addView(id);
+  const video = await apiFetcher(`/videos/${id}`);
+  const views = 0; // TODO: add views
 
-  if (video.related.length === 0) {
+  /* if (video.related.length === 0) {
     video.related = await getVideos(null, 1, 6);
-  }
+  } */
 
   return {
     video,
@@ -81,11 +81,9 @@ export default function Video({ loaderData }: Route.ComponentProps) {
 
         <div className="w-full lg:w-2/5 space-y-8">
           <h3 className="font-semibold">Mais vídeos</h3>
-          {video.related
-            ?.filter((item) => item.id !== video.id)
-            .map((video) => (
-              <VideoCard key={video.id} video={video} />
-            ))}
+          {video?.related.map((video: PandaVideo) => (
+            <VideoCard key={video.id} video={video} />
+          ))}
         </div>
       </div>
     </div>

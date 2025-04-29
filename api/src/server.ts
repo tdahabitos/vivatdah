@@ -2,6 +2,12 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import { videosRouter } from "./routes/videos.js";
+import { usersRouter } from "./routes/users.js";
+import { newsletterRouter } from "./routes/newsletter.js";
+import { categoriesRouter } from "./routes/categories.js";
+import { plansRouter } from "./routes/plans.js";
+import { pagesRouter } from "./routes/pages.js";
+import { configRouter } from "./routes/config.js";
 
 dotenv.config();
 
@@ -20,7 +26,16 @@ app.use(
   })
 );
 
-app.use("/v1", videosRouter);
+app.use(
+  "/v1",
+  configRouter,
+  usersRouter,
+  videosRouter,
+  newsletterRouter,
+  categoriesRouter,
+  plansRouter,
+  pagesRouter
+);
 
 app.listen(5000, () => {
   console.log(`Servidor rodando em http://localhost:5000`);

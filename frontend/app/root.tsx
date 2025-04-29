@@ -23,7 +23,7 @@ import {
 
 import type { Route } from "./+types/root";
 import { IconBubbleX } from "@tabler/icons-react";
-import { globalApi } from "./lib/api";
+import { apiFetcher } from "./lib/api";
 import ThemeSwitcher from "./components/theme-switcher";
 
 export const links: Route.LinksFunction = () => [
@@ -60,11 +60,9 @@ const theme = createTheme({
 });
 
 export async function loader() {
-  const administration = await globalApi({
-    slug: "administration",
-  });
-
-  return { administration };
+  const config = await apiFetcher("/config");
+  console.log(config);
+  return { administration: config.administration };
 }
 
 export default function App({ loaderData }: Route.ComponentProps) {

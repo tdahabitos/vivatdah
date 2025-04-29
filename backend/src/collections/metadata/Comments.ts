@@ -8,6 +8,8 @@ export const Comments: CollectionConfig = {
   },
   access: {
     read: () => true,
+    create: () => true,
+    delete: () => true,
   },
   admin: {
     useAsTitle: 'video_id',

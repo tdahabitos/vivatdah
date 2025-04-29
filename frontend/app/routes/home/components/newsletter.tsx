@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
 import type { FormData } from "~/types";
-import { sendContact } from "~/lib/api/active-campaign";
+import axios from "axios";
 
 export default function Newsletter() {
   const [sent, setSent] = useState(false);
@@ -28,7 +28,9 @@ export default function Newsletter() {
 
   async function handleSubmit({ email }: FormData) {
     setIsLoading(true);
-    await sendContact(email)
+
+    await axios
+      .post("newsletter", email)
       .then(() => {
         setSent(true);
       })

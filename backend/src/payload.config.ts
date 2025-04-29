@@ -146,7 +146,10 @@ export default buildConfig({
   db: postgresAdapter({
     idType: 'uuid',
     pool: {
-      connectionString: process.env.DATABASE_URI!,
+      connectionString:
+        process.env.NODE_ENV === 'development'
+          ? process.env.DEVELOPMENT_DATABASE_URI!
+          : process.env.DATABASE_URI!,
     },
   }),
   sharp,

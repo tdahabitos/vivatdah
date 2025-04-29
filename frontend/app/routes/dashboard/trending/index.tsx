@@ -1,23 +1,18 @@
 import { IconArrowLeftFromArc } from "@tabler/icons-react";
 import Empty from "~/components/empty";
 import VideoCard from "~/components/video-card";
-import api from "~/lib/api";
+import { apiFetcher } from "~/lib/api";
 import type { PandaVideo, View } from "~/types";
 import type { Route } from "./+types";
-import { getVideo } from "~/lib/panda-videos";
 import { getPageMeta } from "~/utils";
 
 export const meta = () => getPageMeta({ pageTitle: "Mais populares" });
 
-export async function loader({ params }: Route.LoaderArgs) {
-  const trendingList = await api({
-    collection: "views",
-    sort: "-views",
-    limit: 16,
-  });
+export async function loader() {
+  const trendingList = await apiFetcher("videos/trending");
 
   const videos = await Promise.all(
-    trendingList.map((video: View) => getVideo(video.video_id))
+    trendingList.map((video: View) => apiFetcher(`videos/${video.video_id}`))
   );
 
   return {

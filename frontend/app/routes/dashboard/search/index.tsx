@@ -3,11 +3,10 @@ import VideoCard from "~/components/video-card";
 import FileCard from "~/components/file-card";
 import Empty from "~/components/empty";
 import type { Route } from "./+types";
-import type { Media } from "~/types";
-import api from "~/lib/api";
-import { searchVideos } from "~/lib/panda-videos";
+import type { Media, PandaVideo } from "~/types";
 import { Divider } from "@mantine/core";
 import { cn, getPageMeta } from "~/utils";
+import type { P } from "node_modules/react-router/dist/development/route-data-OcOrqK13.mjs";
 
 export const meta = ({ data }: Route.MetaArgs) =>
   getPageMeta({ pageTitle: `Pesquisa | "${data.value}"` });
@@ -16,7 +15,7 @@ export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
   const value = url.searchParams.get("value");
 
-  const videos = value ? await searchVideos(value) : [];
+  /* const videos = value ? await searchVideos(value) : [];
 
   const files = await api({
     collection: "media",
@@ -28,9 +27,10 @@ export async function loader({ request }: Route.LoaderArgs) {
         equals: true,
       },
     },
-  });
+  }); */
+  //TODO: Add files
 
-  return { value, videos, files };
+  return { value, videos: [], files: [] };
 }
 
 export default function Search({ loaderData }: Route.ComponentProps) {
@@ -51,7 +51,7 @@ export default function Search({ loaderData }: Route.ComponentProps) {
           <Divider />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {videos.map((video) => (
+          {videos.map((video: PandaVideo) => (
             <VideoCard key={video.id} video={video} />
           ))}
         </div>

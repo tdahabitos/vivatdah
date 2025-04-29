@@ -91,6 +91,7 @@ export interface UserAuthOperations {
  */
 export interface Category {
   id: string;
+  status?: ('draft' | 'published') | null;
   cover: string | Media;
   free_content?: boolean | null;
   panda_folder_id: string;
@@ -392,6 +393,7 @@ export interface PayloadMigration {
  * via the `definition` "categories_select".
  */
 export interface CategoriesSelect<T extends boolean = true> {
+  status?: T;
   cover?: T;
   free_content?: T;
   panda_folder_id?: T;

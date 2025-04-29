@@ -1,32 +1,20 @@
 import { IconArrowLeftFromArc } from "@tabler/icons-react";
 import Empty from "~/components/empty";
 import VideoCard from "~/components/video-card";
-import api from "~/lib/api";
+import { apiFetcher } from "~/lib/api";
 import type { Category, PandaVideo } from "~/types";
 import type { Route } from "./+types";
-import { getFolderVideos } from "~/lib/panda-videos";
 import { getPageMeta } from "~/utils";
 
 export const meta = () => getPageMeta({ pageTitle: "Conteúdo livre" });
 
 export async function loader() {
-  let videos: PandaVideo[] = [];
+  const categories = await apiFetcher("categories?free_content=true");
 
-  const categories = await api({
-    collection: "categories",
-    where: {
-      free_content: {
-        equals: true,
-      },
-    },
-  });
-
-  await Promise.all(
-    categories.map(async (category: Category) => {
-      await getFolderVideos(category.panda_folder_id).then((res) => {
-        videos = [...videos, ...res];
-      });
-    })
+  const videos = await Promise.all(
+    categories.map((category: Category) =>
+      apiFetcher(`videos?category=${category.id}`)
+    )
   );
 
   return {

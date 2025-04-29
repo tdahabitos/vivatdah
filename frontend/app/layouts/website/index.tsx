@@ -2,32 +2,15 @@ import { Outlet } from "react-router";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import type { Route } from "./+types";
-import api, { globalApi } from "~/lib/api";
+import { apiFetcher } from "~/lib/api";
 import type { Banner } from "~/types";
 import PromoBanner from "./components/promo-banner";
 
 export async function loader() {
-  const menu = await api({
-    collection: "pages",
-    where: {
-      status: {
-        equals: "published",
-      },
-    },
-    sort: ["order"],
-    select: {
-      id: true,
-      title: true,
-      slug: true,
-      show_at_menu: true,
-    },
-  });
+  const menu = await apiFetcher("/categories");
+  const config = await apiFetcher("/config");
 
-  const banner = await globalApi({
-    slug: "banner",
-  });
-
-  return { menu, banner };
+  return { menu, banner: config.banner };
 }
 
 export default function WebsiteLayout({ loaderData }: Route.ComponentProps) {

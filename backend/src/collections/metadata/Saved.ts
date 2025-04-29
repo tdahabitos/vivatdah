@@ -8,6 +8,8 @@ export const Saved: CollectionConfig = {
   },
   access: {
     read: () => true,
+    create: () => true,
+    delete: () => true,
   },
   admin: {
     useAsTitle: 'video_id',

@@ -14,6 +14,25 @@ export const Categories: CollectionConfig = {
   },
   fields: [
     {
+      name: 'status',
+      label: 'Status',
+      defaultValue: 'published',
+      type: 'select',
+      options: [
+        {
+          label: 'Rascunho',
+          value: 'draft',
+        },
+        {
+          label: 'Publicado',
+          value: 'published',
+        },
+      ],
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
       name: 'cover',
       label: 'Capa',
       type: 'upload',
