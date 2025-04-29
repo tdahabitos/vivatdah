@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import { videosRouter } from "./routes/videos.js";
+import { videosRouter } from "./routes/videos/index.js";
 import { usersRouter } from "./routes/users.js";
 import { newsletterRouter } from "./routes/newsletter.js";
 import { categoriesRouter } from "./routes/categories.js";

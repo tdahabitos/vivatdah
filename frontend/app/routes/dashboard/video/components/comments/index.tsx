@@ -4,7 +4,7 @@ import { useForm } from "@mantine/form";
 import { IconInfoCircle, IconSend } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "~/hooks/use-auth";
-import { getComments, sendComment, deleteComment } from "~/lib/api";
+import { apiFetcher } from "~/lib/api";
 import { CommentCard } from "./components/comment-card";
 import type { Comment, FormData } from "~/types";
 
@@ -13,32 +13,32 @@ export default function Comments({ videoId }: { videoId: string }) {
   const [comments, setComments] = useState<Comment[]>([]);
   const { user } = useAuth();
 
-  const form = useForm({
-    initialValues: {
-      comment: "",
-    },
-  });
+  const form = useForm();
 
   async function handleSubmit(data: FormData) {
     if (!user) return;
     setIsSubmitting(true);
 
-    sendComment(videoId, user.id, data.comment)
+    //TODO: implement
+    /* sendComment(videoId, user.id, data.comment)
       .then((res) => {
         setComments((prev) => [res, ...prev]);
         form.reset();
       })
-      .finally(() => setIsSubmitting(false));
+      .finally(() => setIsSubmitting(false)); */
   }
 
   async function handleDelete(id: string) {
-    await deleteComment(id).then(() =>
+    //TODO: implement
+    /*  await deleteComment(id).then(() =>
       setComments(comments.filter((comment) => comment.id !== id))
-    );
+    ); */
   }
 
   async function getVideoComments() {
-    await getComments(videoId).then((res) => setComments(res));
+    await apiFetcher(`/videos/${videoId}/comments`).then((res) =>
+      setComments(res)
+    );
   }
 
   useEffect(() => {

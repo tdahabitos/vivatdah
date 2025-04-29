@@ -3,6 +3,7 @@ import axios from "axios";
 import { createClient } from "@supabase/supabase-js";
 import QueryString from "qs";
 import { Category } from "@/types";
+import { auth } from "@/middlewares/auth";
 
 export const usersRouter = express.Router();
 
@@ -61,7 +62,7 @@ usersRouter.get("/users/auth-check", async (req, res) => {
   );
 });
 
-usersRouter.get("/users/access/allowed-categories", async (req, res) => {
+usersRouter.get("/users/access/allowed-categories", auth, async (req, res) => {
   const { email } = req.query;
 
   const query = QueryString.stringify({

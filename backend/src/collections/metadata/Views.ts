@@ -9,7 +9,7 @@ export const Views: CollectionConfig = {
   access: {
     read: () => true,
     create: () => true,
-    delete: () => true,
+    update: () => true,
   },
   admin: {
     useAsTitle: 'video_id',

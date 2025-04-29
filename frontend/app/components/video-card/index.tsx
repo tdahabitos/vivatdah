@@ -79,14 +79,14 @@ export default function VideoCard({ video }: { video: PandaVideo }) {
             </Menu>
           </div>
           <Text size="sm" c="dimmed">
-            <div className="flex items-center gap-1">
+            <span className="flex items-center gap-1">
               <span key={video.id}>
                 {isLoading ? <Skeleton w={40} h={20} /> : views}{" "}
               </span>
               <span>
                 {`visualizações • ${dayjs(video.created_at).fromNow()}`}
               </span>
-            </div>
+            </span>
           </Text>
         </div>
       </div>

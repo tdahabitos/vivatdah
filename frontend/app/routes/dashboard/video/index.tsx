@@ -1,7 +1,7 @@
 import { Card, Divider, Spoiler, Text } from "@mantine/core";
 import type { Route } from "./+types";
 import VideoCard from "~/components/video-card";
-import { apiFetcher } from "~/lib/api";
+import { addView, apiFetcher } from "~/lib/api";
 import dayjs from "~/lib/dayjs";
 import FeedbackRow from "./components/feedback-row";
 import Comments from "./components/comments";
@@ -16,11 +16,7 @@ export async function loader({ params }: Route.LoaderArgs) {
   const { id } = params;
 
   const video = await apiFetcher(`/videos/${id}`);
-  const views = 0; // TODO: add views
-
-  /* if (video.related.length === 0) {
-    video.related = await getVideos(null, 1, 6);
-  } */
+  const views = await addView(id);
 
   return {
     video,

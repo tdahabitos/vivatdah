@@ -2,7 +2,7 @@ import { IconArrowLeftFromArc } from "@tabler/icons-react";
 import Empty from "~/components/empty";
 import VideoCard from "~/components/video-card";
 import { apiFetcher } from "~/lib/api";
-import type { PandaVideo } from "~/types";
+import type { Category, Media, PandaVideo } from "~/types";
 import type { Route } from "./+types";
 import FileList from "./components/file-list";
 import { useUser } from "~/store/user-store";
@@ -16,28 +16,20 @@ export const meta = ({ data }: Route.MetaArgs) =>
 export async function loader({ params }: Route.LoaderArgs) {
   const { id } = params;
 
-  const category = await apiFetcher(`/categories/${id}`);
-  const videos = await apiFetcher(`/videos?folder_id=${id}`);
-
-  /* const files = await api({
-    collection: "media",
-    where: {
-      categories: {
-        contains: id,
-      },
-    },
-  }); */
-  // TODO: Add files
+  const category = (await apiFetcher(`/categories/${id}`)) as Category;
+  const files = (await apiFetcher(`/categories/${id}/media`)) as Media[];
+  const videos = await apiFetcher(`/videos/folder/${category.panda_folder_id}`);
 
   return {
     category,
     videos,
-    files: [],
+    files,
   };
 }
 
 export default function Category({ loaderData }: Route.ComponentProps) {
   const { category, videos, files } = loaderData;
+
   const { allowedCategories } = useUser();
   const [hasAccess, setHasAccess] = useState(false);
   const navigate = useNavigate();

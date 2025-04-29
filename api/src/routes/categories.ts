@@ -12,10 +12,9 @@ categoriesRouter.get("/categories", async (req, res) => {
       status: {
         equals: "published",
       },
-      ...(free_content === "true" && {
-        free_content: { equals: true },
-      }),
+      free_content: { equals: free_content === "true" },
     },
+    sort: ["-title"],
   });
 
   const categories = await axios
@@ -44,7 +43,7 @@ categoriesRouter.get("/categories/:id", async (req, res) => {
     },
   });
 
-  const categories = await axios
+  const category = await axios
     .get(`${process.env.CMS_API_URL}/categories?${query}`, {
       headers: {
         accept: "application/json",
@@ -53,5 +52,31 @@ categoriesRouter.get("/categories/:id", async (req, res) => {
     })
     .then((res) => res.data.docs[0]);
 
-  res.status(200).json(categories);
+  res.status(200).json(category);
+});
+
+categoriesRouter.get("/categories/:id/media", async (req, res) => {
+  const { id } = req.params;
+
+  const query = qs.stringify({
+    where: {
+      is_public: {
+        equals: true,
+      },
+      categories: {
+        contains: id,
+      },
+    },
+  });
+
+  const media = await axios
+    .get(`${process.env.CMS_API_URL}/media?${query}`, {
+      headers: {
+        accept: "application/json",
+        Authorization: process.env.CMS_API_KEY,
+      },
+    })
+    .then((res) => res.data.docs);
+
+  res.status(200).json(media);
 });

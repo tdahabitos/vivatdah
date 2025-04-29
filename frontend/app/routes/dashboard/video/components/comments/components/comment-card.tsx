@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import dayjs from "~/lib/dayjs";
 import type { Comment, PublicUser } from "~/types";
 import { IconX } from "@tabler/icons-react";
-import { getPublicUser } from "~/lib/api";
+import { apiFetcher } from "~/lib/api";
 import { useAuth } from "~/hooks/use-auth";
 
 export function CommentCard({
@@ -18,7 +18,7 @@ export function CommentCard({
   const [commentUser, setCommentUser] = useState<PublicUser | null>(null);
 
   async function getCommentUser() {
-    await getPublicUser(comment.user_id)
+    await apiFetcher(`/users/${comment.user_id}`)
       .then((res) => setCommentUser(res))
       .finally(() => setIsLoading(false));
   }

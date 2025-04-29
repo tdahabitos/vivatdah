@@ -12,6 +12,7 @@ export default function FileList({ files }: { files: Media[] }) {
     <>
       <Button
         leftSection={<IconFolders size={16} />}
+        className="flex-shrink-0"
         variant="light"
         onClick={open}
       >

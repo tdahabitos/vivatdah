@@ -2,7 +2,7 @@ import { ActionIcon } from "@mantine/core";
 import { IconBookmark, IconBookmarkFilled } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "~/hooks/use-auth";
-import { getSaved, sendSaved } from "~/lib/api";
+import { apiFetcher } from "~/lib/api";
 
 export default function SaveButton({ videoId }: { videoId: string }) {
   const { user } = useAuth();
@@ -11,15 +11,17 @@ export default function SaveButton({ videoId }: { videoId: string }) {
   async function checkIfSaved() {
     if (!user) return;
 
-    await getSaved(videoId, user.id).then((res) => setIsSaved(res));
+    await apiFetcher(`/videos/${videoId}/saved`).then((res) => setIsSaved(res));
   }
 
   async function saveToggle() {
     if (!user) return;
 
-    sendSaved(videoId, user.id, isSaved ? "unsave" : "save").then((res) => {
+    //TODO: implement
+
+    /* sendSaved(videoId, user.id, isSaved ? "unsave" : "save").then((res) => {
       setIsSaved(res);
-    });
+    }); */
   }
 
   useEffect(() => {

@@ -1,7 +1,8 @@
 import express from "express";
 import axios from "axios";
-import { PandaVideo } from "@/types";
 import qs from "qs";
+import { getFolderVideos, getVideo, getVideos } from "./functions";
+import { Feedback } from "@/types";
 
 export const videosRouter = express.Router();
 
@@ -9,52 +10,27 @@ export const videosRouter = express.Router();
 videosRouter.get("/videos", async (req, res) => {
   const { folder_id, page, limit } = req.query;
 
-  const videos = await axios
-    .get("https://api-v2.pandavideo.com.br/videos", {
-      params: {
-        folder_id,
-        page: page || 1,
-        limit: limit || 999,
-      },
-      headers: {
-        accept: "application/json",
-        Authorization: process.env.PANDA_API_KEY,
-      },
-    })
-    .then((res) => res.data.videos);
+  const videos = await getVideos(
+    folder_id as string,
+    page as string,
+    limit as string
+  );
 
   res.status(200).json(videos);
 });
 
 videosRouter.get("/videos/:id", async (req, res) => {
   const { id } = req.params;
+  const video = await getVideo(id);
 
-  const video = await axios
-    .get(`https://api-v2.pandavideo.com.br/videos/${id}`, {
-      headers: {
-        accept: "application/json",
-        Authorization: process.env.PANDA_API_KEY,
-      },
-    })
-    .then((res) => res.data);
+  res.status(200).json(video);
+});
 
-  const related = await axios
-    .get("https://api-v2.pandavideo.com.br/videos", {
-      params: {
-        page: 1,
-        limit: 8,
-      },
-      headers: {
-        accept: "application/json",
-        Authorization: process.env.PANDA_API_KEY,
-      },
-    })
-    .then((res) => res.data.videos);
+videosRouter.get("/videos/folder/:id", async (req, res) => {
+  const { id } = req.params;
+  const videos = await getFolderVideos(id);
 
-  res.status(200).json({
-    ...video,
-    related: related.filter((video: PandaVideo) => video.id !== id),
-  });
+  res.status(200).json(videos);
 });
 
 /* === list */
@@ -62,7 +38,7 @@ videosRouter.get("/videos/list/trending", async (req, res) => {
   const { page, limit } = req.query;
 
   const query = qs.stringify({
-    sort: "-views",
+    sort: ["-views"],
     page: page || 1,
     limit: limit || 16,
   });
@@ -147,19 +123,22 @@ videosRouter.patch("/videos/:id/views", async (req, res) => {
         Authorization: process.env.CMS_API_KEY,
       },
     })
-    .then((res) => res.data.docs[0].views || 0);
+    .then((res) => res.data.docs?.[0]?.views || null);
 
   const views = await axios({
-    method: currentViews ? "PATCH" : "POST",
-    url: `${process.env.CMS_API_URL}/views?${query}`,
-    data: {
-      views: currentViews ? currentViews + 1 : 1,
-    },
+    method: currentViews ? "patch" : "post",
+    url: currentViews
+      ? `${process.env.CMS_API_URL}/views?${query}`
+      : `${process.env.CMS_API_URL}/views`,
     headers: {
       accept: "application/json",
       Authorization: process.env.CMS_API_KEY,
     },
-  }).then((res) => res.data.docs[0].views || 0);
+    data: {
+      video_id: id,
+      views: currentViews ? currentViews + 1 : 1,
+    },
+  }).then((res) => res.data.docs?.[0]?.views);
 
   res.status(200).json(views);
 });
@@ -317,6 +296,7 @@ videosRouter.get("/videos/:id/feedback", async (req, res) => {
       video_id: {
         equals: id,
       },
+      // TODO: add user_id
     },
     limit: 1,
     page: 1,
@@ -329,7 +309,12 @@ videosRouter.get("/videos/:id/feedback", async (req, res) => {
         Authorization: process.env.CMS_API_KEY,
       },
     })
-    .then((res) => res.data.docs[0].type)
+    .then((res) => ({
+      feedback: res.data.docs[0].type,
+      positiveCount: res.data.docs.filter(
+        (f: Feedback) => f.type === "positive"
+      ).length,
+    }))
     .catch(() => null);
 
   res.status(200).json(feedback);

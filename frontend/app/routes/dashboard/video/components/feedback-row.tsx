@@ -1,4 +1,4 @@
-import { getFeedback, sendFeedback } from "~/lib/api";
+import { apiFetcher } from "~/lib/api";
 import {
   IconThumbDown,
   IconThumbDownFilled,
@@ -11,8 +11,8 @@ import { ActionIcon } from "@mantine/core";
 import type { Feedback } from "~/types";
 
 export default function FeedbackRow({ videoId }: { videoId: string }) {
-  const [feedback, setFeedback] = useState<Feedback>(null);
-  const [totalPositive, setTotalPositive] = useState<number>(0);
+  const [feedback, setFeedback] = useState<Feedback | null>(null);
+  const [positiveCount, setPositiveCount] = useState<number>(0);
   const [isSendingFeedback, setIsSendingFeedback] = useState(false);
 
   const { user } = useAuth();
@@ -22,23 +22,26 @@ export default function FeedbackRow({ videoId }: { videoId: string }) {
     if (!user) return;
     setIsSendingFeedback(true);
 
-    const { feedback, totalPositive } = await sendFeedback(
+    /* const { feedback, totalPositive } = await sendFeedback(
       videoId,
       user.id,
       type
     );
     setFeedback(feedback);
-    setTotalPositive(totalPositive);
+    setTotalPositive(totalPositive); */
 
     setIsSendingFeedback(false);
   }
 
   async function getInitialFeedback() {
     if (!user) return;
-    const { feedback, totalPositive } = await getFeedback(videoId, user.id);
 
-    setFeedback(feedback);
-    setTotalPositive(totalPositive);
+    const { feedback, positiveCount } = await apiFetcher(
+      `/videos/${videoId}/feedback`
+    );
+
+    feedback && setFeedback(feedback);
+    setPositiveCount(positiveCount);
   }
 
   useEffect(() => {
@@ -61,7 +64,7 @@ export default function FeedbackRow({ videoId }: { videoId: string }) {
             <IconThumbUp size={16} />
           )}
         </ActionIcon>
-        <span className="text-xs">{totalPositive}</span>
+        <span className="text-xs">{positiveCount}</span>
       </div>
       <ActionIcon
         variant={feedback === "negative" ? "filled" : "light"}
