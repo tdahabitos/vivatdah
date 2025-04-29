@@ -8,6 +8,7 @@ import { categoriesRouter } from "./routes/categories.js";
 import { plansRouter } from "./routes/plans.js";
 import { pagesRouter } from "./routes/pages.js";
 import { configRouter } from "./routes/config.js";
+import { postsRouter } from "./routes/posts.js";
 
 dotenv.config();
 
@@ -34,7 +35,8 @@ app.use(
   newsletterRouter,
   categoriesRouter,
   plansRouter,
-  pagesRouter
+  pagesRouter,
+  postsRouter
 );
 
 app.listen(5000, () => {

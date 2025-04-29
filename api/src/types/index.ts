@@ -1,3 +1,5 @@
+export * from "./payload-types";
+
 export type PandaFolder = {
   id: string;
   name: string;

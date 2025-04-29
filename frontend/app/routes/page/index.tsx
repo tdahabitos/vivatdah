@@ -2,37 +2,17 @@ import type { Route } from "./+types";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import Categories from "~/components/categories";
 import Plans from "~/components/plans";
-import api from "~/lib/api";
+import { apiFetcher } from "~/lib/api";
+import type { Page } from "~/types";
 import { getPageMeta } from "~/utils";
 
 export const meta = ({ data }: Route.MetaArgs) =>
   getPageMeta({ pageTitle: data.page.title });
 
 export async function loader({ params }: Route.LoaderArgs) {
-  const page = await api({
-    collection: "pages",
-    where: {
-      status: {
-        equals: "published",
-      },
-      slug: {
-        equals: params.slug,
-      },
-    },
-  }).then((res) => res[0]);
-
-  const plans = await api({
-    collection: "plans",
-    where: {
-      status: {
-        equals: "published",
-      },
-    },
-  });
-
-  const categories = await api({
-    collection: "categories",
-  });
+  const page = await apiFetcher(`/pages/${params.slug}`);
+  const plans = await apiFetcher("/plans");
+  const categories = await apiFetcher("/categories");
 
   return {
     page,

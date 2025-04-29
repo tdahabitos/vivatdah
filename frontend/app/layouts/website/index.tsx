@@ -7,7 +7,7 @@ import type { Banner } from "~/types";
 import PromoBanner from "./components/promo-banner";
 
 export async function loader() {
-  const menu = await apiFetcher("/categories");
+  const menu = await apiFetcher("/pages");
   const config = await apiFetcher("/config");
 
   return { menu, banner: config.banner };

@@ -15,15 +15,6 @@ import { useAuth } from "~/hooks/use-auth";
 
 export async function loader() {
   const categories = await apiFetcher("/categories");
-
-  /* api({
-    collection: "categories",
-    where: {
-      free_content: { equals: false },
-    },
-    sort: ["title"],
-  }); */
-
   return { categories };
 }
 

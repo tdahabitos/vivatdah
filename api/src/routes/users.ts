@@ -2,6 +2,7 @@ import express from "express";
 import axios from "axios";
 import { createClient } from "@supabase/supabase-js";
 import QueryString from "qs";
+import { Category } from "@/types";
 
 export const usersRouter = express.Router();
 
@@ -60,7 +61,7 @@ usersRouter.get("/users/auth-check", async (req, res) => {
   );
 });
 
-usersRouter.get("/users/allowed-categories", async (req, res) => {
+usersRouter.get("/users/access/allowed-categories", async (req, res) => {
   const { email } = req.query;
 
   const query = QueryString.stringify({
@@ -78,7 +79,9 @@ usersRouter.get("/users/allowed-categories", async (req, res) => {
         Authorization: process.env.CMS_API_KEY,
       },
     })
-    .then((res) => res.data.docs[0].allowed_categories)
+    .then((res) =>
+      res.data.docs[0].allowed_categories.map((c: Category) => c.id)
+    )
     .catch(() => []);
 
   res.status(200).json(allowedCategories);

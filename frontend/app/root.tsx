@@ -61,7 +61,6 @@ const theme = createTheme({
 
 export async function loader() {
   const config = await apiFetcher("/config");
-  console.log(config);
   return { administration: config.administration };
 }
 

@@ -21,7 +21,7 @@ import type { PandaVideo } from "~/types";
 import { Link } from "react-router";
 import SaveButton from "./components/save-button";
 import dayjs from "~/lib/dayjs";
-import { getViews } from "~/lib/api";
+import { apiFetcher } from "~/lib/api";
 
 export default function VideoCard({ video }: { video: PandaVideo }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -31,7 +31,7 @@ export default function VideoCard({ video }: { video: PandaVideo }) {
   async function fetchViews() {
     setIsLoading(true);
 
-    await getViews(video.id)
+    await apiFetcher(`/videos/${video.id}/views`)
       .then((res) => setViews(res))
       .finally(() => setIsLoading(false));
   }

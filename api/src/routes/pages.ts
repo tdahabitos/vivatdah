@@ -10,14 +10,14 @@ pagesRouter.get("/pages", async (req, res) => {
       status: {
         equals: "published",
       },
-      show_at_home: {
+      show_at_menu: {
         equals: true,
       },
       sort: ["order"],
     },
   });
 
-  const categories = await axios
+  const pages = await axios
     .get(`${process.env.CMS_API_URL}/pages?${query}`, {
       headers: {
         accept: "application/json",
@@ -26,24 +26,24 @@ pagesRouter.get("/pages", async (req, res) => {
     })
     .then((res) => res.data.docs);
 
-  res.status(200).json(categories);
+  res.status(200).json(pages);
 });
 
-pagesRouter.get("/pages/:id", async (req, res) => {
-  const { id } = req.params;
+pagesRouter.get("/pages/:slug", async (req, res) => {
+  const { slug } = req.params;
 
   const query = qs.stringify({
     where: {
       status: {
         equals: "published",
       },
-      id: {
-        equals: id,
+      slug: {
+        equals: slug,
       },
     },
   });
 
-  const categories = await axios
+  const page = await axios
     .get(`${process.env.CMS_API_URL}/pages?${query}`, {
       headers: {
         accept: "application/json",
@@ -52,5 +52,5 @@ pagesRouter.get("/pages/:id", async (req, res) => {
     })
     .then((res) => res.data.docs[0]);
 
-  res.status(200).json(categories);
+  res.status(200).json(page);
 });

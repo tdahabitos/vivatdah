@@ -123,7 +123,8 @@ videosRouter.get("/videos/:id/views", async (req, res) => {
         Authorization: process.env.CMS_API_KEY,
       },
     })
-    .then((res) => res.data.docs[0].views || 0);
+    .then((res) => res.data.docs[0].views)
+    .catch(() => 0);
 
   res.status(200).json(views);
 });

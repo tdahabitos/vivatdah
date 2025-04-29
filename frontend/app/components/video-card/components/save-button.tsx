@@ -3,7 +3,7 @@ import { IconBookmark, IconBookmarkFilled } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useRevalidator } from "react-router";
 import { useAuth } from "~/hooks/use-auth";
-import { getSaved, sendSaved } from "~/lib/api";
+import { apiFetcher } from "~/lib/api";
 
 export default function SaveButton({ videoId }: { videoId: string }) {
   const { user } = useAuth();
@@ -14,7 +14,7 @@ export default function SaveButton({ videoId }: { videoId: string }) {
   async function checkIfSaved() {
     if (!user) return;
 
-    await getSaved(videoId, user.id).then((res) => setIsSaved(res));
+    await apiFetcher(`/videos/${videoId}/saved`).then((res) => setIsSaved(res));
   }
 
   async function saveToggle() {
@@ -22,11 +22,11 @@ export default function SaveButton({ videoId }: { videoId: string }) {
 
     setIsSubmitting(true);
 
-    await sendSaved(videoId, user.id, isSaved ? "unsave" : "save")
+    /* await sendSaved(videoId, user.id, isSaved ? "unsave" : "save")
       .then((res) => {
         setIsSaved(res);
       })
-      .finally(() => setIsSubmitting(false));
+      .finally(() => setIsSubmitting(false)); */
 
     revalidator.revalidate();
   }

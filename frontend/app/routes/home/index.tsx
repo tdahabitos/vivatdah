@@ -7,18 +7,14 @@ import Newsletter from "./components/newsletter";
 import CookieConsent from "./components/cookie-consent";
 import type { Route } from "./+types";
 import Plans from "~/components/plans";
-import api from "~/lib/api";
+import { apiFetcher } from "~/lib/api";
 import { getPageMeta } from "~/utils";
 
 export const meta = () => getPageMeta({ pageTitle: "Home" });
 
 export async function loader() {
-  const posts = await api({
-    collection: "posts",
-  });
-  const plans = await api({
-    collection: "plans",
-  });
+  const posts = await apiFetcher("/posts");
+  const plans = await apiFetcher("/plans");
 
   return {
     posts,

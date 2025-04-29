@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { apiFetcher } from "~/lib/api";
 import { supabase } from "~/lib/supabase";
 import { useUser } from "~/store/user-store";
-import type { Category } from "~/types";
 
 export function useAuth() {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,9 +20,9 @@ export function useAuth() {
   async function getAllowedCategories() {
     if (!user) return;
 
-    await apiFetcher(`/users/allowed-categories?email=${user.email}`).then(
-      (res) => setAllowedCategories(res.map((c: Category) => c.id))
-    );
+    await apiFetcher(
+      `/users/access/allowed-categories?email=${user.email}`
+    ).then((res) => setAllowedCategories(res));
   }
 
   useEffect(() => {
