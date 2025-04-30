@@ -13,7 +13,7 @@ import { apiFetcher } from "~/lib/api";
 import Search from "~/components/search";
 import { useAuth } from "~/hooks/use-auth";
 
-export async function loader() {
+export async function clientLoader() {
   const categories = await apiFetcher("/categories");
   return { categories };
 }

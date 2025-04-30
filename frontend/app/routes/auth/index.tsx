@@ -5,21 +5,16 @@ import { Loader, Paper } from "@mantine/core";
 import Logo from "~/components/logo";
 import PrivateAuthForm from "./components/private-auth-form";
 import AuthForm from "./components/auth-form";
-import { globalApi } from "~/lib/api";
+import { apiFetcher } from "~/lib/api";
 import { supabase } from "~/lib/supabase";
 import { useNavigate } from "react-router";
 
 export const meta = () => getPageMeta({ pageTitle: "Auth" });
 
-export async function loader() {
-  const { auth_private_mode: isPrivateAuthMode } = await globalApi({
-    slug: "authentication",
-    select: {
-      auth_private_mode: true,
-    },
-  });
+export async function clientLoader() {
+  const { auth_private_mode } = await apiFetcher("/config");
 
-  return { isPrivateAuthMode };
+  return { isPrivateAuthMode: auth_private_mode };
 }
 
 export default function Auth({ loaderData }: Route.ComponentProps) {

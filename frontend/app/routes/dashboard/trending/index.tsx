@@ -8,7 +8,7 @@ import { getPageMeta } from "~/utils";
 
 export const meta = () => getPageMeta({ pageTitle: "Mais populares" });
 
-export async function loader() {
+export async function clientLoader() {
   const trendingList = await apiFetcher("videos/list/trending");
 
   const videos = await Promise.all(

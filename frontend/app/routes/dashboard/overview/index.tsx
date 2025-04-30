@@ -6,7 +6,7 @@ import { getPageMeta } from "~/utils";
 
 export const meta = () => getPageMeta({ pageTitle: "Home" });
 
-export async function loader() {
+export async function clientLoader() {
   const newVideos = await apiFetcher(`/videos?page=1&limit=2`);
   const trendingList = await apiFetcher("/videos/list/trending?page=1&limit=4");
 

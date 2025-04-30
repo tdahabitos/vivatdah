@@ -8,7 +8,7 @@ import { getPageMeta } from "~/utils";
 
 export const meta = () => getPageMeta({ pageTitle: "Salvos" });
 
-export async function loader() {
+export async function clientLoader() {
   const savedList = await apiFetcher("/videos/list/saved");
 
   const videos = await Promise.all(

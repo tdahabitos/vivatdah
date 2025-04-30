@@ -1,14 +1,10 @@
 import axios from "axios";
-import { supabase } from "./supabase";
 
 const fetcher = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   headers: {
     "Content-Type": "application/json",
     accept: "application/json",
-    Authorization: await supabase.auth
-      .getSession()
-      .then((res) => res.data.session?.access_token),
   },
   withCredentials: false,
 });

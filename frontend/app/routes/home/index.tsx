@@ -12,7 +12,7 @@ import { getPageMeta } from "~/utils";
 
 export const meta = () => getPageMeta({ pageTitle: "Home" });
 
-export async function loader() {
+export async function clientLoader() {
   const posts = await apiFetcher("/posts");
   const plans = await apiFetcher("/plans");
 

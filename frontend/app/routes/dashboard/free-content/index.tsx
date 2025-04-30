@@ -8,7 +8,7 @@ import { getPageMeta } from "~/utils";
 
 export const meta = () => getPageMeta({ pageTitle: "Conteúdo livre" });
 
-export async function loader() {
+export async function clientLoader() {
   const categories = await apiFetcher("categories?free_content=true");
 
   const videos = await Promise.all(

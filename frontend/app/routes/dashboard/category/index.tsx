@@ -13,7 +13,7 @@ import { getPageMeta } from "~/utils";
 export const meta = ({ data }: Route.MetaArgs) =>
   getPageMeta({ pageTitle: data.category.title });
 
-export async function loader({ params }: Route.LoaderArgs) {
+export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const { id } = params;
 
   const category = (await apiFetcher(`/categories/${id}`)) as Category;

@@ -12,7 +12,7 @@ import type { PandaVideo } from "~/types";
 export const meta = ({ data }: Route.MetaArgs) =>
   getPageMeta({ pageTitle: data.video.title });
 
-export async function loader({ params }: Route.LoaderArgs) {
+export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const { id } = params;
 
   const video = await apiFetcher(`/videos/${id}`);

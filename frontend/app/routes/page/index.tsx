@@ -9,7 +9,7 @@ import { getPageMeta } from "~/utils";
 export const meta = ({ data }: Route.MetaArgs) =>
   getPageMeta({ pageTitle: data.page.title });
 
-export async function loader({ params }: Route.LoaderArgs) {
+export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const page = await apiFetcher(`/pages/${params.slug}`);
   const plans = await apiFetcher("/plans");
   const categories = await apiFetcher("/categories");

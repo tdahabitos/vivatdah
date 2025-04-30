@@ -6,7 +6,7 @@ import { apiFetcher } from "~/lib/api";
 import type { Banner } from "~/types";
 import PromoBanner from "./components/promo-banner";
 
-export async function loader() {
+export async function clientLoader() {
   const menu = await apiFetcher("/pages");
   const config = await apiFetcher("/config");
 

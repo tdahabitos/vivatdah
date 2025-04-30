@@ -11,7 +11,7 @@ import type { P } from "node_modules/react-router/dist/development/route-data-Oc
 export const meta = ({ data }: Route.MetaArgs) =>
   getPageMeta({ pageTitle: `Pesquisa | "${data.value}"` });
 
-export async function loader({ request }: Route.LoaderArgs) {
+export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const url = new URL(request.url);
   const value = url.searchParams.get("value");
 

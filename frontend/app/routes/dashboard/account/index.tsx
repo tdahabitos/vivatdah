@@ -11,7 +11,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { IconKey, IconLock, IconMail, IconPencil } from "@tabler/icons-react";
+import { IconKey, IconMail, IconPencil } from "@tabler/icons-react";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
@@ -24,7 +24,7 @@ import type { Route } from "./+types";
 
 export const meta = () => getPageMeta({ pageTitle: "Configurações" });
 
-export async function loader({ request }: Route.LoaderArgs) {
+export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const url = new URL(request.url);
   const emailConfirmation = url.searchParams.get("emailConfirmation");
 
