@@ -4,57 +4,56 @@ import {
   IconHome,
   IconLock,
   IconTrophyFilled,
-  IconStar,
   IconStarFilled,
-} from "@tabler/icons-react";
-import { Divider, NavLink } from "@mantine/core";
-import type { Category } from "~/types";
-import { Link, useLocation } from "react-router";
-import Search from "~/components/search";
-import { useEffect, useState } from "react";
+} from '@tabler/icons-react'
+import { Divider, NavLink } from '@mantine/core'
+import type { Category } from '~/types'
+import { Link, useLocation } from 'react-router'
+import Search from '~/components/search'
+import { useEffect, useState } from 'react'
 
 const mainMenu = [
   {
-    key: "home",
-    label: "Home",
-    url: "/dashboard",
+    key: 'home',
+    label: 'Home',
+    url: '/dashboard',
     icon: IconHome,
   },
   {
-    key: "trending",
-    label: "Mais populares",
-    url: "/dashboard/trending",
+    key: 'trending',
+    label: 'Mais populares',
+    url: '/dashboard/trending',
     icon: IconFlame,
   },
   {
-    key: "saved",
-    label: "Salvos",
-    url: "/dashboard/saved",
+    key: 'saved',
+    label: 'Salvos',
+    url: '/dashboard/saved',
     icon: IconBookmark,
   },
-];
+]
 
 export default function Sidebar({
   categories,
   allowedCategories,
   close,
 }: {
-  categories: Category[];
-  allowedCategories: string[];
-  close: () => void;
+  categories: Category[]
+  allowedCategories: string[]
+  close: () => void
 }) {
-  const { pathname } = useLocation();
-  const [upgradeAllowed, setUpgradeAllowed] = useState(false);
+  const { pathname } = useLocation()
+  const [upgradeAllowed, setUpgradeAllowed] = useState(false)
 
   function checkUpgrade() {
     if (allowedCategories.length !== categories.length) {
-      setUpgradeAllowed(true);
+      setUpgradeAllowed(true)
     }
   }
 
   useEffect(() => {
-    checkUpgrade();
-  }, []);
+    checkUpgrade()
+  }, [])
 
   return (
     <div className="flex flex-col gap-6 text-sm">
@@ -64,6 +63,17 @@ export default function Sidebar({
 
       <span className="text-xs font-semibold uppercase opacity-50">Menu</span>
       <div className="flex flex-col gap-4">
+        {mainMenu.map((category) => (
+          <NavLink
+            key={category.key}
+            className="rounded-lg"
+            component={Link}
+            to={category.url}
+            active={pathname === category.url}
+            leftSection={<category.icon size={18} />}
+            label={category.label}
+          />
+        ))}
         {upgradeAllowed && (
           <NavLink
             className="rounded-lg !bg-orange-100 !text-orange-500"
@@ -78,17 +88,6 @@ export default function Sidebar({
             label="Faça Upgrade"
           />
         )}
-        {mainMenu.map((category) => (
-          <NavLink
-            key={category.key}
-            className="rounded-lg"
-            component={Link}
-            to={category.url}
-            active={pathname === category.url}
-            leftSection={<category.icon size={18} />}
-            label={category.label}
-          />
-        ))}
       </div>
       <Divider />
       <span className="text-xs font-semibold uppercase opacity-50">
@@ -105,7 +104,7 @@ export default function Sidebar({
         />
 
         {categories.map((category) => {
-          const hasAccess = allowedCategories?.includes(category.id);
+          const hasAccess = allowedCategories?.includes(category.id)
 
           return (
             <NavLink
@@ -121,9 +120,9 @@ export default function Sidebar({
               active={pathname === `/dashboard/category/${category.id}`}
               label={category.title}
             />
-          );
+          )
         })}
       </div>
     </div>
-  );
+  )
 }

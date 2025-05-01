@@ -1,4 +1,4 @@
-import { Card, Divider, Spoiler, Text } from '@mantine/core'
+import { Card, Divider, rem, Spoiler, Text } from '@mantine/core'
 import type { Route } from './+types'
 import VideoCard from '~/components/video-card'
 import { addView, apiFetcher } from '~/lib/api'
@@ -10,7 +10,7 @@ import type { PandaVideo } from '~/types'
 import SaveButton from '~/components/save-button'
 
 export const meta = ({ data }: Route.MetaArgs) =>
-  getPageMeta({ pageTitle: data.video.title })
+  getPageMeta({ pageTitle: removeExtension(data.video.title) })
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const { id } = params
