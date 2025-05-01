@@ -104,8 +104,8 @@ export default function VideoCard({ video }: { video: PandaVideo }) {
         size="lg"
       >
         <div className="w-full flex gap-2 px-[10%]">
-          <TextInput className="flex-1" value={`/video/${video.id}`} disabled />
-          <CopyButton value={`/video/${video.id}`}>
+          <TextInput className="flex-1" value={`${location.origin}/video/${video.id}`} disabled />
+          <CopyButton value={`${location.origin}/video/${video.id}`}>
             {({ copied, copy }) => (
               <Button color={copied ? "teal" : "blue"} onClick={copy}>
                 {copied ? <IconCheck /> : <IconCopy />}
