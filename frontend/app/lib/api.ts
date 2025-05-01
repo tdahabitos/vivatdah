@@ -26,8 +26,14 @@ export async function sendVideoFeedback(id: string, type: FeedbackType) {
 }
 
 /* Comment */
-export async function sendComment(id: string) {
-  return await fetcher.post(`/videos/${id}/comments`).then((res) => res.data)
+export async function sendComment(id: string, comment: string) {
+  return await fetcher
+    .post(`/videos/${id}/comments`, { comment })
+    .then((res) => res.data)
+}
+
+export async function deleteComment(id: string) {
+  return await fetcher.delete(`/videos/${id}/comments`).then((res) => res.data)
 }
 
 /* Save */

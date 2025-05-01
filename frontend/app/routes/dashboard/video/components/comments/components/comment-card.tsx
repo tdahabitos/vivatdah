@@ -1,31 +1,45 @@
-import { Text, Avatar, Group, Skeleton, ActionIcon } from "@mantine/core";
-import { useEffect, useState } from "react";
-import dayjs from "~/lib/dayjs";
-import type { Comment, PublicUser } from "~/types";
-import { IconX } from "@tabler/icons-react";
-import { apiFetcher } from "~/lib/api";
-import { useAuth } from "~/hooks/use-auth";
+import {
+  Text,
+  Avatar,
+  Group,
+  Skeleton,
+  ActionIcon,
+  Loader,
+} from '@mantine/core'
+import { useEffect, useState } from 'react'
+import dayjs from '~/lib/dayjs'
+import type { Comment, PublicUser } from '~/types'
+import { IconX } from '@tabler/icons-react'
+import { apiFetcher } from '~/lib/api'
+import { useAuth } from '~/hooks/use-auth'
 
 export function CommentCard({
   comment,
   onDelete,
 }: {
-  comment: Comment;
-  onDelete: () => void;
+  comment: Comment
+  onDelete: () => Promise<void>
 }) {
-  const { user } = useAuth();
-  const [isLoading, setIsLoading] = useState(true);
-  const [commentUser, setCommentUser] = useState<PublicUser | null>(null);
+  const { user } = useAuth()
+  const [isLoading, setIsLoading] = useState(true)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [commentUser, setCommentUser] = useState<PublicUser | null>(null)
 
   async function getCommentUser() {
     await apiFetcher(`/users/${comment.user_id}`)
       .then((res) => setCommentUser(res))
-      .finally(() => setIsLoading(false));
+      .finally(() => setIsLoading(false))
+  }
+
+  async function handleDelete() {
+    setIsDeleting(true)
+    await onDelete()
+    setIsDeleting(false)
   }
 
   useEffect(() => {
-    getCommentUser();
-  }, []);
+    getCommentUser()
+  }, [])
 
   if (isLoading)
     return (
@@ -33,7 +47,7 @@ export function CommentCard({
         <Skeleton w="100%" h={35} />
         <Skeleton w="50%" h={20} />
       </div>
-    );
+    )
 
   return (
     <div>
@@ -55,8 +69,10 @@ export function CommentCard({
           </div>
         </Group>
 
-        {user?.id === commentUser?.id && (
-          <ActionIcon size="xs" variant="subtle" onClick={onDelete}>
+        {user?.id === commentUser?.id && isDeleting ? (
+          <Loader type="dots" />
+        ) : (
+          <ActionIcon size="xs" variant="subtle" onClick={handleDelete}>
             <IconX size={12} />
           </ActionIcon>
         )}
@@ -65,5 +81,5 @@ export function CommentCard({
         {comment.comment}
       </Text>
     </div>
-  );
+  )
 }

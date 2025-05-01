@@ -1,49 +1,49 @@
-import { cn } from "~/utils";
-import { Avatar, Button, Divider, HoverCard, Textarea } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { IconInfoCircle, IconSend } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
-import { useAuth } from "~/hooks/use-auth";
-import { apiFetcher } from "~/lib/api";
-import { CommentCard } from "./components/comment-card";
-import type { Comment, FormData } from "~/types";
+import { cn } from '~/utils'
+import { Avatar, Button, Divider, HoverCard, Textarea } from '@mantine/core'
+import { useForm } from '@mantine/form'
+import { IconInfoCircle, IconSend } from '@tabler/icons-react'
+import { useEffect, useState } from 'react'
+import { useAuth } from '~/hooks/use-auth'
+import { apiFetcher, deleteComment, sendComment } from '~/lib/api'
+import { CommentCard } from './components/comment-card'
+import type { Comment, FormData } from '~/types'
 
 export default function Comments({ videoId }: { videoId: string }) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [comments, setComments] = useState<Comment[]>([]);
-  const { user } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [comments, setComments] = useState<Comment[]>([])
+  const { user } = useAuth()
 
-  const form = useForm();
+  const form = useForm({
+    initialValues: {
+      comment: '',
+    },
+  })
 
   async function handleSubmit(data: FormData) {
-    if (!user) return;
-    setIsSubmitting(true);
+    if (!user) return
+    setIsSubmitting(true)
 
-    //TODO: implement
-    /* sendComment(videoId, user.id, data.comment)
-      .then((res) => {
-        setComments((prev) => [res, ...prev]);
-        form.reset();
+    await sendComment(videoId, data.comment)
+      .then(() => {
+        form.reset()
+        getVideoComments()
       })
-      .finally(() => setIsSubmitting(false)); */
+      .finally(() => setIsSubmitting(false))
   }
 
   async function handleDelete(id: string) {
-    //TODO: implement
-    /*  await deleteComment(id).then(() =>
-      setComments(comments.filter((comment) => comment.id !== id))
-    ); */
+    await deleteComment(id).then(() => getVideoComments())
   }
 
   async function getVideoComments() {
     await apiFetcher(`/videos/${videoId}/comments`).then((res) =>
       setComments(res)
-    );
+    )
   }
 
   useEffect(() => {
-    getVideoComments();
-  }, []);
+    getVideoComments()
+  }, [])
 
   return (
     <div className="space-y-4">
@@ -66,12 +66,12 @@ export default function Comments({ videoId }: { videoId: string }) {
           leftSectionWidth={55}
           placeholder="Adicione um comentário"
           disabled={isSubmitting}
-          {...form.getInputProps("comment")}
+          {...form.getInputProps('comment')}
         />
         <div
           className={cn(
-            "hidden justify-between gap-2",
-            form.values.comment !== "" && "flex"
+            'hidden justify-between gap-2',
+            form.values.comment !== '' && 'flex'
           )}
         >
           <HoverCard width={280} shadow="md" withArrow>
@@ -115,5 +115,5 @@ export default function Comments({ videoId }: { videoId: string }) {
         ))}
       </div>
     </div>
-  );
+  )
 }

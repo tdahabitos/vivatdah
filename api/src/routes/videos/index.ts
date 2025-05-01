@@ -172,17 +172,16 @@ videosRouter.get('/videos/:id/comments', async (req, res) => {
   res.status(200).json(comments)
 })
 
-videosRouter.post('/videos/:id/comments', async (req, res) => {
+videosRouter.post('/videos/:id/comments', auth, async (req, res) => {
   const { id } = req.params
-  const { user_id, comment } = req.body
 
-  const newComment = await axios
+  const comments = await axios
     .post(
       `${process.env.CMS_API_URL}/comments`,
       {
         video_id: id,
-        user_id,
-        comment,
+        user_id: req.user_id,
+        comment: req.body.comment,
       },
       {
         headers: {
@@ -193,10 +192,10 @@ videosRouter.post('/videos/:id/comments', async (req, res) => {
     )
     .then((res) => res.data.doc)
 
-  res.status(200).json(newComment)
+  res.status(200).json(comments)
 })
 
-videosRouter.delete('videos/comments/:id', async (req, res) => {
+videosRouter.delete('/videos/:id/comments', async (req, res) => {
   const { id } = req.params
 
   const query = qs.stringify({

@@ -1,17 +1,21 @@
-import { ActionIcon, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { IconSearch } from "@tabler/icons-react";
-import { useNavigate } from "react-router";
-import type { FormData } from "~/types";
+import { ActionIcon, TextInput } from '@mantine/core'
+import { useForm } from '@mantine/form'
+import { IconSearch } from '@tabler/icons-react'
+import { useNavigate } from 'react-router'
+import type { FormData } from '~/types'
 
 export default function Search({ callback }: { callback?: () => void }) {
-  const form = useForm({});
-  const navigate = useNavigate();
+  const form = useForm({
+    initialValues: {
+      value: '' /* TODO: Add default value */,
+    },
+  })
+  const navigate = useNavigate()
 
   function handleSubmit({ value }: FormData) {
-    if (!value) return;
-    callback?.();
-    navigate(`/dashboard/search?value=${value}`);
+    if (!value) return
+    callback?.()
+    navigate(`/dashboard/search?value=${value}`)
   }
 
   return (
@@ -24,8 +28,8 @@ export default function Search({ callback }: { callback?: () => void }) {
             <IconSearch size={18} />
           </ActionIcon>
         }
-        {...form.getInputProps("value")}
+        {...form.getInputProps('value')}
       />
     </form>
-  );
+  )
 }
