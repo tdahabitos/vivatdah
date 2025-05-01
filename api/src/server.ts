@@ -39,6 +39,8 @@ app.use(
   postsRouter
 );
 
-app.listen(5000, () => {
-  console.log(`Servidor rodando em http://localhost:5000`);
+const port = process.env.PORT || 4000;
+
+app.listen(port, () => {
+  console.log(`app listening on port http://localhost:${port}`);
 });

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "mantine-form-zod-resolver";
 import type { FormData } from "~/types";
-import { privateAuthCheck } from "~/lib/api";
+import { apiFetcher } from "~/lib/api";
 
 export default function PrivateAuthForm({
   setIsUserAllowedToAccess,
@@ -26,7 +26,7 @@ export default function PrivateAuthForm({
   async function handleSubmit(data: FormData) {
     setIsSubmitting(true);
 
-    const isAllowedUser = await privateAuthCheck(data.email)
+    const isAllowedUser = await apiFetcher(`/users/auth-check?email=${data.email}`)
       .catch(() => false)
       .finally(() => {
         setIsSubmitting(false);
