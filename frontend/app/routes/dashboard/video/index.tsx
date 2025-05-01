@@ -5,7 +5,7 @@ import { addView, apiFetcher } from '~/lib/api'
 import dayjs from '~/lib/dayjs'
 import FeedbackRow from './components/feedback-row'
 import Comments from './components/comments'
-import { getPageMeta } from '~/utils'
+import { getPageMeta, removeExtension } from '~/utils'
 import type { PandaVideo } from '~/types'
 import SaveButton from '~/components/save-button'
 
@@ -40,7 +40,9 @@ export default function Video({ loaderData }: Route.ComponentProps) {
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="w-full lg:w-3/5 space-y-6">
           <div className="flex justify-between items-center gap-4">
-            <h2 className="text-xl font-bold">{video.title}</h2>
+            <h2 className="text-xl font-bold">
+              {removeExtension(video.title)}
+            </h2>
             <SaveButton videoId={video.id} />
           </div>
 

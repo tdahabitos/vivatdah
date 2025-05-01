@@ -22,6 +22,7 @@ import { Link } from 'react-router'
 import dayjs from '~/lib/dayjs'
 import { apiFetcher } from '~/lib/api'
 import SaveButton from './save-button'
+import { removeExtension } from '~/utils'
 
 export default function VideoCard({ video }: { video: PandaVideo }) {
   const [opened, { open, close }] = useDisclosure(false)
@@ -48,7 +49,7 @@ export default function VideoCard({ video }: { video: PandaVideo }) {
             <Image
               className="w-full rounded aspect-video object-cover hover:scale-105 transition-all duration-300 ease-in-out"
               src={video.thumbnail}
-              alt={video.title}
+              alt={removeExtension(video.title)}
               fallbackSrc="/fallback-thumbnail.svg"
             />
           </div>
@@ -57,7 +58,7 @@ export default function VideoCard({ video }: { video: PandaVideo }) {
         <div className="flex flex-col gap-2">
           <div className="flex justify-between gap-2">
             <Link to={`/dashboard/video/${video.id}`}>
-              <h3 className="font-bold">{video?.title}</h3>
+              <h3 className="font-bold">{removeExtension(video.title)}</h3>
             </Link>
 
             <Menu shadow="md" width={200} position="bottom-end">
