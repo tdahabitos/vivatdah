@@ -29,4 +29,6 @@ export default [
       route('/password-reset', './routes/dashboard/password-reset/index.tsx'),
     ]),
   ]),
+
+  route('*', './routes/not-found/index.tsx'),
 ] satisfies RouteConfig
