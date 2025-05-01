@@ -21,7 +21,7 @@ import type { PandaVideo } from '~/types'
 import { Link } from 'react-router'
 import dayjs from '~/lib/dayjs'
 import { apiFetcher } from '~/lib/api'
-import SaveButton from '../save-button'
+import SaveButton from './save-button'
 
 export default function VideoCard({ video }: { video: PandaVideo }) {
   const [opened, { open, close }] = useDisclosure(false)
