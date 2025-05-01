@@ -1,29 +1,35 @@
-import { Outlet } from "react-router";
-import Header from "./components/header";
-import Footer from "./components/footer";
-import type { Route } from "./+types";
-import { apiFetcher } from "~/lib/api";
-import type { Banner } from "~/types";
-import PromoBanner from "./components/promo-banner";
+import { Outlet } from 'react-router'
+import Header from './components/header'
+import Footer from './components/footer'
+import type { Route } from './+types'
+import { apiFetcher } from '~/lib/api'
+import type { Banner } from '~/types'
+import PromoBanner from './components/promo-banner'
+import { Divider } from '@mantine/core'
 
 export async function clientLoader() {
-  const menu = await apiFetcher("/pages");
-  const config = await apiFetcher("/config");
+  const menu = await apiFetcher('/pages')
+  const config = await apiFetcher('/config')
 
-  return { menu, banner: config.banner };
+  return { menu, banner: config.banner }
 }
 
 export default function WebsiteLayout({ loaderData }: Route.ComponentProps) {
-  const { menu, banner } = loaderData;
+  const { menu, banner } = loaderData
 
   return (
     <>
-      {banner.active && <PromoBanner banner={banner as Banner} />}
+      {banner.active && (
+        <>
+          <PromoBanner banner={banner as Banner} />
+          <Divider />
+        </>
+      )}
       <Header menu={menu} />
       <div className="px-4 md:px-8">
         <Outlet />
       </div>
       <Footer />
     </>
-  );
+  )
 }

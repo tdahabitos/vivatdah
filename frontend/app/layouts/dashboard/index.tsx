@@ -1,27 +1,33 @@
-import { Link, Outlet } from "react-router";
-import type { Route } from "./+types";
-import { useDisclosure } from "@mantine/hooks";
-import { ActionIcon, AppShell, Button, ScrollArea } from "@mantine/core";
-import { IconMenu2 } from "@tabler/icons-react";
-import Logo from "~/components/logo";
-import ThemeSwitcher from "~/components/theme-switcher";
-import Sidebar from "./components/sidebar";
-import AuthGuard from "~/components/auth-guard";
-import AccountButton from "./components/account-button";
-import CtaButton from "./components/cta-button";
-import { apiFetcher } from "~/lib/api";
-import Search from "~/components/search";
-import { useAuth } from "~/hooks/use-auth";
+import { Link, Outlet } from 'react-router'
+import type { Route } from './+types'
+import { useDisclosure } from '@mantine/hooks'
+import {
+  ActionIcon,
+  AppShell,
+  Button,
+  Divider,
+  ScrollArea,
+} from '@mantine/core'
+import { IconMenu2 } from '@tabler/icons-react'
+import Logo from '~/components/logo'
+import ThemeSwitcher from '~/components/theme-switcher'
+import Sidebar from './components/sidebar'
+import AuthGuard from '~/components/auth-guard'
+import AccountButton from './components/account-button'
+import CtaButton from './components/cta-button'
+import { apiFetcher } from '~/lib/api'
+import Search from '~/components/search'
+import { useAuth } from '~/hooks/use-auth'
 
 export async function clientLoader() {
-  const categories = await apiFetcher("/categories");
-  return { categories };
+  const categories = await apiFetcher('/categories')
+  return { categories }
 }
 
 export default function DashboardLayout({ loaderData }: Route.ComponentProps) {
-  const { categories } = loaderData;
-  const [opened, { close, toggle }] = useDisclosure();
-  const { allowedCategories } = useAuth();
+  const { categories } = loaderData
+  const [opened, { close, toggle }] = useDisclosure()
+  const { allowedCategories } = useAuth()
 
   return (
     <AuthGuard>
@@ -30,12 +36,12 @@ export default function DashboardLayout({ loaderData }: Route.ComponentProps) {
         header={{ height: 96 }}
         navbar={{
           width: 240,
-          breakpoint: "sm",
+          breakpoint: 'sm',
           collapsed: { mobile: !opened, desktop: opened },
         }}
         padding="md"
       >
-        <AppShell.Header className="border-b">
+        <AppShell.Header className="!z-[999]">
           <div className="flex h-full w-full items-center px-4">
             <div className="flex h-full w-full max-w-[224px] items-center gap-2">
               <ActionIcon onClick={toggle} variant="light">
@@ -66,6 +72,7 @@ export default function DashboardLayout({ loaderData }: Route.ComponentProps) {
               <AccountButton />
             </div>
           </div>
+          <Divider />
         </AppShell.Header>
 
         <AppShell.Navbar>
@@ -83,5 +90,5 @@ export default function DashboardLayout({ loaderData }: Route.ComponentProps) {
         </AppShell.Main>
       </AppShell>
     </AuthGuard>
-  );
+  )
 }

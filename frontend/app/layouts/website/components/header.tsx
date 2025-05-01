@@ -2,43 +2,43 @@ import {
   IconArrowBigRightFilled,
   IconMenu2,
   IconUserSquareRounded,
-} from "@tabler/icons-react";
-import { ActionIcon, Box, Button, Divider, Drawer } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { cn } from "~/utils";
-import { Link, useLocation } from "react-router";
-import Logo from "~/components/logo";
-import ThemeSwitcher from "~/components/theme-switcher";
-import type { MenuItem } from "~/types";
-import { useAuth } from "~/hooks/use-auth";
+} from '@tabler/icons-react'
+import { ActionIcon, Box, Button, Divider, Drawer } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
+import { cn } from '~/utils'
+import { Link, useLocation } from 'react-router'
+import Logo from '~/components/logo'
+import ThemeSwitcher from '~/components/theme-switcher'
+import type { MenuItem } from '~/types'
+import { useAuth } from '~/hooks/use-auth'
 
 export default function Header({ menu }: { menu: MenuItem[] }) {
-  const [opened, { open, close }] = useDisclosure(false);
-  const { user } = useAuth();
-  const { pathname } = useLocation();
+  const [opened, { open, close }] = useDisclosure(false)
+  const { user } = useAuth()
+  const { pathname } = useLocation()
 
   const addonMenu = [
     {
-      id: "home",
-      title: "Home",
-      slug: "/",
+      id: 'home',
+      title: 'Home',
+      slug: '/',
     },
     ...menu.filter((item) => item.show_at_menu),
     {
-      id: "blog",
-      title: "Blog",
-      slug: "https://tdah.blog",
-      target: "_blank",
+      id: 'blog',
+      title: 'Blog',
+      slug: 'https://tdah.blog',
+      target: '_blank',
     },
-  ];
+  ]
 
   const menuList = addonMenu.map((item) => (
     <li key={item.id}>
       <Link
         className={cn(
-          "transition hover:underline",
+          'transition hover:underline',
           pathname === `/${item.slug}` &&
-            "text-viva-orange-600 hover:text-viva-orange-500"
+            'text-viva-orange-600 hover:text-viva-orange-500'
         )}
         to={item.slug}
         target={item?.target}
@@ -46,11 +46,11 @@ export default function Header({ menu }: { menu: MenuItem[] }) {
         {item.title}
       </Link>
     </li>
-  ));
+  ))
 
   return (
     <>
-      <Box className="sticky top-0 z-50 border-y dark:border-t-0 bg-[var(--mantine-color-body)] shadow-lg mb-12">
+      <Box className="sticky top-0 z-50 bg-[var(--mantine-color-body)]">
         <div className="mx-auto flex flex-wrap min-h-24 max-w-screen-xl justify-center sm:justify-between items-center gap-8 px-4 sm:px-6 lg:px-8 pt-2 pb-4">
           <div className="flex items-center gap-4">
             <ActionIcon className="lg:hidden" variant="filled" onClick={open}>
@@ -91,22 +91,23 @@ export default function Header({ menu }: { menu: MenuItem[] }) {
                   component={Link}
                   to="/dashboard"
                 >
-                  {user ? "Dashboard" : "Login"}
+                  {user ? 'Dashboard' : 'Login'}
                 </Button>
               </div>
             </div>
           </div>
         </div>
+        <Divider className="mb-12" />
       </Box>
 
       <Drawer
         opened={opened}
         onClose={close}
-        title={<Logo className={"h-20 w-auto"} />}
+        title={<Logo className={'h-20 w-auto'} />}
       >
         <Divider my="sm" />
         <ul className="flex flex-col gap-6">{menuList}</ul>
       </Drawer>
     </>
-  );
+  )
 }
