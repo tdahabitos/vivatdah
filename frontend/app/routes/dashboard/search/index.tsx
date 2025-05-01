@@ -1,40 +1,28 @@
-import { IconSearch } from "@tabler/icons-react";
-import VideoCard from "~/components/video-card";
-import FileCard from "~/components/file-card";
-import Empty from "~/components/empty";
-import type { Route } from "./+types";
-import type { Media, PandaVideo } from "~/types";
-import { Divider } from "@mantine/core";
-import { cn, getPageMeta } from "~/utils";
-import type { P } from "node_modules/react-router/dist/development/route-data-OcOrqK13.mjs";
+import { IconSearch } from '@tabler/icons-react'
+import VideoCard from '~/components/video-card'
+import FileCard from '~/components/file-card'
+import Empty from '~/components/empty'
+import type { Route } from './+types'
+import type { Media, PandaVideo } from '~/types'
+import { Divider } from '@mantine/core'
+import { cn, getPageMeta } from '~/utils'
+import { apiFetcher } from '~/lib/api'
 
 export const meta = ({ data }: Route.MetaArgs) =>
-  getPageMeta({ pageTitle: `Pesquisa | "${data.value}"` });
+  getPageMeta({ pageTitle: `Pesquisa | "${data.value}"` })
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
-  const url = new URL(request.url);
-  const value = url.searchParams.get("value");
+  const url = new URL(request.url)
+  const value = url.searchParams.get('value')
 
-  /* const videos = value ? await searchVideos(value) : [];
+  const result = await apiFetcher(`/search?value=${value}`)
 
-  const files = await api({
-    collection: "media",
-    where: {
-      title: {
-        contains: value,
-      },
-      is_public: {
-        equals: true,
-      },
-    },
-  }); */
-  //TODO: Add files
-
-  return { value, videos: [], files: [] };
+  return { value, videos: result.videos || [], files: result.files || [] }
 }
 
 export default function Search({ loaderData }: Route.ComponentProps) {
-  const { value, files, videos } = loaderData;
+  const { value, files, videos } = loaderData
+  console.log(loaderData)
 
   return (
     <div className="flex flex-col gap-6">
@@ -45,7 +33,7 @@ export default function Search({ loaderData }: Route.ComponentProps) {
 
       {videos?.length === 0 && files?.length === 0 && <Empty />}
 
-      <div className={cn(videos.length === 0 && "hidden")}>
+      <div className={cn(videos.length === 0 && 'hidden')}>
         <div className="mb-4">
           <h2 className="font-semibold mb-1">Vídeos</h2>
           <Divider />
@@ -57,7 +45,7 @@ export default function Search({ loaderData }: Route.ComponentProps) {
         </div>
       </div>
 
-      <div className={cn(files.length === 0 && "hidden")}>
+      <div className={cn(files.length === 0 && 'hidden')}>
         <div className="mb-4">
           <h2 className="font-semibold mb-1">Arquivos</h2>
           <Divider />
@@ -69,5 +57,5 @@ export default function Search({ loaderData }: Route.ComponentProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }

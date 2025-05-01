@@ -49,7 +49,7 @@ export default function Video({ loaderData }: Route.ComponentProps) {
           <div className="flex justify-between gap-4">
             <div>
               <Text size="sm" c="dimmed">
-                {`${views || 0} visualizações • ${dayjs(
+                {`${views || 1} visualizações • ${dayjs(
                   video.created_at
                 ).fromNow()}`}
               </Text>

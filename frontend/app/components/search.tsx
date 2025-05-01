@@ -7,7 +7,7 @@ import type { FormData } from '~/types'
 export default function Search({ callback }: { callback?: () => void }) {
   const form = useForm({
     initialValues: {
-      value: '' /* TODO: Add default value */,
+      value: '',
     },
   })
   const navigate = useNavigate()
