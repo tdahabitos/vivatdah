@@ -1,31 +1,31 @@
-import { Card, Divider, Spoiler, Text } from "@mantine/core";
-import type { Route } from "./+types";
-import VideoCard from "~/components/video-card";
-import { addView, apiFetcher } from "~/lib/api";
-import dayjs from "~/lib/dayjs";
-import FeedbackRow from "./components/feedback-row";
-import Comments from "./components/comments";
-import SaveButton from "./components/save-button";
-import { getPageMeta } from "~/utils";
-import type { PandaVideo } from "~/types";
+import { Card, Divider, Spoiler, Text } from '@mantine/core'
+import type { Route } from './+types'
+import VideoCard from '~/components/video-card'
+import { addView, apiFetcher } from '~/lib/api'
+import dayjs from '~/lib/dayjs'
+import FeedbackRow from './components/feedback-row'
+import Comments from './components/comments'
+import { getPageMeta } from '~/utils'
+import type { PandaVideo } from '~/types'
+import SaveButton from '~/components/save-button'
 
 export const meta = ({ data }: Route.MetaArgs) =>
-  getPageMeta({ pageTitle: data.video.title });
+  getPageMeta({ pageTitle: data.video.title })
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const { id } = params;
+  const { id } = params
 
-  const video = await apiFetcher(`/videos/${id}`);
-  const views = await addView(id);
+  const video = await apiFetcher(`/videos/${id}`)
+  const views = await addView(id)
 
   return {
     video,
     views,
-  };
+  }
 }
 
 export default function Video({ loaderData }: Route.ComponentProps) {
-  const { video, views } = loaderData;
+  const { video, views } = loaderData
 
   return (
     <div className="space-y-4">
@@ -83,5 +83,5 @@ export default function Video({ loaderData }: Route.ComponentProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }

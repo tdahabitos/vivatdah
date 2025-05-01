@@ -8,37 +8,37 @@ import {
   Skeleton,
   Text,
   TextInput,
-} from "@mantine/core";
+} from '@mantine/core'
 import {
   IconCheck,
   IconCopy,
   IconDotsVertical,
   IconShare3,
-} from "@tabler/icons-react";
-import { useEffect, useState } from "react";
-import { useDisclosure } from "@mantine/hooks";
-import type { PandaVideo } from "~/types";
-import { Link } from "react-router";
-import SaveButton from "./components/save-button";
-import dayjs from "~/lib/dayjs";
-import { apiFetcher } from "~/lib/api";
+} from '@tabler/icons-react'
+import { useEffect, useState } from 'react'
+import { useDisclosure } from '@mantine/hooks'
+import type { PandaVideo } from '~/types'
+import { Link } from 'react-router'
+import dayjs from '~/lib/dayjs'
+import { apiFetcher } from '~/lib/api'
+import SaveButton from '../save-button'
 
 export default function VideoCard({ video }: { video: PandaVideo }) {
-  const [opened, { open, close }] = useDisclosure(false);
-  const [views, setViews] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+  const [opened, { open, close }] = useDisclosure(false)
+  const [views, setViews] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
 
   async function fetchViews() {
-    setIsLoading(true);
+    setIsLoading(true)
 
     await apiFetcher(`/videos/${video.id}/views`)
       .then((res) => setViews(res))
-      .finally(() => setIsLoading(false));
+      .finally(() => setIsLoading(false))
   }
 
   useEffect(() => {
-    fetchViews();
-  }, []);
+    fetchViews()
+  }, [])
 
   return (
     <>
@@ -68,7 +68,7 @@ export default function VideoCard({ video }: { video: PandaVideo }) {
               </Menu.Target>
 
               <Menu.Dropdown>
-                <SaveButton videoId={video.id} />
+                <SaveButton videoId={video.id} layout="menu" />
                 <Menu.Item
                   leftSection={<IconShare3 size={18} />}
                   onClick={open}
@@ -81,7 +81,7 @@ export default function VideoCard({ video }: { video: PandaVideo }) {
           <Text size="sm" c="dimmed">
             <span className="flex items-center gap-1">
               <span key={video.id}>
-                {isLoading ? <Skeleton w={40} h={20} /> : views}{" "}
+                {isLoading ? <Skeleton w={40} h={20} /> : views}{' '}
               </span>
               <span>
                 {`visualizações • ${dayjs(video.created_at).fromNow()}`}
@@ -104,10 +104,14 @@ export default function VideoCard({ video }: { video: PandaVideo }) {
         size="lg"
       >
         <div className="w-full flex gap-2 px-[10%]">
-          <TextInput className="flex-1" value={`${location.origin}/video/${video.id}`} disabled />
+          <TextInput
+            className="flex-1"
+            value={`${location.origin}/video/${video.id}`}
+            disabled
+          />
           <CopyButton value={`${location.origin}/video/${video.id}`}>
             {({ copied, copy }) => (
-              <Button color={copied ? "teal" : "blue"} onClick={copy}>
+              <Button color={copied ? 'teal' : 'blue'} onClick={copy}>
                 {copied ? <IconCheck /> : <IconCopy />}
               </Button>
             )}
@@ -115,5 +119,5 @@ export default function VideoCard({ video }: { video: PandaVideo }) {
         </div>
       </Modal>
     </>
-  );
+  )
 }
