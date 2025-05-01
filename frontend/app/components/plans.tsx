@@ -1,13 +1,17 @@
-import { cn } from "~/utils";
-import { Button, Divider } from "@mantine/core";
+import { cn } from '~/utils'
+import { Button, Divider } from '@mantine/core'
 import {
   IconArrowBigRightFilled,
   IconCheck,
   IconTrophy,
-} from "@tabler/icons-react";
-import type { Plan } from "~/types";
+} from '@tabler/icons-react'
+import type { Plan } from '~/types'
+import { Link } from 'react-router'
+import { useUser } from '~/store/user-store'
 
 export default function Plans({ plans }: { plans: Plan[] }) {
+  const { user } = useUser()
+
   return (
     <section className="px-4 md:px-8">
       <div className="text-center">
@@ -22,7 +26,7 @@ export default function Plans({ plans }: { plans: Plan[] }) {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:items-stretch md:grid-cols-3 md:gap-8">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:items-stretch xl:grid-cols-3 xl:gap-8">
         {plans
           .filter((plan) => plan.show_at_home)
           .map((plan) => (
@@ -33,9 +37,9 @@ export default function Plans({ plans }: { plans: Plan[] }) {
               <div className="p-6 sm:px-8">
                 <h2
                   className={cn(
-                    "text-lg font-medium ",
+                    'text-lg font-medium ',
                     plan.recomended &&
-                      "bg-viva-orange-500 dark:bg-red-500 text-bold rounded text-white p-1 mx-[20%]"
+                      'bg-viva-orange-500 dark:bg-viva-orange-800 text-bold rounded text-white p-1 mx-[20%]'
                   )}
                 >
                   <div className="flex justify-center items-center gap-2">
@@ -50,13 +54,31 @@ export default function Plans({ plans }: { plans: Plan[] }) {
                 <p className="mt-2 ">{plan.description}</p>
 
                 <p className="mt-2 sm:mt-4">
-                  <strong className="text-3xl font-bold  sm:text-4xl">
-                    {" "}
-                    {plan.price.toLocaleString("pt-BR", {
-                      style: "currency",
-                      currency: "BRL",
-                    })}
-                  </strong>
+                  {plan.promoPrice ? (
+                    <div className="flex flex-col gap-2">
+                      <del className="font-medium text-xl">
+                        {plan.price.toLocaleString('pt-BR', {
+                          style: 'currency',
+                          currency: 'BRL',
+                        })}
+                      </del>
+                      <strong className="text-3xl font-bold  sm:text-4xl">
+                        {' '}
+                        {plan.promoPrice.toLocaleString('pt-BR', {
+                          style: 'currency',
+                          currency: 'BRL',
+                        })}
+                      </strong>
+                    </div>
+                  ) : (
+                    <strong className="text-3xl font-bold  sm:text-4xl">
+                      {' '}
+                      {plan.price.toLocaleString('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL',
+                      })}
+                    </strong>
+                  )}
 
                   <span className="text-sm font-medium ">/mês</span>
                 </p>
@@ -64,8 +86,14 @@ export default function Plans({ plans }: { plans: Plan[] }) {
                 <Divider my="lg" />
 
                 <Button
-                  size={plan.recomended ? "xl" : "md"}
-                  variant={plan.recomended ? "filled" : "light"}
+                  component={Link}
+                  to={
+                    !user || plan.price === 0
+                      ? '/dashboard'
+                      : `/payments?plan=${plan.id}`
+                  }
+                  size={plan.recomended ? 'xl' : 'md'}
+                  variant={plan.recomended ? 'filled' : 'light'}
                   rightSection={<IconArrowBigRightFilled size={16} />}
                 >
                   Comece agora
@@ -78,7 +106,7 @@ export default function Plans({ plans }: { plans: Plan[] }) {
                 <ul className="mt-2 space-y-2 sm:mt-4">
                   {plan.features
                     .trim()
-                    .split(",")
+                    .split(',')
                     .map((feature) => (
                       <li
                         key={feature}
@@ -93,5 +121,5 @@ export default function Plans({ plans }: { plans: Plan[] }) {
           ))}
       </div>
     </section>
-  );
+  )
 }

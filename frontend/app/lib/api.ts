@@ -1,5 +1,6 @@
 import axios from 'axios'
 import type { FeedbackType } from '~/types'
+import { supabase } from './supabase'
 
 const fetcher = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -43,4 +44,19 @@ export async function saveVideo(id: string) {
 
 export async function unsaveVideo(id: string) {
   return await fetcher.delete(`/videos/${id}/saved`)
+}
+
+/* Checkout */
+export async function getCheckoutUrl(plan_id: string) {
+  const user = await supabase.auth.getUser().then((res) => res.data.user)
+
+  return await fetcher
+    .post('payments', {
+      plan_id,
+      user: {
+        full_name: user?.user_metadata.full_name,
+        email: user?.email,
+      },
+    })
+    .then((res) => res.data)
 }

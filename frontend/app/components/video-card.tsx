@@ -79,16 +79,20 @@ export default function VideoCard({ video }: { video: PandaVideo }) {
               </Menu.Dropdown>
             </Menu>
           </div>
-          <Text size="sm" c="dimmed">
-            <span className="flex items-center gap-1">
-              <span key={video.id}>
-                {isLoading ? <Skeleton w={40} h={20} /> : views}{' '}
-              </span>
-              <span>
-                {`visualizações • ${dayjs(video.created_at).fromNow()}`}
-              </span>
+          <span className="flex items-center gap-1">
+            <span key={video.id}>
+              {isLoading ? (
+                <Skeleton w={40} h={20} />
+              ) : (
+                <Text size="sm" c="dimmed">
+                  {views}
+                </Text>
+              )}
             </span>
-          </Text>
+            <Text size="sm" c="dimmed">
+              {`visualizações • ${dayjs(video.created_at).fromNow()}`}
+            </Text>
+          </span>
         </div>
       </div>
 

@@ -67,8 +67,14 @@ export const Plans: CollectionConfig = {
       required: true,
     },
     {
+      name: 'promoPrice',
+      label: 'Preço promocional',
+      type: 'number',
+    },
+    {
       name: 'features',
-      label: 'Destaques deste plano (lista separada por vírgulas (,) - Exemplo: a, b, c...)',
+      label:
+        'Destaques deste plano (lista separada por vírgulas (,) - Exemplo: a, b, c...)',
       type: 'textarea',
       required: true,
     },

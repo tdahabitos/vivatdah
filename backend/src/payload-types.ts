@@ -191,6 +191,7 @@ export interface Plan {
   title: string;
   description: string;
   price: number;
+  promoPrice?: number | null;
   features: string;
   updatedAt: string;
   createdAt: string;
@@ -538,6 +539,7 @@ export interface PlansSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   price?: T;
+  promoPrice?: T;
   features?: T;
   updatedAt?: T;
   createdAt?: T;

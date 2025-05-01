@@ -10,6 +10,7 @@ import { pagesRouter } from './routes/pages.js'
 import { configRouter } from './routes/config.js'
 import { postsRouter } from './routes/posts.js'
 import { searchRouter } from './routes/search.js'
+import { paymentsRouter } from './routes/payments.js'
 
 dotenv.config()
 
@@ -38,7 +39,8 @@ app.use(
   plansRouter,
   pagesRouter,
   postsRouter,
-  searchRouter
+  searchRouter,
+  paymentsRouter
 )
 
 const port = process.env.PORT || 4000
