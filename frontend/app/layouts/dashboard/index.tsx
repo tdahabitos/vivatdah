@@ -41,9 +41,9 @@ export default function DashboardLayout({ loaderData }: Route.ComponentProps) {
         }}
         padding="md"
       >
-        <AppShell.Header className="!z-[999]">
-          <div className="flex h-full w-full items-center px-4">
-            <div className="flex h-full w-full max-w-[224px] items-center gap-2">
+        <AppShell.Header>
+          <div className="flex w-full h-full items-center px-4 relative">
+            <div className="flex w-full max-w-[224px] items-center gap-2">
               <ActionIcon onClick={toggle} variant="light">
                 <IconMenu2 size={18} />
               </ActionIcon>
@@ -72,7 +72,9 @@ export default function DashboardLayout({ loaderData }: Route.ComponentProps) {
               <AccountButton />
             </div>
           </div>
-          <Divider />
+          <div className="absolute left-0 right-0 bottom-0">
+            <Divider />
+          </div>
         </AppShell.Header>
 
         <AppShell.Navbar>
