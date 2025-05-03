@@ -1,4 +1,4 @@
-import { Link, Outlet } from 'react-router'
+import { Await, Link, Outlet } from 'react-router'
 import type { Route } from './+types'
 import { useDisclosure } from '@mantine/hooks'
 import {
@@ -18,9 +18,10 @@ import CtaButton from './components/cta-button'
 import { apiFetcher } from '~/lib/api'
 import Search from '~/components/search'
 import { useAuth } from '~/hooks/use-auth'
+import { Suspense } from 'react'
 
 export async function clientLoader() {
-  const categories = await apiFetcher('/categories')
+  const categories = apiFetcher('/categories')
   return { categories }
 }
 
@@ -79,11 +80,17 @@ export default function DashboardLayout({ loaderData }: Route.ComponentProps) {
 
         <AppShell.Navbar>
           <ScrollArea p="md">
-            <Sidebar
-              categories={categories}
-              allowedCategories={allowedCategories}
-              close={close}
-            />
+            <Suspense fallback={null}>
+              <Await resolve={categories}>
+                {(data) => (
+                  <Sidebar
+                    categories={data}
+                    allowedCategories={allowedCategories}
+                    close={close}
+                  />
+                )}
+              </Await>
+            </Suspense>
           </ScrollArea>
         </AppShell.Navbar>
 

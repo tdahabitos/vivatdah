@@ -1,55 +1,56 @@
-import { IconArrowLeftFromArc } from "@tabler/icons-react";
-import Empty from "~/components/empty";
-import VideoCard from "~/components/video-card";
-import { apiFetcher } from "~/lib/api";
-import type { Category, Media, PandaVideo } from "~/types";
-import type { Route } from "./+types";
-import FileList from "./components/file-list";
-import { useUser } from "~/store/user-store";
-import { useNavigate } from "react-router";
-import { useEffect, useState } from "react";
-import { getPageMeta } from "~/utils";
+import { IconArrowLeftFromArc } from '@tabler/icons-react'
+import Empty from '~/components/empty'
+import VideoCard from '~/components/video-card'
+import { apiFetcher } from '~/lib/api'
+import type { Category, Media, PandaVideo } from '~/types'
+import type { Route } from './+types'
+import FileList from './components/file-list'
+import { useUser } from '~/store/user-store'
+import { Await, useNavigate } from 'react-router'
+import { Suspense, useEffect, useState } from 'react'
+import { getPageMeta } from '~/utils'
+import SkeletonVideoGrid from '~/components/skeleton-video-grid'
 
 export const meta = ({ data }: Route.MetaArgs) =>
-  getPageMeta({ pageTitle: data.category.title });
+  getPageMeta({ pageTitle: data.category.title })
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const { id } = params;
+  const { id } = params
 
-  const category = (await apiFetcher(`/categories/${id}`)) as Category;
-  const files = (await apiFetcher(`/categories/${id}/media`)) as Media[];
-  const videos = await apiFetcher(`/videos/folder/${category.panda_folder_id}`);
+  const category = (await apiFetcher(`/categories/${id}`)) as Category
+  const files = apiFetcher(`/categories/${id}/media`)
+  const videos = apiFetcher(`/videos/folder/${category.panda_folder_id}`)
 
   return {
     category,
     videos,
     files,
-  };
+  }
 }
 
 export default function Category({ loaderData }: Route.ComponentProps) {
-  const { category, videos, files } = loaderData;
+  const { category, videos, files } = loaderData
 
-  const { allowedCategories } = useUser();
-  const [hasAccess, setHasAccess] = useState(false);
-  const navigate = useNavigate();
+  const { allowedCategories } = useUser()
+  const [hasAccess, setHasAccess] = useState(false)
+  const navigate = useNavigate()
 
   function checkAccess() {
-    if (!allowedCategories) return;
+    if (!allowedCategories) return
 
     if (allowedCategories.includes(category.id)) {
-      setHasAccess(true);
-      return;
+      setHasAccess(true)
+      return
     }
 
-    navigate(`/${import.meta.env.VITE_PLANS_PAGE_PATH}`);
+    navigate(`/${import.meta.env.VITE_PLANS_PAGE_PATH}`)
   }
 
   useEffect(() => {
-    checkAccess();
-  }, [allowedCategories]);
+    checkAccess()
+  }, [allowedCategories])
 
-  if (!hasAccess) return null;
+  if (!hasAccess) return null
 
   return (
     <div className="flex flex-col gap-6">
@@ -59,18 +60,26 @@ export default function Category({ loaderData }: Route.ComponentProps) {
           <h2 className="text-2xl font-semibold">{category?.title}</h2>
         </div>
 
-        <FileList files={files} />
+        <Suspense fallback={null}>
+          <Await resolve={files}>{(data) => <FileList files={data} />}</Await>
+        </Suspense>
       </div>
 
-      {videos.length === 0 ? (
-        <Empty />
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 space-y-6">
-          {videos.map((video: PandaVideo) => (
-            <VideoCard key={video.id} video={video} />
-          ))}
-        </div>
-      )}
+      <Suspense fallback={<SkeletonVideoGrid cols={8} />}>
+        <Await resolve={videos}>
+          {(data) =>
+            data.length === 0 ? (
+              <Empty />
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 space-y-6">
+                {data.map((video: PandaVideo) => (
+                  <VideoCard key={video.id} video={video} />
+                ))}
+              </div>
+            )
+          }
+        </Await>
+      </Suspense>
     </div>
-  );
+  )
 }

@@ -1,10 +1,10 @@
-import express from "express";
-import axios from "axios";
+import express from 'express'
+import axios from 'axios'
 
-export const newsletterRouter = express.Router();
+export const newsletterRouter = express.Router()
 
 async function addContact(email: string) {
-  if (!email) return false;
+  if (!email) return false
 
   return await axios
     .post(
@@ -16,18 +16,21 @@ async function addContact(email: string) {
       },
       {
         headers: {
-          accept: "application/json",
-          "content-type": "application/json",
-          "Api-Token": process.env.ACTIVE_CAMPAIGN_API_KEY!,
+          accept: 'application/json',
+          'content-type': 'application/json',
+          'Api-Token': process.env.ACTIVE_CAMPAIGN_API_KEY!,
         },
       }
     )
     .then((res) => res.data.contact.id)
-    .catch(() => {});
+    .catch((err) => {
+      console.log(err)
+      return false
+    })
 }
 
 async function addContactToList(contactId: string) {
-  if (!contactId) return false;
+  if (!contactId) return false
 
   return await axios
     .post(
@@ -41,26 +44,29 @@ async function addContactToList(contactId: string) {
       },
       {
         headers: {
-          accept: "application/json",
-          "content-type": "application/json",
-          "Api-Token": process.env.ACTIVE_CAMPAIGN_API_KEY!,
+          accept: 'application/json',
+          'content-type': 'application/json',
+          'Api-Token': process.env.ACTIVE_CAMPAIGN_API_KEY!,
         },
       }
     )
     .then(() => true)
-    .catch(() => false);
+    .catch((err) => {
+      console.log(err)
+      return false
+    })
 }
 
-newsletterRouter.post("/newsletter", async (req, res) => {
-  const { email } = req.body;
+newsletterRouter.post('/newsletter', async (req, res) => {
+  const { email } = req.body
 
   if (!email) {
-    res.status(200).json(false);
-    return;
+    res.status(200).json(false)
+    return
   }
 
-  const contactId = await addContact(email);
-  const addedToList = await addContactToList(contactId);
+  const contactId = await addContact(email)
+  const addedToList = await addContactToList(contactId)
 
-  res.status(200).json(contactId && addedToList);
-});
+  res.status(200).json(contactId && addedToList)
+})

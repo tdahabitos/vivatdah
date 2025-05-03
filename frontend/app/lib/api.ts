@@ -60,3 +60,9 @@ export async function getCheckoutUrl(plan_id: string) {
     })
     .then((res) => res.data)
 }
+
+/* Newsletter */
+export async function addNewsletterContact(email: string) {
+  console.log(email)
+  return await fetcher.post('/newsletter', { email }).then((res) => res.data)
+}

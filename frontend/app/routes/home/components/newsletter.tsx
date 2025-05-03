@@ -1,41 +1,40 @@
-import { Alert, Button, Card, Loader, TextInput } from "@mantine/core";
+import { Alert, Button, Card, Loader, TextInput } from '@mantine/core'
 import {
   IconArrowBigRightFilled,
   IconBrain,
   IconCircleCheck,
   IconFileDescription,
-} from "@tabler/icons-react";
-import { useState } from "react";
-import { useForm, zodResolver } from "@mantine/form";
-import { z } from "zod";
-import type { FormData } from "~/types";
-import axios from "axios";
+} from '@tabler/icons-react'
+import { useState } from 'react'
+import { useForm, zodResolver } from '@mantine/form'
+import { z } from 'zod'
+import type { FormData } from '~/types'
+import axios from 'axios'
+import { addNewsletterContact, apiFetcher } from '~/lib/api'
 
 export default function Newsletter() {
-  const [sent, setSent] = useState(false);
-  const [error, setError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [sent, setSent] = useState(false)
+  const [error, setError] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const validationSchema = z.object({
     email: z
-      .string({ message: "O campo é obrigatorio" })
-      .email({ message: "E-mail inválido" }),
-  });
+      .string({ message: 'O campo é obrigatorio' })
+      .email({ message: 'E-mail inválido' }),
+  })
 
   const form = useForm({
     validate: zodResolver(validationSchema),
-  });
+  })
 
   async function handleSubmit({ email }: FormData) {
-    setIsLoading(true);
+    setIsLoading(true)
 
-    await axios
-      .post("newsletter", email)
-      .then(() => {
-        setSent(true);
-      })
+    await addNewsletterContact(email)
+      .then(() => setSent(true))
       .catch(() => setError(true))
-      .finally(() => setIsLoading(false));
+
+    setIsLoading(false)
   }
 
   if (sent) {
@@ -56,7 +55,7 @@ export default function Newsletter() {
           </div>
         </Card>
       </section>
-    );
+    )
   }
 
   return (
@@ -81,7 +80,7 @@ export default function Newsletter() {
                     className="w-full flex-1"
                     placeholder="Digite seu email"
                     disabled={isLoading}
-                    {...form.getInputProps("email")}
+                    {...form.getInputProps('email')}
                   />
                   <Button
                     className="w-full md:w-auto"
@@ -142,5 +141,5 @@ export default function Newsletter() {
         </div>
       </Card>
     </section>
-  );
+  )
 }

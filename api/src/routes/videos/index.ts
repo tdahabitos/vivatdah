@@ -3,6 +3,7 @@ import axios from 'axios'
 import qs from 'qs'
 import { getFolderVideos, getVideo, getVideos } from './functions'
 import { auth } from '@/middlewares/auth'
+import { Category } from '@/types'
 
 export const videosRouter = express.Router()
 
@@ -31,6 +32,33 @@ videosRouter.get('/videos/folder/:id', async (req, res) => {
   const videos = await getFolderVideos(id)
 
   res.status(200).json(videos)
+})
+
+videosRouter.get('/videos/free/content', async (req, res) => {
+  const query = qs.stringify({
+    where: {
+      free_content: {
+        equals: true,
+      },
+    },
+    page: 1,
+    limit: 999,
+  })
+
+  const list = await axios
+    .get(`${process.env.CMS_API_URL}/categories?${query}`, {
+      headers: {
+        accept: 'application/json',
+        Authorization: process.env.CMS_API_KEY,
+      },
+    })
+    .then((res) => res.data.docs?.map((item: Category) => item.panda_folder_id))
+
+  const videos = await Promise.all(
+    list.map((id: string) => getFolderVideos(id))
+  )
+
+  res.status(200).json(videos.flat())
 })
 
 /* === list */
