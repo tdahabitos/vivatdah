@@ -4,6 +4,8 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { buildConfig, type CustomComponent } from 'payload'
 import { fileURLToPath } from 'node:url'
 import { s3Storage } from '@payloadcms/storage-s3'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
+
 import { pt } from 'payload/i18n/pt'
 import path from 'node:path'
 import sharp from 'sharp'
@@ -55,7 +57,8 @@ export default buildConfig({
       fields: [
         {
           name: 'auth_private_mode',
-          label: 'Ativar modo de autenticação privada (exclusiva para usuários autorizados abaixo)',
+          label:
+            'Ativar modo de autenticação privada (exclusiva para usuários autorizados abaixo)',
           type: 'checkbox',
         },
         {
@@ -138,6 +141,19 @@ export default buildConfig({
     supportedLanguages: { pt },
     fallbackLanguage: 'pt',
   },
+  email: nodemailerAdapter({
+    defaultFromAddress: 'no-replay@vivatdah.com',
+    defaultFromName: 'VivaTDAH',
+    // Nodemailer transportOptions
+    transportOptions: {
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    },
+  }),
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET!,
   typescript: {

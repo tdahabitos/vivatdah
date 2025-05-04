@@ -246,7 +246,6 @@ export interface Post {
  */
 export interface User {
   id: string;
-  avatar?: (string | null) | Media;
   name: string;
   updatedAt: string;
   createdAt: string;
@@ -493,7 +492,6 @@ export interface PostsSelect<T extends boolean = true> {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
-  avatar?: T;
   name?: T;
   updatedAt?: T;
   createdAt?: T;

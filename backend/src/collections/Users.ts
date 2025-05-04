@@ -17,12 +17,6 @@ export const Users: CollectionConfig = {
   },
   fields: [
     {
-      name: 'avatar',
-      label: 'Avatar',
-      type: 'upload',
-      relationTo: 'media',
-    },
-    {
       name: 'name',
       label: 'Nome',
       type: 'text',
