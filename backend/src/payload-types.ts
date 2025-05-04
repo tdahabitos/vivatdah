@@ -186,6 +186,7 @@ export interface Media {
 export interface Plan {
   id: string;
   status?: ('draft' | 'published') | null;
+  payment_type?: ('subscription' | 'order') | null;
   recomended?: boolean | null;
   show_at_home?: boolean | null;
   title: string;
@@ -534,6 +535,7 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface PlansSelect<T extends boolean = true> {
   status?: T;
+  payment_type?: T;
   recomended?: T;
   show_at_home?: T;
   title?: T;

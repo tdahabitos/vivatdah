@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\" \"cd api && npm run dev\""
   },
-  "dependencies": {
-    "concurrently": "^9.1.2"
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3"
   }
 }

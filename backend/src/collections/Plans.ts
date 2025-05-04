@@ -33,6 +33,25 @@ export const Plans: CollectionConfig = {
       },
     },
     {
+      name: 'payment_type',
+      label: 'Tipo de pagamento',
+      defaultValue: 'subscription',
+      type: 'select',
+      options: [
+        {
+          label: 'Recorrente',
+          value: 'subscription',
+        },
+        {
+          label: 'Único',
+          value: 'order',
+        },
+      ],
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
       name: 'recomended',
       label: 'Recomendado',
       type: 'checkbox',
