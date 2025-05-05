@@ -1,6 +1,7 @@
 import dotenv from 'dotenv'
 import express from 'express'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import { videosRouter } from './routes/videos/index.js'
 import { usersRouter } from './routes/users.js'
 import { newsletterRouter } from './routes/newsletter.js'
@@ -11,6 +12,7 @@ import { configRouter } from './routes/config.js'
 import { postsRouter } from './routes/posts.js'
 import { searchRouter } from './routes/search.js'
 import { paymentsRouter } from './routes/payments.js'
+import { authRouter } from './routes/auth.js'
 
 dotenv.config()
 
@@ -19,6 +21,7 @@ const allowedOrigins = ['http://localhost:5173', 'https://vivatdah.com']
 
 app.use(
   express.json(),
+  cookieParser(),
   cors({
     origin: '*',
     /* origin: (origin, callback) =>
@@ -40,7 +43,8 @@ app.use(
   pagesRouter,
   postsRouter,
   searchRouter,
-  paymentsRouter
+  paymentsRouter,
+  authRouter
 )
 
 const port = process.env.PORT || 4000
