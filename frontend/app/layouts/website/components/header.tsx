@@ -11,10 +11,11 @@ import Logo from '~/components/logo'
 import ThemeSwitcher from '~/components/theme-switcher'
 import type { MenuItem } from '~/types'
 import { useAuth } from '~/hooks/use-auth'
+import { useEffect } from 'react'
 
 export default function Header({ menu }: { menu: MenuItem[] }) {
   const [opened, { open, close }] = useDisclosure(false)
-  const { user } = useAuth()
+  const { init, user, isLoading } = useAuth()
   const { pathname } = useLocation()
 
   const addonMenu = [
@@ -48,7 +49,9 @@ export default function Header({ menu }: { menu: MenuItem[] }) {
     </li>
   ))
 
-  console.log(user)
+  useEffect(() => {
+    init()
+  }, [])
 
   return (
     <>
@@ -78,7 +81,7 @@ export default function Header({ menu }: { menu: MenuItem[] }) {
             <div className="flex items-center gap-4">
               <div className="items-center flex gap-4">
                 <ThemeSwitcher />
-                {!user && (
+                {!user && !isLoading && (
                   <Button
                     component={Link}
                     to="/assinatura"
@@ -87,14 +90,16 @@ export default function Header({ menu }: { menu: MenuItem[] }) {
                     Assinar
                   </Button>
                 )}
-                <Button
-                  variant="light"
-                  leftSection={<IconUserSquareRounded size={18} />}
-                  component={Link}
-                  to={user ? '/dashboard' : '/auth/login'}
-                >
-                  {user ? 'Dashboard' : 'Login'}
-                </Button>
+                {!isLoading && (
+                  <Button
+                    variant="light"
+                    leftSection={<IconUserSquareRounded size={18} />}
+                    component={Link}
+                    to={user ? '/dashboard' : '/auth/login'}
+                  >
+                    {user ? 'Dashboard' : 'Login'}
+                  </Button>
+                )}
               </div>
             </div>
           </div>

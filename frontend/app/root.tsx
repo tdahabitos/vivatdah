@@ -1,6 +1,5 @@
 import './app.css'
 import '@mantine/core/styles.css'
-import '@splidejs/react-splide/css'
 
 import {
   isRouteErrorResponse,
