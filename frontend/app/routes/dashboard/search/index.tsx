@@ -6,7 +6,7 @@ import type { Route } from './+types'
 import type { Media, PandaVideo } from '~/types'
 import { Divider } from '@mantine/core'
 import { cn, getPageMeta } from '~/utils'
-import { apiFetcher } from '~/lib/api'
+import { api } from '~/lib/api'
 import { Suspense } from 'react'
 import SkeletonVideoGrid from '~/components/skeleton-video-grid'
 import { Await } from 'react-router'
@@ -18,7 +18,7 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const url = new URL(request.url)
   const value = url.searchParams.get('value')
 
-  const results = apiFetcher(`/search?value=${value}`)
+  const results = api(`/search?value=${value}`)
 
   return { value, results }
 }

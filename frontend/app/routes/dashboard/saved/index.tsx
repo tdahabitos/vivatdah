@@ -1,7 +1,7 @@
 import { IconArrowLeftFromArc } from '@tabler/icons-react'
 import Empty from '~/components/empty'
 import VideoCard from '~/components/video-card'
-import { apiFetcher } from '~/lib/api'
+import { api } from '~/lib/api'
 import type { PandaVideo, View } from '~/types'
 import type { Route } from './+types'
 import { getPageMeta } from '~/utils'
@@ -12,10 +12,10 @@ import { Await } from 'react-router'
 export const meta = () => getPageMeta({ pageTitle: 'Salvos' })
 
 export async function clientLoader() {
-  const savedList = await apiFetcher('/videos/list/saved')
+  const savedList = await api('/videos/list/saved')
 
   const videos = Promise.all(
-    savedList.map((video: View) => apiFetcher(`/videos/${video.video_id}`))
+    savedList.map((video: View) => api(`/videos/${video.video_id}`))
   )
 
   return {

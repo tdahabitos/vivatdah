@@ -1,6 +1,6 @@
-import "./app.css";
-import "@mantine/core/styles.css";
-import "@splidejs/react-splide/css";
+import './app.css'
+import '@mantine/core/styles.css'
+import '@splidejs/react-splide/css'
 
 import {
   isRouteErrorResponse,
@@ -10,7 +10,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "react-router";
+} from 'react-router'
 
 import {
   Button,
@@ -19,53 +19,54 @@ import {
   MantineProvider,
   createTheme,
   mantineHtmlProps,
-} from "@mantine/core";
+} from '@mantine/core'
 
-import type { Route } from "./+types/root";
-import { IconBubbleX } from "@tabler/icons-react";
-import { apiFetcher } from "./lib/api";
-import ThemeSwitcher from "./components/theme-switcher";
+import type { Route } from './+types/root'
+import { IconBubbleX } from '@tabler/icons-react'
+import { api } from './lib/api'
+import ThemeSwitcher from './components/theme-switcher'
+import { Toaster } from 'react-hot-toast'
 
 export const links: Route.LinksFunction = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
+  { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
   {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
+    rel: 'preconnect',
+    href: 'https://fonts.gstatic.com',
+    crossOrigin: 'anonymous',
   },
   {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+    rel: 'stylesheet',
+    href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
   },
-];
+]
 
 const theme = createTheme({
   /* Custom colors */
   colors: {
-    "viva-orange": [
-      "#fff6e0",
-      "#ffebca",
-      "#ffd699",
-      "#ffbf63",
-      "#ffac36",
-      "#ffa018",
-      "#ff9904",
-      "#e48500",
-      "#cb7500",
-      "#b16400",
+    'viva-orange': [
+      '#fff6e0',
+      '#ffebca',
+      '#ffd699',
+      '#ffbf63',
+      '#ffac36',
+      '#ffa018',
+      '#ff9904',
+      '#e48500',
+      '#cb7500',
+      '#b16400',
     ],
   },
-  defaultRadius: "md",
-  primaryColor: "viva-orange",
-});
+  defaultRadius: 'md',
+  primaryColor: 'viva-orange',
+})
 
 export async function loader() {
-  const config = await apiFetcher("/config");
-  return { administration: config.administration };
+  const config = await api('/config')
+  return { administration: config.administration }
 }
 
 export default function App({ loaderData }: Route.ComponentProps) {
-  const { administration } = loaderData;
+  const { administration } = loaderData
 
   return (
     <html lang="pt-BR" {...mantineHtmlProps}>
@@ -96,28 +97,29 @@ export default function App({ loaderData }: Route.ComponentProps) {
           ) : (
             <Outlet />
           )}
+          <Toaster />
         </MantineProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
-  );
+  )
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Ooops";
-  let details = "Ocorreu um erro inesperado";
-  let stack: string | undefined;
+  let message = 'Ooops'
+  let details = 'Ocorreu um erro inesperado'
+  let stack: string | undefined
 
   if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Erro";
+    message = error.status === 404 ? '404' : 'Erro'
     details =
       error.status === 404
-        ? "A página solicitada não foi encontrada"
-        : error.statusText || details;
+        ? 'A página solicitada não foi encontrada'
+        : error.statusText || details
   } else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = error.message;
-    stack = error.stack;
+    details = error.message
+    stack = error.stack
   }
 
   return (
@@ -137,5 +139,5 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import { apiFetcher } from '~/lib/api'
+import { api } from '~/lib/api'
 import type { Route } from './+types'
 import type { PandaVideo, View } from '~/types'
 import VideoCard from '~/components/video-card'
@@ -10,11 +10,11 @@ import SkeletonVideoGrid from '~/components/skeleton-video-grid'
 export const meta = () => getPageMeta({ pageTitle: 'Home' })
 
 export async function clientLoader() {
-  const newVideos = apiFetcher(`/videos?page=1&limit=2`)
-  const trendingList = await apiFetcher('/videos/list/trending?page=1&limit=4')
+  const newVideos = api(`/videos?page=1&limit=2`)
+  const trendingList = await api('/videos/list/trending?page=1&limit=4')
 
   const trendingVideos = Promise.all(
-    trendingList.map((video: View) => apiFetcher(`/videos/${video.video_id}`))
+    trendingList.map((video: View) => api(`/videos/${video.video_id}`))
   )
 
   return {

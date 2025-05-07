@@ -15,13 +15,13 @@ import Sidebar from './components/sidebar'
 import AuthGuard from '~/components/auth-guard'
 import AccountButton from './components/account-button'
 import CtaButton from './components/cta-button'
-import { apiFetcher } from '~/lib/api'
+import { api } from '~/lib/api'
 import Search from '~/components/search'
 import { useAuth } from '~/hooks/use-auth'
 import { Suspense } from 'react'
 
 export async function clientLoader() {
-  const categories = apiFetcher('/categories')
+  const categories = api('/categories')
   return { categories }
 }
 

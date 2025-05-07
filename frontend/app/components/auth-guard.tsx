@@ -1,33 +1,41 @@
-import { useEffect, useState } from "react";
-import { supabase } from "~/lib/supabase";
-import { useNavigate } from "react-router";
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
+import { useAuth } from '~/hooks/use-auth'
 
-export default function AuthGuard({ children }: { children: React.ReactNode }) {
-  const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
+export default function AuthGuard({
+  children,
+  reverse,
+}: {
+  children: React.ReactNode
+  reverse?: boolean
+}) {
+  const [hasAccess, setHasAccess] = useState(false)
+  const navigate = useNavigate()
+  const { init } = useAuth()
 
-  useEffect(() => {
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (session) {
-        setIsLoading(false);
-        return;
-      }
-
-      navigate("/auth");
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!session) navigate("/auth");
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  if (isLoading) {
-    return null;
+  async function getUser() {
+    await init()
+      .then(() => {
+        setHasAccess(true)
+      })
+      .catch(() => navigate('/auth/login'))
   }
 
-  return children;
+  async function checkUser() {
+    await init()
+      .then(() => {
+        navigate('/dashboard')
+      })
+      .catch(() => setHasAccess(true))
+  }
+
+  useEffect(() => {
+    reverse ? checkUser() : getUser()
+  }, [])
+
+  if (!hasAccess) {
+    return null
+  }
+
+  return children
 }

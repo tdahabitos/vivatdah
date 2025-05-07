@@ -4,7 +4,7 @@ import { useForm } from '@mantine/form'
 import { IconInfoCircle, IconSend } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
 import { useAuth } from '~/hooks/use-auth'
-import { apiFetcher, deleteComment, sendComment } from '~/lib/api'
+import { api, apiFetcher } from '~/lib/api'
 import { CommentCard } from './components/comment-card'
 import type { Comment, FormData } from '~/types'
 
@@ -23,7 +23,15 @@ export default function Comments({ videoId }: { videoId: string }) {
     if (!user) return
     setIsSubmitting(true)
 
-    await sendComment(videoId, data.comment)
+    await apiFetcher
+      .post(`/videos/${videoId}/comments`, {
+        comment: data.comment,
+        user: {
+          id: user.id,
+          name: user.user_metadata.full_name,
+          avatar: user.user_metadata.avatar,
+        },
+      })
       .then(() => {
         form.reset()
         getVideoComments()
@@ -32,13 +40,13 @@ export default function Comments({ videoId }: { videoId: string }) {
   }
 
   async function handleDelete(id: string) {
-    await deleteComment(id).then(() => getVideoComments())
+    await apiFetcher
+      .delete(`/videos/${id}/comments`)
+      .then(() => getVideoComments())
   }
 
   async function getVideoComments() {
-    await apiFetcher(`/videos/${videoId}/comments`).then((res) =>
-      setComments(res)
-    )
+    await api(`/videos/${videoId}/comments`).then((res) => setComments(res))
   }
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import { Card, Divider, Spoiler, Text } from '@mantine/core'
 import type { Route } from './+types'
 import VideoCard from '~/components/video-card'
-import { addView, apiFetcher } from '~/lib/api'
+import { api, apiFetcher } from '~/lib/api'
 import dayjs from '~/lib/dayjs'
 import FeedbackRow from './components/feedback-row'
 import Comments from './components/comments'
@@ -16,8 +16,8 @@ export const meta = () => getPageMeta({ pageTitle: 'Vídeo' })
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const { id } = params
 
-  const video = apiFetcher(`/videos/${id}`)
-  const views = addView(id)
+  const video = api(`/videos/${id}`)
+  const views = apiFetcher.patch(`/videos/${id}/views`).then((res) => res.data)
 
   return {
     video,
@@ -52,7 +52,7 @@ export default function Video({ loaderData }: Route.ComponentProps) {
                 <div className="flex justify-between gap-4">
                   <div>
                     <Text size="sm" c="dimmed">
-                      <Await resolve={views}>{(views) => views || 1}</Await>
+                      <Await resolve={views}>{(views) => views || 1}</Await>{' '}
                       {`visualizações • ${dayjs(data.created_at).fromNow()}`}
                     </Text>
                   </div>

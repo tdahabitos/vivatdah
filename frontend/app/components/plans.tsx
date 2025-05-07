@@ -7,10 +7,10 @@ import {
 } from '@tabler/icons-react'
 import type { Plan } from '~/types'
 import { Link } from 'react-router'
-import { useUser } from '~/store/user-store'
+import { useAuth } from '~/hooks/use-auth'
 
 export default function Plans({ plans }: { plans: Plan[] }) {
-  const { user } = useUser()
+  const { user } = useAuth()
 
   return (
     <section className="px-4 md:px-8">

@@ -4,7 +4,7 @@ import { Suspense } from 'react'
 import { Await } from 'react-router'
 import Categories from '~/components/categories'
 import Plans from '~/components/plans'
-import { apiFetcher } from '~/lib/api'
+import { api } from '~/lib/api'
 import type { Page } from '~/types'
 import { getPageMeta } from '~/utils'
 
@@ -12,9 +12,9 @@ export const meta = ({ data }: Route.MetaArgs) =>
   getPageMeta({ pageTitle: data.page.title })
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const page = await apiFetcher(`/pages/${params.slug}`)
-  const plans = apiFetcher('/plans')
-  const categories = apiFetcher('/categories')
+  const page = await api(`/pages/${params.slug}`)
+  const plans = api('/plans')
+  const categories = api('/categories')
 
   return {
     page,

@@ -1,7 +1,7 @@
 import { IconArrowLeftFromArc } from '@tabler/icons-react'
 import Empty from '~/components/empty'
 import VideoCard from '~/components/video-card'
-import { apiFetcher } from '~/lib/api'
+import { api } from '~/lib/api'
 import type { PandaVideo, View } from '~/types'
 import type { Route } from './+types'
 import { getPageMeta } from '~/utils'
@@ -12,10 +12,10 @@ import SkeletonVideoGrid from '~/components/skeleton-video-grid'
 export const meta = () => getPageMeta({ pageTitle: 'Mais populares' })
 
 export async function clientLoader() {
-  const trendingList = await apiFetcher('videos/list/trending')
+  const trendingList = await api('videos/list/trending')
 
   const videos = Promise.all(
-    trendingList.map((video: View) => apiFetcher(`videos/${video.video_id}`))
+    trendingList.map((video: View) => api(`videos/${video.video_id}`))
   )
 
   return {

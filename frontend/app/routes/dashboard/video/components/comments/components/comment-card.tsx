@@ -1,16 +1,8 @@
-import {
-  Text,
-  Avatar,
-  Group,
-  Skeleton,
-  ActionIcon,
-  Loader,
-} from '@mantine/core'
-import { useEffect, useState } from 'react'
+import { Text, Avatar, Group, ActionIcon, Loader } from '@mantine/core'
+import { useState } from 'react'
 import dayjs from '~/lib/dayjs'
 import type { Comment, PublicUser } from '~/types'
 import { IconX } from '@tabler/icons-react'
-import { apiFetcher } from '~/lib/api'
 import { useAuth } from '~/hooks/use-auth'
 
 export function CommentCard({
@@ -21,33 +13,14 @@ export function CommentCard({
   onDelete: () => Promise<void>
 }) {
   const { user } = useAuth()
-  const [isLoading, setIsLoading] = useState(true)
   const [isDeleting, setIsDeleting] = useState(false)
-  const [commentUser, setCommentUser] = useState<PublicUser | null>(null)
-
-  async function getCommentUser() {
-    await apiFetcher(`/users/${comment.user_id}`)
-      .then((res) => setCommentUser(res))
-      .finally(() => setIsLoading(false))
-  }
+  const commentUser = comment.user as PublicUser
 
   async function handleDelete() {
     setIsDeleting(true)
     await onDelete()
     setIsDeleting(false)
   }
-
-  useEffect(() => {
-    getCommentUser()
-  }, [])
-
-  if (isLoading)
-    return (
-      <div className="flex flex-col gap-1">
-        <Skeleton w="100%" h={35} />
-        <Skeleton w="50%" h={20} />
-      </div>
-    )
 
   return (
     <div>
@@ -69,13 +42,12 @@ export function CommentCard({
           </div>
         </Group>
 
-        {user?.id === commentUser?.id && isDeleting ? (
-          <Loader type="dots" />
-        ) : (
+        {user?.id === commentUser?.id && !isDeleting && (
           <ActionIcon size="xs" variant="subtle" onClick={handleDelete}>
             <IconX size={12} />
           </ActionIcon>
         )}
+        {isDeleting && <Loader type="dots" />}
       </div>
       <Text pl={56} size="sm">
         {comment.comment}

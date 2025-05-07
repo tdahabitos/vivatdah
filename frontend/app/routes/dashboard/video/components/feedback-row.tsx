@@ -1,4 +1,4 @@
-import { apiFetcher, sendVideoFeedback } from '~/lib/api'
+import { api, apiFetcher } from '~/lib/api'
 import {
   IconThumbDown,
   IconThumbDownFilled,
@@ -17,16 +17,16 @@ export default function FeedbackRow({ videoId }: { videoId: string }) {
   async function handleFeedback(type: FeedbackType | null) {
     setIsSendingFeedback(true)
 
-    await sendVideoFeedback(videoId, type).then(() => getFeedback())
+    await apiFetcher
+      .post(`/videos/${videoId}/feedback`, { type })
+      .then(() => getFeedback())
 
     setIsSendingFeedback(false)
   }
 
   async function getFeedback() {
-    const feedback = await apiFetcher(`/videos/${videoId}/feedback`)
-    const positiveCount = await apiFetcher(
-      `/videos/${videoId}/feedback/positive`
-    )
+    const feedback = await api(`/videos/${videoId}/feedback`)
+    const positiveCount = await api(`/videos/${videoId}/feedback/positive`)
 
     setFeedback(feedback)
     setPositiveCount(positiveCount)

@@ -1,48 +1,51 @@
-import { useEffect, useState } from "react";
-import { apiFetcher } from "~/lib/api";
-import { supabase } from "~/lib/supabase";
-import { useUser } from "~/store/user-store";
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
+import { api, apiFetcher } from '~/lib/api'
+import { useUser } from '~/store/user-store'
 
 export function useAuth() {
-  const [isLoading, setIsLoading] = useState(true);
-  const { user, setUser, allowedCategories, setAllowedCategories } = useUser();
+  const [isLoading, setIsLoading] = useState(true)
+  const { user, setUser, allowedCategories, setAllowedCategories } = useUser()
+  const navigate = useNavigate()
 
   async function getUser() {
-    await supabase.auth
-      .getUser()
+    setIsLoading(true)
+
+    return await api('/users/me')
       .then((res) => {
-        const user = res.data.user;
-        if (user) setUser(user);
+        setUser(res)
+        return user
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => setIsLoading(false))
   }
 
   async function getAllowedCategories() {
-    if (!user) return;
+    if (!user) return
 
-    await apiFetcher(
-      `/users/access/allowed-categories?email=${user.email}`
-    ).then((res) => setAllowedCategories(res));
+    await api(`/users/access/allowed-categories?email=${user.email}`).then(
+      (res) => setAllowedCategories(res)
+    )
+  }
+
+  async function logout() {
+    await apiFetcher.post('/auth/signout')
+    setUser(null)
+    navigate('/')
   }
 
   useEffect(() => {
-    getUser();
-  }, []);
+    if (!user) return
 
-  useEffect(() => {
-    if (!user) return;
-
-    getAllowedCategories();
-  }, [user]);
+    getAllowedCategories()
+  }, [user])
 
   return {
     isLoading,
     user,
-    allowedCategories,
     isAuthenticated: user !== null,
-    logout: () => {
-      supabase.auth.signOut(), setUser(null);
-    },
+    allowedCategories,
+    logout,
+    init: getUser,
     revalidate: getUser,
-  };
+  }
 }

@@ -48,6 +48,8 @@ export default function Header({ menu }: { menu: MenuItem[] }) {
     </li>
   ))
 
+  console.log(user)
+
   return (
     <>
       <Box className="sticky top-0 z-50 bg-[var(--mantine-color-body)]">
@@ -89,7 +91,7 @@ export default function Header({ menu }: { menu: MenuItem[] }) {
                   variant="light"
                   leftSection={<IconUserSquareRounded size={18} />}
                   component={Link}
-                  to="/dashboard"
+                  to={user ? '/dashboard' : '/auth/login'}
                 >
                   {user ? 'Dashboard' : 'Login'}
                 </Button>

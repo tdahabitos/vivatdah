@@ -2,15 +2,17 @@ import type { Page } from '~/types'
 import { getPageMeta } from '~/utils'
 import type { Route } from './+types'
 import { useNavigate } from 'react-router'
-import { getCheckoutUrl } from '~/lib/api'
+import { apiFetcher } from '~/lib/api'
 import { useEffect } from 'react'
 import { Loader } from '@mantine/core'
+import { useAuth } from '~/hooks/use-auth'
 
 export const meta = () => getPageMeta({ pageTitle: 'Pagamento' })
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const url = new URL(request.url)
   const planId = url.searchParams.get('plan')
+  const { user } = useAuth()
 
   if (!planId) {
     return {
@@ -18,7 +20,16 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
     }
   }
 
-  const checkoutUrl = await getCheckoutUrl(planId).catch(() => null)
+  const checkoutUrl = await apiFetcher
+    .post('payments', {
+      plan_id: planId,
+      user: {
+        full_name: user?.user_metadata.full_name,
+        email: user?.email,
+      },
+    })
+    .then((res) => res.data)
+    .catch(() => null)
 
   return {
     checkoutUrl,

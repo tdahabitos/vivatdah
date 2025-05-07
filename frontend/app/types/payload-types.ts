@@ -192,6 +192,7 @@ export interface Media {
 export interface Plan {
   id: string
   status?: ('draft' | 'published') | null
+  payment_type?: ('subscription' | 'order') | null
   recomended?: boolean | null
   show_at_home?: boolean | null
   title: string
@@ -251,7 +252,6 @@ export interface Post {
  */
 export interface User {
   id: string
-  avatar?: (string | null) | Media
   name: string
   updatedAt: string
   createdAt: string
@@ -340,6 +340,15 @@ export interface Comment {
   video_id: string
   user_id: string
   comment: string
+  user:
+    | {
+        [k: string]: unknown
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null
   updatedAt: string
   createdAt: string
 }
@@ -498,7 +507,6 @@ export interface PostsSelect<T extends boolean = true> {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
-  avatar?: T
   name?: T
   updatedAt?: T
   createdAt?: T
@@ -540,6 +548,7 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface PlansSelect<T extends boolean = true> {
   status?: T
+  payment_type?: T
   recomended?: T
   show_at_home?: T
   title?: T
@@ -604,6 +613,7 @@ export interface CommentsSelect<T extends boolean = true> {
   video_id?: T
   user_id?: T
   comment?: T
+  user?: T
   updatedAt?: T
   createdAt?: T
 }

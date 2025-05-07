@@ -1,10 +1,10 @@
-import { Menu, rem, UnstyledButton, Avatar } from "@mantine/core";
-import { IconChevronDown, IconLogout, IconUser } from "@tabler/icons-react";
-import { Link } from "react-router";
-import { useAuth } from "~/hooks/use-auth";
+import { Menu, rem, UnstyledButton, Avatar } from '@mantine/core'
+import { IconChevronDown, IconLogout, IconUser } from '@tabler/icons-react'
+import { Link } from 'react-router'
+import { useAuth } from '~/hooks/use-auth'
 
 export default function AccountButton() {
-  const { user, logout } = useAuth();
+  const { user, logout } = useAuth()
 
   return (
     <Menu width={200} position="bottom-end">
@@ -38,5 +38,5 @@ export default function AccountButton() {
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>
-  );
+  )
 }

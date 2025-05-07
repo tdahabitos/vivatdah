@@ -2,13 +2,13 @@ import { Await, Outlet } from 'react-router'
 import Header from './components/header'
 import Footer from './components/footer'
 import type { Route } from './+types'
-import { apiFetcher } from '~/lib/api'
+import { api } from '~/lib/api'
 import PromoBanner from './components/promo-banner'
 import { Suspense } from 'react'
 
 export async function clientLoader() {
-  const menu = apiFetcher('/pages')
-  const config = apiFetcher('/config')
+  const menu = api('/pages')
+  const config = api('/config')
 
   return { menu, config }
 }

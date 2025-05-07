@@ -2,7 +2,7 @@ import { ActionIcon, Loader, Menu } from '@mantine/core'
 import { IconBookmark, IconBookmarkFilled } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
 import { useLocation, useRevalidator } from 'react-router'
-import { apiFetcher, saveVideo, unsaveVideo } from '~/lib/api'
+import { api, apiFetcher } from '~/lib/api'
 
 export default function SaveButton({
   videoId,
@@ -17,13 +17,15 @@ export default function SaveButton({
   const { pathname } = useLocation()
 
   async function checkIfSaved() {
-    await apiFetcher(`/videos/${videoId}/saved`).then((res) => setIsSaved(res))
+    await api(`/videos/${videoId}/saved`).then((res) => setIsSaved(res))
   }
 
   async function toggle() {
     setIsSubmitting(true)
 
-    isSaved ? await unsaveVideo(videoId) : await saveVideo(videoId)
+    isSaved
+      ? await apiFetcher.delete(`/videos/${videoId}/saved`)
+      : await apiFetcher.post(`/videos/${videoId}/saved`)
 
     setIsSaved(!isSaved)
     setIsSubmitting(false)

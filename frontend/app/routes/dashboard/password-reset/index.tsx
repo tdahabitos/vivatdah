@@ -1,48 +1,56 @@
-import { Button, Card, Divider, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { IconCircle, IconCircleCheckFilled } from "@tabler/icons-react";
-import { zodResolver } from "mantine-form-zod-resolver";
-import { useState } from "react";
-import { Link } from "react-router";
-import { z } from "zod";
-import { supabase } from "~/lib/supabase";
-import type { FormData } from "~/types";
-import { getPageMeta } from "~/utils";
+import { Button, Card, Divider, TextInput } from '@mantine/core'
+import { useForm } from '@mantine/form'
+import { IconCircle, IconCircleCheckFilled } from '@tabler/icons-react'
+import { zodResolver } from 'mantine-form-zod-resolver'
+import { useState } from 'react'
+import { Link } from 'react-router'
+import { z } from 'zod'
+import { supabase } from '~/lib/supabase'
+import type { FormData } from '~/types'
+import { getPageMeta } from '~/utils'
 
-export const meta = () => getPageMeta({ pageTitle: "Redefinir senha" });
+export const meta = () => getPageMeta({ pageTitle: 'Redefinir senha' })
 
 export default function Settings() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [success, setSuccess] = useState(false)
 
   const validationSchema = z
     .object({
       password: z
-        .string({ message: "O campo é obrigatorio" })
-        .min(8, "A senha deve ter pelo menos 8 caracteres"),
-      confirmPassword: z.string(),
+        .string({ message: 'O campo é obrigatorio' })
+        .min(8, 'A senha deve ter no mínimo 8 caracteres')
+        .max(100, 'A senha deve ter no máximo 100 caracteres')
+        .regex(/[a-z]/, 'A senha deve conter pelo menos uma letra minúscula')
+        .regex(/[A-Z]/, 'A senha deve conter pelo menos uma letra maiúscula')
+        .regex(/[0-9]/, 'A senha deve conter pelo menos um número')
+        .regex(
+          /[^a-zA-Z0-9]/,
+          'A senha deve conter pelo menos um caractere especial'
+        ),
+      confirmPassword: z.string({ message: 'O campo é obrigatorio' }),
     })
     .refine((data) => data.password === data.confirmPassword, {
-      message: "As senhas não coincidem",
-      path: ["confirmPassword"],
-    });
+      message: 'As senhas não coincidem',
+      path: ['confirmPassword'],
+    })
 
   const form = useForm({
     validate: zodResolver(validationSchema),
-  });
+  })
 
   async function handleSubmit(data: FormData) {
-    setIsSubmitting(true);
+    setIsSubmitting(true)
 
     const { error } = await supabase.auth.updateUser({
       password: data.password,
-    });
+    })
 
     if (!error) {
-      setSuccess(true);
+      setSuccess(true)
     }
 
-    setIsSubmitting(false);
+    setIsSubmitting(false)
   }
 
   if (success) {
@@ -58,11 +66,11 @@ export default function Settings() {
           </div>
 
           <Button component={Link} to="/dashboard">
-            Ir para a página inial
+            Ir para a página inicial
           </Button>
         </div>
       </Card>
-    );
+    )
   }
 
   return (
@@ -79,7 +87,7 @@ export default function Settings() {
             label="Senha"
             type="password"
             disabled={isSubmitting}
-            {...form.getInputProps("password")}
+            {...form.getInputProps('password')}
           />
 
           <TextInput
@@ -87,7 +95,7 @@ export default function Settings() {
             label="Confirme a senha"
             type="password"
             disabled={isSubmitting}
-            {...form.getInputProps("confirmPassword")}
+            {...form.getInputProps('confirmPassword')}
           />
         </div>
 
@@ -100,5 +108,5 @@ export default function Settings() {
         </div>
       </form>
     </div>
-  );
+  )
 }

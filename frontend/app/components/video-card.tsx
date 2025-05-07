@@ -20,7 +20,7 @@ import { useDisclosure } from '@mantine/hooks'
 import type { PandaVideo } from '~/types'
 import { Link } from 'react-router'
 import dayjs from '~/lib/dayjs'
-import { apiFetcher } from '~/lib/api'
+import { api } from '~/lib/api'
 import SaveButton from './save-button'
 import { removeExtension } from '~/utils'
 
@@ -32,7 +32,7 @@ export default function VideoCard({ video }: { video: PandaVideo }) {
   async function fetchViews() {
     setIsLoading(true)
 
-    await apiFetcher(`/videos/${video.id}/views`)
+    await api(`/videos/${video.id}/views`)
       .then((res) => setViews(res))
       .finally(() => setIsLoading(false))
   }

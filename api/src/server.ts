@@ -13,21 +13,17 @@ import { postsRouter } from './routes/posts.js'
 import { searchRouter } from './routes/search.js'
 import { paymentsRouter } from './routes/payments.js'
 import { authRouter } from './routes/auth.js'
+import { auth } from './middlewares/auth.js'
 
 dotenv.config()
 
 const app = express()
-const allowedOrigins = ['http://localhost:5173', 'https://vivatdah.com']
 
 app.use(
   express.json(),
   cookieParser(),
   cors({
-    origin: '*',
-    /* origin: (origin, callback) =>
-      origin && allowedOrigins.includes(origin)
-        ? callback(null, true)
-        : callback(new Error("Not allowed by CORS")), */
+    origin: ['http://localhost:5173', 'https://vivatdah.com'],
     credentials: true,
   })
 )
@@ -35,17 +31,15 @@ app.use(
 app.use(
   '/v1',
   configRouter,
-  usersRouter,
-  videosRouter,
-  newsletterRouter,
-  categoriesRouter,
+  authRouter,
   plansRouter,
   pagesRouter,
   postsRouter,
-  searchRouter,
-  paymentsRouter,
-  authRouter
-)
+  newsletterRouter,
+  paymentsRouter
+) // No auth
+
+app.use('/v1', auth, usersRouter, videosRouter, categoriesRouter, searchRouter)
 
 const port = process.env.PORT || 4000
 

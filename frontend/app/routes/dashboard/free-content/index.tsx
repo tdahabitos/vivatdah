@@ -1,7 +1,7 @@
 import { IconArrowLeftFromArc } from '@tabler/icons-react'
 import Empty from '~/components/empty'
 import VideoCard from '~/components/video-card'
-import { apiFetcher } from '~/lib/api'
+import { api } from '~/lib/api'
 import type { Category, PandaVideo } from '~/types'
 import type { Route } from './+types'
 import { getPageMeta } from '~/utils'
@@ -12,7 +12,7 @@ import { Await } from 'react-router'
 export const meta = () => getPageMeta({ pageTitle: 'Conteúdo livre' })
 
 export async function clientLoader() {
-  const videos = apiFetcher('/videos/free/content')
+  const videos = api('/videos/free/content')
 
   return {
     videos,

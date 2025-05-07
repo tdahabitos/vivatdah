@@ -14,7 +14,14 @@ export default [
     route('/payments/success', './routes/payments/success/index.tsx'),
   ]),
 
-  ...prefix('auth', [index('./routes/auth/index.tsx')]),
+  ...prefix('auth', [
+    layout('./layouts/auth/index.tsx', [
+      route('/login', './routes/auth/login.tsx'),
+      route('/register', './routes/auth/register.tsx'),
+      route('/password-reset', './routes/auth/password-reset.tsx'),
+      route('/new-password', './routes/auth/new-password.tsx'),
+    ]),
+  ]),
 
   ...prefix('dashboard', [
     layout('./layouts/dashboard/index.tsx', [

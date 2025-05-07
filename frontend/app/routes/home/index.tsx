@@ -7,7 +7,7 @@ import Newsletter from './components/newsletter'
 import CookieConsent from './components/cookie-consent'
 import type { Route } from './+types'
 import Plans from '~/components/plans'
-import { apiFetcher } from '~/lib/api'
+import { api } from '~/lib/api'
 import { getPageMeta } from '~/utils'
 import { Suspense } from 'react'
 import { Await } from 'react-router'
@@ -15,8 +15,8 @@ import { Await } from 'react-router'
 export const meta = () => getPageMeta({ pageTitle: 'Home' })
 
 export async function clientLoader() {
-  const posts = apiFetcher('/posts')
-  const plans = apiFetcher('/plans')
+  const posts = api('/posts')
+  const plans = api('/plans')
 
   return {
     posts,

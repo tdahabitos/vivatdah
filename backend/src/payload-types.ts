@@ -334,6 +334,15 @@ export interface Comment {
   video_id: string;
   user_id: string;
   comment: string;
+  user:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -598,6 +607,7 @@ export interface CommentsSelect<T extends boolean = true> {
   video_id?: T;
   user_id?: T;
   comment?: T;
+  user?: T;
   updatedAt?: T;
   createdAt?: T;
 }

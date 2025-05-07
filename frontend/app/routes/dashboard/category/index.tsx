@@ -1,15 +1,15 @@
 import { IconArrowLeftFromArc } from '@tabler/icons-react'
 import Empty from '~/components/empty'
 import VideoCard from '~/components/video-card'
-import { apiFetcher } from '~/lib/api'
-import type { Category, Media, PandaVideo } from '~/types'
+import { api } from '~/lib/api'
+import type { Category, PandaVideo } from '~/types'
 import type { Route } from './+types'
 import FileList from './components/file-list'
-import { useUser } from '~/store/user-store'
 import { Await, useNavigate } from 'react-router'
 import { Suspense, useEffect, useState } from 'react'
 import { getPageMeta } from '~/utils'
 import SkeletonVideoGrid from '~/components/skeleton-video-grid'
+import { useAuth } from '~/hooks/use-auth'
 
 export const meta = ({ data }: Route.MetaArgs) =>
   getPageMeta({ pageTitle: data.category.title })
@@ -17,9 +17,9 @@ export const meta = ({ data }: Route.MetaArgs) =>
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const { id } = params
 
-  const category = (await apiFetcher(`/categories/${id}`)) as Category
-  const files = apiFetcher(`/categories/${id}/media`)
-  const videos = apiFetcher(`/videos/folder/${category.panda_folder_id}`)
+  const category = (await api(`/categories/${id}`)) as Category
+  const files = api(`/categories/${id}/media`)
+  const videos = api(`/videos/folder/${category.panda_folder_id}`)
 
   return {
     category,
@@ -31,7 +31,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 export default function Category({ loaderData }: Route.ComponentProps) {
   const { category, videos, files } = loaderData
 
-  const { allowedCategories } = useUser()
+  const { allowedCategories } = useAuth()
   const [hasAccess, setHasAccess] = useState(false)
   const navigate = useNavigate()
 

@@ -2,8 +2,7 @@ import express from 'express'
 import axios from 'axios'
 import qs from 'qs'
 import { getFolderVideos, getVideo, getVideos } from './functions'
-import { auth } from '@/middlewares/auth'
-import { Category } from '@/types'
+import { Category, View } from '@/types'
 
 export const videosRouter = express.Router()
 
@@ -78,18 +77,18 @@ videosRouter.get('/videos/list/trending', async (req, res) => {
         Authorization: process.env.CMS_API_KEY,
       },
     })
-    .then((res) => res.data.docs)
+    .then((res) => res.data.docs.sort((a: View, b: View) => b.views - a.views))
 
   res.status(200).json(list)
 })
 
 videosRouter.get('/videos/list/saved', async (req, res) => {
-  const { user_id, page, limit } = req.query
+  const { page, limit } = req.query
 
   const query = qs.stringify({
     where: {
       user_id: {
-        equals: user_id,
+        equals: req.userId,
       },
     },
     page: page || 1,
@@ -200,16 +199,18 @@ videosRouter.get('/videos/:id/comments', async (req, res) => {
   res.status(200).json(comments)
 })
 
-videosRouter.post('/videos/:id/comments', auth, async (req, res) => {
+videosRouter.post('/videos/:id/comments', async (req, res) => {
   const { id } = req.params
+  const { comment, user } = req.body
 
   const comments = await axios
     .post(
       `${process.env.CMS_API_URL}/comments`,
       {
         video_id: id,
-        user_id: req.user_id,
-        comment: req.body.comment,
+        user_id: req.userId,
+        comment,
+        user,
       },
       {
         headers: {
@@ -245,7 +246,7 @@ videosRouter.delete('/videos/:id/comments', async (req, res) => {
 })
 
 /* === saved */
-videosRouter.get('/videos/:id/saved', auth, async (req, res) => {
+videosRouter.get('/videos/:id/saved', async (req, res) => {
   const { id } = req.params
 
   const query = qs.stringify({
@@ -254,7 +255,7 @@ videosRouter.get('/videos/:id/saved', auth, async (req, res) => {
         equals: id,
       },
       user_id: {
-        equals: req.user_id,
+        equals: req.userId,
       },
     },
     limit: 1,
@@ -273,7 +274,7 @@ videosRouter.get('/videos/:id/saved', auth, async (req, res) => {
   res.status(200).json(saved.length > 0)
 })
 
-videosRouter.post('/videos/:id/saved', auth, async (req, res) => {
+videosRouter.post('/videos/:id/saved', async (req, res) => {
   const { id } = req.params
 
   const saved = await axios
@@ -281,7 +282,7 @@ videosRouter.post('/videos/:id/saved', auth, async (req, res) => {
       `${process.env.CMS_API_URL}/saved`,
       {
         video_id: id,
-        user_id: req.user_id,
+        user_id: req.userId,
       },
       {
         headers: {
@@ -295,7 +296,7 @@ videosRouter.post('/videos/:id/saved', auth, async (req, res) => {
   res.status(200).json(saved)
 })
 
-videosRouter.delete('/videos/:id/saved', auth, async (req, res) => {
+videosRouter.delete('/videos/:id/saved', async (req, res) => {
   const { id } = req.params
 
   const query = qs.stringify({
@@ -304,7 +305,7 @@ videosRouter.delete('/videos/:id/saved', auth, async (req, res) => {
         equals: id,
       },
       user_id: {
-        equals: req.user_id,
+        equals: req.userId,
       },
     },
   })
@@ -320,7 +321,7 @@ videosRouter.delete('/videos/:id/saved', auth, async (req, res) => {
 })
 
 /* === feedback */
-videosRouter.get('/videos/:id/feedback', auth, async (req, res) => {
+videosRouter.get('/videos/:id/feedback', async (req, res) => {
   const { id } = req.params
 
   const query = qs.stringify({
@@ -329,7 +330,7 @@ videosRouter.get('/videos/:id/feedback', auth, async (req, res) => {
         equals: id,
       },
       user_id: {
-        equals: req.user_id,
+        equals: req.userId,
       },
     },
     limit: 1,
@@ -348,7 +349,7 @@ videosRouter.get('/videos/:id/feedback', auth, async (req, res) => {
   res.status(200).json(feedback)
 })
 
-videosRouter.get('/videos/:id/feedback/positive', auth, async (req, res) => {
+videosRouter.get('/videos/:id/feedback/positive', async (req, res) => {
   const { id } = req.params
 
   const query = qs.stringify({
@@ -377,7 +378,7 @@ videosRouter.get('/videos/:id/feedback/positive', auth, async (req, res) => {
   res.status(200).json(count)
 })
 
-videosRouter.post('/videos/:id/feedback', auth, async (req, res) => {
+videosRouter.post('/videos/:id/feedback', async (req, res) => {
   const { id } = req.params
   const { type } = req.body
 
@@ -387,7 +388,7 @@ videosRouter.post('/videos/:id/feedback', auth, async (req, res) => {
         equals: id,
       },
       user_id: {
-        equals: req.user_id,
+        equals: req.userId,
       },
     },
   })
@@ -408,7 +409,7 @@ videosRouter.post('/videos/:id/feedback', auth, async (req, res) => {
       `${process.env.CMS_API_URL}/feedback`,
       {
         video_id: id,
-        user_id: req.user_id,
+        user_id: req.userId,
         type,
       },
       {

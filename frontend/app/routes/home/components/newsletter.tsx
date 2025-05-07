@@ -9,8 +9,7 @@ import { useState } from 'react'
 import { useForm, zodResolver } from '@mantine/form'
 import { z } from 'zod'
 import type { FormData } from '~/types'
-import axios from 'axios'
-import { addNewsletterContact, apiFetcher } from '~/lib/api'
+import { apiFetcher } from '~/lib/api'
 
 export default function Newsletter() {
   const [sent, setSent] = useState(false)
@@ -30,7 +29,8 @@ export default function Newsletter() {
   async function handleSubmit({ email }: FormData) {
     setIsLoading(true)
 
-    await addNewsletterContact(email)
+    await apiFetcher
+      .post('/newsletter', { email })
       .then(() => setSent(true))
       .catch(() => setError(true))
 

@@ -40,5 +40,11 @@ export const Comments: CollectionConfig = {
       type: 'textarea',
       required: true,
     },
+    {
+      name: 'user',
+      label: 'Usuário',
+      type: 'json',
+      required: true,
+    },
   ],
 }
